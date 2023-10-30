@@ -15,14 +15,13 @@ class User extends Authenticatable
     protected $primaryKey = 'user_id';
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'cake_db';
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $table = "User";
+    
     protected $fillable = [
         'name',
         'email',
