@@ -7,6 +7,7 @@
     <meta name="keywords" content="Cake, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Cake | Template</title>
 
     <!-- Google Font -->
@@ -27,7 +28,9 @@
     <link rel="stylesheet" href="template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="template/css/style.css" type="text/css">
 </head>
-
+<script>
+    var isRegister;
+</script>
 <body>
     <!-- Page Preloder -->
     <div id="preloder">

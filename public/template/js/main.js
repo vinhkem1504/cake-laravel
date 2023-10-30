@@ -44,7 +44,7 @@ function validatePhone(isRegister) {
 function validateFirstName() {
     var nameRGEX = /^[a-zA-Z]+$/;
     var nameVN = /^[\p{L}\p{Mn}\p{Pd}\p{Zs}]+$/u;
-    var firstName = document.getElementById('first_name').value;
+    var firstName = document.getElementById('name').value;
     //first name    
     if (!nameRGEX.test(firstName) && !nameVN.test(firstName)) {
         document.getElementById('result_firstName').style.display = 'block';
@@ -61,26 +61,26 @@ function validateFirstName() {
     return isRegister;
 
 }
-function validateLastName(isRegister) {
-    var nameRGEX = /^[a-zA-Z]+$/;
-    var nameVN = /^[\p{L}\p{Mn}\p{Pd}\p{Zs}]+$/u;
-    var lastName = document.getElementById('last_name').value
-    //  last name
-    if (!nameRGEX.test(lastName) && !nameVN.test(lastName)) {
-        document.getElementById('result_lastName').style.display = 'block';
-        document.getElementById('result_lastName').innerHTML = "Please enter text only.";
-        isRegister = false;
-    }
-    else {
-        document.getElementById('result_lastName').style.display = 'none';
-        isRegister = true;
-    }
-    if (lastName == "") {
-        document.getElementById('result_lastName').style.display = 'none';
-        isRegister = true;
-    }
-    return isRegister
-}
+// function validateLastName(isRegister) {
+//     var nameRGEX = /^[a-zA-Z]+$/;
+//     var nameVN = /^[\p{L}\p{Mn}\p{Pd}\p{Zs}]+$/u;
+//     var lastName = document.getElementById('last_name').value
+//     //  last name
+//     if (!nameRGEX.test(lastName) && !nameVN.test(lastName)) {
+//         document.getElementById('result_lastName').style.display = 'block';
+//         document.getElementById('result_lastName').innerHTML = "Please enter text only.";
+//         isRegister = false;
+//     }
+//     else {
+//         document.getElementById('result_lastName').style.display = 'none';
+//         isRegister = true;
+//     }
+//     if (lastName == "") {
+//         document.getElementById('result_lastName').style.display = 'none';
+//         isRegister = true;
+//     }
+//     return isRegister
+// }
 function validateEmail(isRegister) {
     var emailRGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     var email = document.getElementById('email').value;
@@ -122,21 +122,21 @@ function validatePassword(isRegister) {
 }
 function checkEmptyInput(isRegister) {
     isRegister = true;
-    var firstName = document.getElementById('first_name').value;
+    var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isRegister);
 
-    var lastName = document.getElementById('last_name').value;
-    var valLastName = validateLastName(isRegister);
+    // var lastName = document.getElementById('last_name').value;
+    // var valLastName = validateLastName(isRegister);
 
     var password = document.getElementById('password').value;
     var valPassword = validatePassword(isRegister);
 
     var email = document.getElementById('email').value;
     var valEmail = validateEmail(isRegister);
-    if (firstName == '' || lastName == '' || password == '' || email == '') {
+    if (firstName == ''  || password == '' || email == '') {
         isRegister = false;
     }
-    if ((isRegister && valFirstName && valLastName && valEmail && valPassword)) {
+    if ((isRegister && valFirstName && valEmail && valPassword)) {
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
@@ -169,11 +169,11 @@ function checkLogin(isLogIn) {
 }
 function checkBill(isEmpty){
     isEmpty = true;
-    var firstName = document.getElementById('first_name').value;
+    var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isRegister);
 
-    var lastName = document.getElementById('last_name').value;
-    var valLastName = validateLastName(isRegister);
+    // var lastName = document.getElementById('last_name').value;
+    // var valLastName = validateLastName(isRegister);
 
     var email = document.getElementById('email').value;
     var valEmail = validateEmail(isRegister);
@@ -183,10 +183,10 @@ function checkBill(isEmpty){
 
     var phone = document.getElementById('phone').value;
     var valPhone = validatePhone(isRegister);
-    if (firstName == '' || lastName == '' || address == '' || email == '' || phone == '') {
+    if (firstName == '' || address == '' || email == '' || phone == '') {
         isEmpty = false;
     }
-    if(isEmpty && valFirstName && valLastName && valEmail && valPhone && valAddress){
+    if(isEmpty && valFirstName && valEmail && valPhone && valAddress){
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
@@ -197,7 +197,7 @@ function checkBill(isEmpty){
     }
 }
 const processChangeFirstName = debounce(() => validateFirstName());
-const processChangeLastName = debounce(() => validateLastName());
+// const processChangeLastName = debounce(() => validateLastName());
 const processChangeEmail = debounce(() => validateEmail());
 const processChangePassword = debounce(() => validatePassword());
 const processChangePhone = debounce(() => validatePhone());

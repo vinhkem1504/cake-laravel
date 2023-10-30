@@ -18,7 +18,13 @@
                                         <li>ENG</li>
                                     </ul>
                                 </li>
-                                <li><a href="#">Sign in</a> <span class="arrow_carrot-down"></span></li>
+                                @auth
+                                <li><a href="{{route('logout.perform')}}">Log out</a> <span class="arrow_carrot-down"></span></li>
+                                @endauth
+
+                                @guest
+                                <li><a href="{{route('login.show')}}">Log in</a> <span class="arrow_carrot-down"></span></li>
+                                @endguest
                             </ul>
                         </div>
                         <div class="header__logo">
