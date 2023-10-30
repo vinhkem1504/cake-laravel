@@ -7,7 +7,7 @@
     <meta name="keywords" content="Cake, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cake | Template</title>
+    <title>Cake</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
@@ -70,7 +70,7 @@
     </div>
 </div>
 <!-- Search End -->
-
+@yield('scripts')
 <!-- Js Plugins -->
 <script src="template/js/jquery-3.3.1.min.js"></script>
 <script src="template/js/bootstrap.min.js"></script>
