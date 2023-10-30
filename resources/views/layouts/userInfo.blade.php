@@ -11,10 +11,8 @@
     <title>Cake | Template</title>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="template/css/bootstrap.min.css" type="text/css">
@@ -28,9 +26,7 @@
     <link rel="stylesheet" href="template/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="template/css/style.css" type="text/css">
 </head>
-<script>
-    var isRegister;
-</script>
+
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
@@ -55,35 +51,35 @@
 
     <!-- Map Begin -->
     @yield('map')
-        
+
     <!-- Map End -->
 
     <!-- Footer Section Begin -->
     @include('partial-views.footer')
-</footer>
-<!-- Footer Section End -->
+    </footer>
+    <!-- Footer Section End -->
 
-<!-- Search Begin -->
-<div class="search-model">
-    <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
-        </form>
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
     </div>
-</div>
-<!-- Search End -->
-@yield('scripts')
-<!-- Js Plugins -->
-<script src="template/js/jquery-3.3.1.min.js"></script>
-<script src="template/js/bootstrap.min.js"></script>
-<script src="template/js/jquery.nice-select.min.js"></script>
-<script src="template/js/jquery.barfiller.js"></script>
-<script src="template/js/jquery.magnific-popup.min.js"></script>
-<script src="template/js/jquery.slicknav.js"></script>
-<script src="template/js/owl.carousel.min.js"></script>
-<script src="template/js/jquery.nicescroll.min.js"></script>
-<script src="template/js/main.js"></script>
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+    <script src="template/js/jquery-3.3.1.min.js"></script>
+    <script src="template/js/bootstrap.min.js"></script>
+    <script src="template/js/jquery.nice-select.min.js"></script>
+    <script src="template/js/jquery.barfiller.js"></script>
+    <script src="template/js/jquery.magnific-popup.min.js"></script>
+    <script src="template/js/jquery.slicknav.js"></script>
+    <script src="template/js/owl.carousel.min.js"></script>
+    <script src="template/js/jquery.nicescroll.min.js"></script>
+    <script src="template/js/main.js"></script>
 </body>
 
 </html>

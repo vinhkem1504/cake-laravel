@@ -24,11 +24,11 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form id="register_form" method="post" action="">
+            <form id="register_form" method="POST" action="{{ route('login.perform')}}">
                 @csrf
                 <div class="row">
                     <div class="col-lg-12 col-md-6">
-                        <h6 class="coupon__code"><span class="icon_tag_alt"></span> Haven't an account? <a href="register.html">Click
+                        <h6 class="coupon__code"><span class="icon_tag_alt"></span> Haven't an account? <a href="{{ route('register.perform')}}">Click
                         <b>here</b></a> to register your account</h6>
                         <h6 class="checkout__title">Information</h6>
                         @isset($message)
