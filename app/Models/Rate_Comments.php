@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Rate_Comments extends Model
 {
     use HasFactory;
-    protected $table = "Rate_Comments";
+    protected $table = "Rate_comments";
 }
