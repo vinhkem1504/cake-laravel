@@ -54,6 +54,11 @@
                             <input name="password" type="password" id="password" value="{{ old('password') }}" onkeyup="processChangePassword()" oninput="checkEmptyInput(isRegister)">
                             <p id="result_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                         </div>
+                        <div class="checkout__input">
+                            <p>Confirm Password<span>*</span></p>
+                            <input name="confirm_password" type="password" id="confirm_password" value="{{ old('confirm_password') }}" onkeyup="processConfirmPassword()" oninput="checkEmptyInput(isRegister)">
+                            <p id="result_confirm_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
+                        </div>
                     </div>
                 </div>
                 <button type="submit" class="site-btn btn_register" id="btn_register" disabled="true">REGISTER</button>

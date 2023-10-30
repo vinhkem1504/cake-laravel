@@ -120,6 +120,28 @@ function validatePassword(isRegister) {
     }
     return isRegister
 }
+
+function checkPassword(isRegister){
+    var confirm_password = document.getElementById('confirm_password').value
+    var password = document.getElementById('password').value
+    if(confirm_password != password) {
+        document.getElementById('result_confirm_password').style.display = 'block';
+        document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
+        isRegister = false;
+    }
+    else {
+        document.getElementById('result_confirm_password').style.display = 'none';
+        isRegister = true;
+    }
+
+    if (confirm_password == "") {
+        document.getElementById('result_confirm_password').style.display = 'none';
+        isRegister = true;
+    }
+    return isRegister
+
+}
+
 function checkEmptyInput(isRegister) {
     isRegister = true;
     var firstName = document.getElementById('name').value;
@@ -131,12 +153,15 @@ function checkEmptyInput(isRegister) {
     var password = document.getElementById('password').value;
     var valPassword = validatePassword(isRegister);
 
+    var confirm_password = document.getElementById('confirm_password').value;
+    var valconfirm_password = checkPassword(isRegister);
+
     var email = document.getElementById('email').value;
     var valEmail = validateEmail(isRegister);
-    if (firstName == '' || password == '' || email == '') {
+    if (firstName == '' || password == '' || email == '' || confirm_password == '') {
         isRegister = false;
     }
-    if ((isRegister && valFirstName && valEmail && valPassword)) {
+    if ((isRegister && valFirstName && valEmail && valPassword && valconfirm_password)) {
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
@@ -213,6 +238,7 @@ const processChangeEmail = debounce(() => validateEmail());
 const processChangePassword = debounce(() => validatePassword());
 const processChangePhone = debounce(() => validatePhone());
 const processChangeAddress = debounce(() => validateAddress());
+const processConfirmPassword = debounce(() => checkPassword());
 
 
 
