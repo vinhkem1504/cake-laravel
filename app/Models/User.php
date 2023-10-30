@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Contracts\Auth\Authenticatable as AuthAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,6 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    protected $primaryKey = 'user_id';
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'cake_db';
@@ -19,6 +22,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = "User";
     protected $fillable = [
         'name',
         'email',
