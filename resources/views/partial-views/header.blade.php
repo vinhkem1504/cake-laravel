@@ -18,16 +18,30 @@
                                         <li>ENG</li>
                                     </ul>
                                 </li>
-                                <li><a href="#">Sign in</a> <span class="arrow_carrot-down"></span></li>
+                                @auth
+                                <li><a href="{{route('logout.perform')}}">Log out</a> <span class="arrow_carrot-down"></span></li>
+                                @endauth
+
+                                @guest
+                                <li><a href="{{route('login.show')}}">Log in</a> <span class="arrow_carrot-down"></span></li>
+                                @endguest
                             </ul>
                         </div>
                         <div class="header__logo">
-                            <a href="./index.html"><img src="template/img/logo.png" alt=""></a>
+                            <a href="{{route('client-views.home')}}"><img src="template/img/logo.png" alt=""></a>
                         </div>
                         <div class="header__top__right">
                             <div class="header__top__right__links">
                                 <a href="#" class="search-switch"><img src="template/img/icon/search.png" alt=""></a>
+                                @auth
+                                <a href="{{route('client-views.user')}}"><img src="template/img/icon/user.png" alt=""></a>
+                                <a href="{{route('client-views.user')}}"><p>{{auth()->user()->name}}</p></a>
+                                @endauth
+
+                                @guest
                                 <a href="#"><img src="template/img/icon/heart.png" alt=""></a>
+                                @endguest
+                                
                             </div>
                             <div class="header__top__right__cart">
                                 <a href="#"><img src="template/img/icon/cart.png" alt=""> <span>0</span></a>
@@ -45,7 +59,7 @@
             <div class="col-lg-12">
                 <nav class="header__menu mobile-menu">
                     <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
+                        <li class="active"><a href="{{route('client-views.home')}}">Home</a></li>
                         <li><a href="./about.html">About</a></li>
                         <li><a href="./shop.html">Shop</a></li>
                         <li><a href="#">Pages</a>
