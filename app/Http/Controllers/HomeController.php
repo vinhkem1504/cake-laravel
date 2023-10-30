@@ -10,4 +10,8 @@ class HomeController extends Controller
     {
         return view('client-views.home');
     }
+
+    public function showUserInfo(){
+        return view('client-views.user');
+    }
 }

@@ -15,9 +15,9 @@ function debounce(func, timeout = 300) {
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
 }
-function validateAddress(isRegister){
+function validateAddress(isRegister) {
     var address = document.getElementById('address').value;
-    if(address == ""){
+    if (address == "") {
         document.getElementById('result_address').style.display = 'none';
         isRegister = true;
     }
@@ -133,7 +133,7 @@ function checkEmptyInput(isRegister) {
 
     var email = document.getElementById('email').value;
     var valEmail = validateEmail(isRegister);
-    if (firstName == ''  || password == '' || email == '') {
+    if (firstName == '' || password == '' || email == '') {
         isRegister = false;
     }
     if ((isRegister && valFirstName && valEmail && valPassword)) {
@@ -167,7 +167,7 @@ function checkLogin(isLogIn) {
     }
 
 }
-function checkBill(isEmpty){
+function checkBill(isEmpty) {
     isEmpty = true;
     var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isRegister);
@@ -186,7 +186,7 @@ function checkBill(isEmpty){
     if (firstName == '' || address == '' || email == '' || phone == '') {
         isEmpty = false;
     }
-    if(isEmpty && valFirstName && valEmail && valPhone && valAddress){
+    if (isEmpty && valFirstName && valEmail && valPhone && valAddress) {
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
@@ -194,6 +194,17 @@ function checkBill(isEmpty){
         document.getElementById('btn_register').classList.add('btn_register');
         document.getElementById('btn_register').disabled = true;
 
+    }
+}
+
+function showInputChangePassword() {
+    var checkbox = document.getElementById("diff-acc");
+    if (checkbox.checked) {
+        document.getElementById('new_password').classList.remove('hidden-input');
+        document.getElementById('confirm_password').classList.remove('hidden-input');
+    } else {
+        document.getElementById('new_password').classList.add('hidden-input');
+        document.getElementById('confirm_password').classList.add('hidden-input');
     }
 }
 const processChangeFirstName = debounce(() => validateFirstName());

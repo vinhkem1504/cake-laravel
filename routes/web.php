@@ -16,44 +16,30 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('client-views.home');
-// });
+/**
+ * Home Routes
+ */
+Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
+Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
 
-// Route::get('/login', function () {
-//     return view('client-views.login');
-// });
-
-// Route::get('/register', function () {
-//     return view('client-views.register');
-// });
-
-// Route::group(['namespace' => 'App\Http\Controllers'], function()
-// {   
+Route::group(['middleware' => ['guest']], function () {
     /**
-     * Home Routes
+     * Register Routes
      */
-    Route::get('/', [HomeController::class,'index'])->name('client-views.home');
+    Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
+    Route::post('/register', [RegisterController::class, 'register'])->name('register.perform');
 
-    Route::group(['middleware' => ['guest']], function() {
-        /**
-         * Register Routes
-         */
-        Route::get('/register', [RegisterController::class,'show'])->name('register.show');
-        Route::post('/register', [RegisterController::class,'register'])->name('register.perform');
+    /**
+     * Login Routes
+     */
+    Route::get('/login', [LoginController::class, 'show'])->name('login.show');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+});
 
-        /**
-         * Login Routes
-         */
-        Route::get('/login', [LoginController::class, 'show'])->name('login.show');
-        Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+Route::group(['middleware' => ['auth']], function () {
+    /**
+     * Logout Routes
+     */
+    Route::get('/logout', [LogoutController::class, 'logout'])->name('logout.perform');
+});
 
-    });
-    
-    Route::group(['middleware' => ['auth']], function() {
-        /**
-         * Logout Routes
-         */
-        Route::get('/logout', [LogoutController::class,'logout'])->name('logout.perform');
-    });
-// });

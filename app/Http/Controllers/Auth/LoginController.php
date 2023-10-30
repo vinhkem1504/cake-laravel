@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -36,6 +37,8 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            // $user = Auth::user();
+            // Session::put('user', $user);
             // return response()->json(['success' => true, 'queries' => $credentials]);
             // return redirect(route('client-views.home'));
             return redirect('/')->with('success', "Account successfully login.");

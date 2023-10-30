@@ -3,13 +3,12 @@
     <div class="offcanvas__cart">
         <div class="offcanvas__cart__links">
             <a href="#" class="search-switch"><img src="template/img/icon/search.png" alt=""></a>
-            <a href="#"><img src="template/img/icon/heart.png" alt=""></a>
             @auth
-            {{auth()->user()->name}}
+            <a href="#"><img src="template/img/icon/user.png" alt=""></a>
             @endauth
 
             @guest
-            <a href="#">Sign in</a> <span class="arrow_carrot-down"></span>
+            <a href="#"><img src="template/img/icon/heart.png" alt=""></a>
             @endguest
         </div>
         <div class="offcanvas__cart__item">
@@ -18,7 +17,7 @@
         </div>
     </div>
     <div class="offcanvas__logo">
-        <a href="./index.html"><img src="template/img/logo.png" alt=""></a>
+        <a href="{{route('client-views.home')}}"><img src="template/img/logo.png" alt=""></a>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__option">
@@ -35,7 +34,13 @@
                     <li>ENG</li>
                 </ul>
             </li>
-            <li><a href="#">Sign in</a> <span class="arrow_carrot-down"></span></li>
+            @auth
+            <li><a href="{{route('logout.perform')}}">Log out</a> <span class="arrow_carrot-down"></span></li>
+            @endauth
+
+            @guest
+            <li><a href="{{route('login.show')}}">Log in</a> <span class="arrow_carrot-down"></span></li>
+            @endguest
         </ul>
     </div>
 </div>
