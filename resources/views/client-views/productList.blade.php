@@ -1,5 +1,6 @@
 <!-- Product Section Begin -->
 <section class="product spad">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
@@ -125,7 +126,7 @@
                         <h6><a href="#">Mississippi Mud</a></h6>
                         <div class="product__item__price">$08.00</div>
                         <div class="cart_add">
-                            <a href="#">Add to cart</a>
+                            <a onclick="handleAddToCart('abc')">Add to cart</a>
                         </div>
                     </div>
                 </div>
@@ -133,4 +134,25 @@
         </div>
     </div>
 </section>
+<!-- Add cart handle -->
+<script>
+    v
+    function handleAddToCart(productId){
+        var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy token CSRF
+        $.ajax({
+            type: 'POST',
+            url: 'http://127.0.0.1:8000/api/cart',
+            data: {
+                productId: productId,
+                _token: csrfToken
+            },
+            success: function(response){
+                console.log(response)
+            },
+            error: function(err){
+                console.log(err)
+            }
+        })
+    }
+</script>
 <!-- Product Section End -->

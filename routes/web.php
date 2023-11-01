@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,4 +43,6 @@ Route::group(['middleware' => ['auth']], function () {
      */
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout.perform');
 });
+
+// Route::post('/api/cart', [CartController::class, 'addProductToCart']);
 
