@@ -13,7 +13,7 @@ class HomeController extends Controller
         $products = DB::table('Products')
                 ->join('Category','Products.category_id','=','Category.category_id')
                 ->select('Products.productname','Products.product_avt_iamge','Products.price_default','Category.category_name')
-                ->get();
+                ->paginate(12);
 
         $category = Category::all();
         return view('client-views.home', compact('products', 'category'));

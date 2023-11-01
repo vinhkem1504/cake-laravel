@@ -85,13 +85,13 @@
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
-                    @foreach($category as $item)
+                    @foreach ($category as $item)
                         <div class="categories__item">
-                        <div class="categories__item__icon">
-                            <span class="flaticon-029-cupcake-3"></span>
-                            <h5>{{$item->category_name}}</h5>
+                            <div class="categories__item__icon">
+                                <span class="flaticon-029-cupcake-3"></span>
+                                <h5>{{ $item->category_name }}</h5>
+                            </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 @foreach ($products as $item)
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="{{$item->product_avt_iamge}}">
+                            <div class="product__item__pic set-bg" data-setbg="{{ $item->product_avt_iamge }}">
                                 <div class="product__label">
                                     <span>{{ $item->category_name }}</span>
                                 </div>
@@ -121,7 +121,15 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="shop__pagination">
+                    {{ $products->links() }}
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#"><span class="arrow_carrot-right"></span></a>
+                </div>
             </div>
+            {{-- {{ $products->links() }} --}}
         </div>
     </section>
     <!-- Product Section End -->
