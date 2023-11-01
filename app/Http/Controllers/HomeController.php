@@ -47,6 +47,7 @@ class HomeController extends Controller
         return response()->json($products);
     }
 
+
     public function showUserBills(){
         return view('client-views.userBills');
     }
