@@ -21,6 +21,8 @@ use App\Http\Controllers\HomeController;
  */
 Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
 Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+Route::get('/products', [HomeController::class, 'getListProducts'])->name('products.get');
+
 
 Route::group(['middleware' => ['guest']], function () {
     /**

@@ -121,15 +121,12 @@
                         </div>
                     </div>
                 @endforeach
-                <div class="shop__pagination">
-                    {{ $products->links() }}
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#"><span class="arrow_carrot-right"></span></a>
-                </div>
             </div>
-            {{-- {{ $products->links() }} --}}
+            <div class="shop__pagination">
+                <a id="previous_page"><span class="arrow_carrot-left"></span></a>
+                <div class="pagination_page"></div>
+                <a id="next_page"><span class="arrow_carrot-right"></span></a>
+            </div>
         </div>
     </section>
     <!-- Product Section End -->
