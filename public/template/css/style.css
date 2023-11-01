@@ -1734,6 +1734,15 @@ ol {
   transition: all, 0.5s;
 }
 
+.pagination_page span{
+  display: inline-block;
+  font-size: 18px;
+}
+
+.pagination_page{
+  display: inline-block;
+}
+
 .shop__pagination a span {
   font-size: 18px;
   font-weight: 600;
