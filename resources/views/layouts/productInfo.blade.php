@@ -28,9 +28,6 @@
     <link rel="stylesheet" href="{{ asset('template/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('template/css/style.css') }}" type="text/css">
 </head>
-<script>
-    var isRegister;
-</script>
 
 <body>
     <!-- Page Preloder -->
