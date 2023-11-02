@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,9 +22,12 @@ use App\Http\Controllers\HomeController;
  * Home Routes
  */
 Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
-Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
 Route::post('/products', [HomeController::class, 'getListProducts'])->name('products.get');
 Route::post('/categories', [HomeController::class, 'filterCategory'])->name('categories.filter');
+Route::get('/product_id={product_id}',[ProductController::class,'index'])->name('client-views.productDetails');
+Route::get('/getSize_{product_id}',[ProductController::class,'getSize'])->name('productDetails.getSize');
+Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
+
 
 Route::group(['middleware' => ['guest']], function () {
     /**
@@ -38,10 +43,13 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
 });
 
+
+// user phai login moi truy cap duoc cac link sau
 Route::group(['middleware' => ['auth']], function () {
     /**
      * Logout Routes
      */
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout.perform');
-});
 
+    Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+});

@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="product__item__text">
-                                <h6><a href="#">{{ $item->productname }}</a></h6>
+                                <h6><a href="{{ route('client-views.productDetails', ['product_id' => $item->product_id]) }}">{{ $item->productname }}</a></h6>
                                 <div class="product__item__price">${{ $item->price_default }}</div>
                                 <div class="cart_add">
                                     <a href="#">Add to cart</a>
