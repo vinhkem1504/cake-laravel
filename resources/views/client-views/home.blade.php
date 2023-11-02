@@ -1,12 +1,12 @@
 @extends('layouts.client')
 
 @section('map')
-{{-- @include('partial-views.map') --}}
+    {{-- @include('partial-views.map') --}}
 @endsection
 
 @section('content')
-<!-- Hero Section Begin -->
-<section class="hero">
+    <!-- Hero Section Begin -->
+    <section class="hero">
         <div class="hero__slider owl-carousel">
             <div class="hero__item set-bg" data-setbg="/template/img/hero/hero-1.jpg">
                 <div class="container">
@@ -47,7 +47,7 @@
                             <h2>Cakes and bakes from the house of Queens!</h2>
                         </div>
                         <p>The "Cake Shop" is a Jordanian Brand that started as a small family business. The owners are
-                        Dr. Iyad Sultan and Dr. Sereen Sharabati, supported by a staff of 80 employees.</p>
+                            Dr. Iyad Sultan and Dr. Sereen Sharabati, supported by a staff of 80 employees.</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -81,26 +81,76 @@
     <!-- About Section End -->
 
     <!-- Categories Section Begin -->
-    @include('client-views.category')
+    <div class="categories">
+        <div class="container">
+            <div class="row">
+                <div class="categories__slider owl-carousel">
+                    @foreach ($category as $item)
+                        <div class="categories__item">
+                            <div class="categories__item__icon">
+                                <span class="flaticon-029-cupcake-3"></span>
+                                <h5>{{ $item->category_name }}</h5>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Categories Section End -->
 
     <!-- Product Section Begin -->
-    @include('client-views.productList')
+    <section class="product spad">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <div class="container">
+            <div class="row">
+                @foreach ($products as $item)
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="{{ $item->product_avt_iamge }}">
+                                <div class="product__label">
+                                    <span>{{ $item->category_name }}</span>
+                                </div>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="#">{{ $item->productname }}</a></h6>
+                                <div class="product__item__price">${{ $item->price_default }}</div>
+                                <div class="cart_add">
+                                    <a onclick="handleAddToCart(``)">Add to cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="shop__pagination">
+                    {{ $products->links() }}
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#"><span class="arrow_carrot-right"></span></a>
+                </div>
+            </div>
+            {{-- {{ $products->links() }} --}}
+        </div>
+    </section>
     <!-- Product Section End -->
-
-
-<div class="bg-light p-5 rounded">
-    @include('partial-views.messages')
-    @auth
-    <h1>Dashboard</h1>
-    {{auth()->user()->name}}
-    <p class="lead">Only authenticated users can access this section.</p>
-    <a class="btn btn-lg btn-primary" href="https://codeanddeploy.com" role="button">View more tutorials here &raquo;</a>
-    @endauth
-
-    @guest
-    <h1>Homepage</h1>
-    <p class="lead">Your viewing the home page. Please login to view the restricted data.</p>
-    @endguest
-</div>
 @endsection
+<script>
+    function handleAddToCart(productId){
+        var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy token CSRF
+        $.ajax({
+            type: 'POST',
+            url: 'http://127.0.0.1:8000/api/cart',
+            data: {
+                productId: productId,
+                _token: csrfToken
+            },
+            success: function(response){
+                console.log(response)
+            },
+            error: function(err){
+                console.log(err)
+            }
+        })
+    }
+</script>

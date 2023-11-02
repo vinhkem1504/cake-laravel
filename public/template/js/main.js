@@ -8,6 +8,21 @@
 ---------------------------------------------------------  */
 
 'use strict';
+/* Handle change user image */
+function handleImageChange(input) {
+    const previewImage = document.getElementById('preview-image');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 function debounce(func, timeout = 300) {
     let timer;
     return (...args) => {
@@ -227,9 +242,11 @@ function showInputChangePassword() {
     if (checkbox.checked) {
         document.getElementById('new_password').classList.remove('hidden-input');
         document.getElementById('confirm_password').classList.remove('hidden-input');
+        document.getElementById('password').classList.remove('hidden-input');
     } else {
         document.getElementById('new_password').classList.add('hidden-input');
         document.getElementById('confirm_password').classList.add('hidden-input');
+        document.getElementById('password').classList.add('hidden-input');
     }
 }
 const processChangeFirstName = debounce(() => validateFirstName());
