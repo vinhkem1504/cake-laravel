@@ -85,6 +85,12 @@
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
+                    <div class="categories__item">
+                        <div class="categories__item__icon">
+                            <span class="flaticon-029-cupcake-3"></span>
+                            <h5 id="all_products">ALL</h5>
+                        </div>
+                    </div>
                     @foreach ($category as $item)
                         <div class="categories__item">
                             <div class="categories__item__icon">
