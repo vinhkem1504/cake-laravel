@@ -24,13 +24,26 @@ class HomeController extends Controller
         return view('client-views.user');
     }
 
-    public function getListProducts()
+    public function getListProducts(Request $request)
     {
-        $products = DB::table('Products')
+        $value = $request->input('category_name');
+        if($value == null){
+             $products = DB::table('Products')
             ->join('Category', 'Products.category_id', '=', 'Category.category_id')
             ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
             ->paginate(12);
+        }
+        return response()->json($products);
+    }
 
+    public function filterCategory(Request $request)
+    {
+        $value = $request->input('category_name');
+            $products = DB::table('Products')
+                ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+                ->where('Category.category_name', '=', $value)
+                ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+                ->paginate(1);
         return response()->json($products);
     }
 }
