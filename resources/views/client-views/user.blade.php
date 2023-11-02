@@ -11,7 +11,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="breadcrumb__links">
-                    <a href="{{route('client-views.home')}}">Home</a>
+                    <a href="{{route('client-views.bills')}}">Buy History</a>
                     <span>User Information</span>
                 </div>
             </div>

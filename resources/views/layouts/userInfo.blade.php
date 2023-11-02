@@ -17,11 +17,11 @@
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{asset('template/css/bootstrap.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('template/css/flaticon.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/barfiller.cs')}}s" type="text/css">
+    <link rel="stylesheet" href="{{asset('template/css/barfiller.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('template/css/magnific-popup.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('template/css/font-awesome.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('template/css/elegant-icons.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/nice-select.cs')}}s" type="text/css">
+    <link rel="stylesheet" href="{{asset('template/css/nice-select.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('template/css/owl.carousel.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('template/css/slicknav.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('template/css/style.css')}}" type="text/css">

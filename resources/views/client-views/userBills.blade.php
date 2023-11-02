@@ -10,7 +10,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="breadcrumb__links">
-                    <a href="{{route('client-views.home')}}">Home</a>
+                    <a href="{{route('client-views.user')}}">User</a>
                     <span>Buy History</span>
                 </div>
             </div>
@@ -28,26 +28,14 @@
                     <div class="col-lg-8 col-md-6">
                         <h6 class="checkout__title">List Bills</h6>
                         <ul class="list-group">
-                            <li class="list-group-item" style="display: flex; justify-content: space-between;">
-                                <p>Bill 1</p>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-secondary">Left</button>
-                                    <button type="button" class="btn btn-secondary">Right</button>
-                                </div>
+                            <li class="list-group-item">
+                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-danger">Da cho</span></h5>
                             </li>
-                            <li class="list-group-item" style="display: flex; justify-content: space-between;">
-                                <p>Bill 1</p>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-secondary">Left</button>
-                                    <button type="button" class="btn btn-secondary">Right</button>
-                                </div>
+                            <li class="list-group-item">
+                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-success">Da xac nhan</span></h5>
                             </li>
-                            <li class="list-group-item" style="display: flex; justify-content: space-between;">
-                                <p>Bill 1</p>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-secondary">Left</button>
-                                    <button type="button" class="btn btn-secondary">Right</button>
-                                </div>
+                            <li class="list-group-item" >
+                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-success">Da xac nhan</span></h5>
                             </li>
                         </ul>
                     </div>
