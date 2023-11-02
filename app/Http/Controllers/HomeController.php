@@ -13,7 +13,7 @@ class HomeController extends Controller
         $products = DB::table('Products')
             ->join('Category', 'Products.category_id', '=', 'Category.category_id')
             ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
-            ->paginate(12);
+            ->paginate(8);
 
         $category = Category::all();
         return view('client-views.home', compact('products', 'category'));
@@ -31,7 +31,7 @@ class HomeController extends Controller
              $products = DB::table('Products')
             ->join('Category', 'Products.category_id', '=', 'Category.category_id')
             ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
-            ->paginate(12);
+            ->paginate(8);
         }
         return response()->json($products);
     }
@@ -43,7 +43,7 @@ class HomeController extends Controller
                 ->join('Category', 'Products.category_id', '=', 'Category.category_id')
                 ->where('Category.category_name', '=', $value)
                 ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
-                ->paginate(1);
+                ->paginate(8);
         return response()->json($products);
     }
 }
