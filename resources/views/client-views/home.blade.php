@@ -85,6 +85,12 @@
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
+                    <div class="categories__item">
+                        <div class="categories__item__icon">
+                            <span class="flaticon-029-cupcake-3"></span>
+                            <h5 id="all_products">ALL</h5>
+                        </div>
+                    </div>
                     @foreach ($category as $item)
                         <div class="categories__item">
                             <div class="categories__item__icon">
@@ -122,15 +128,12 @@
                         </div>
                     </div>
                 @endforeach
-                <div class="shop__pagination">
-                    {{ $products->links() }}
-                    <a href="#">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#"><span class="arrow_carrot-right"></span></a>
-                </div>
             </div>
-            {{-- {{ $products->links() }} --}}
+            <div class="shop__pagination">
+                <a id="previous_page"><span class="arrow_carrot-left"></span></a>
+                <div class="pagination_page"></div>
+                <a id="next_page"><span class="arrow_carrot-right"></span></a>
+            </div>
         </div>
     </section>
     <!-- Product Section End -->

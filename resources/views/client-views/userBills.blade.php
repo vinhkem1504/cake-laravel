@@ -29,7 +29,7 @@
                         <h6 class="checkout__title">List Bills</h6>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-danger">Da cho</span></h5>
+                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-danger">Dang cho</span></h5>
                             </li>
                             <li class="list-group-item">
                                 <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-success">Da xac nhan</span></h5>
