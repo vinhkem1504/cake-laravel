@@ -2,22 +2,22 @@
 <div class="offcanvas-menu-wrapper">
     <div class="offcanvas__cart">
         <div class="offcanvas__cart__links">
-            <a href="#" class="search-switch"><img src="template/img/icon/search.png" alt=""></a>
+            <a href="#" class="search-switch"><img src="{{asset('template/img/icon/search.png')}}" alt=""></a>
             @auth
-            <a href="#"><img src="template/img/icon/user.png" alt=""></a>
+            <a href="#"><img src="{{asset('template/img/icon/user.png')}}" alt=""></a>
             @endauth
 
             @guest
-            <a href="#"><img src="template/img/icon/heart.png" alt=""></a>
+            <a href="#"><img src="{{asset('template/img/icon/heart.png')}}" alt=""></a>
             @endguest
         </div>
         <div class="offcanvas__cart__item">
-            <a href="#"><img src="template/img/icon/cart.png" alt=""> <span>0</span></a>
+            <a href="#"><img src="{{asset('template/img/icon/cart.png')}}" alt=""> <span>0</span></a>
             <div class="cart__price">Cart: <span>$0.00</span></div>
         </div>
     </div>
     <div class="offcanvas__logo">
-        <a href="{{route('client-views.home')}}"><img src="template/img/logo.png" alt=""></a>
+        <a href="{{route('client-views.home')}}"><img src="{{asset('template/img/logo.png')}}" alt=""></a>
     </div>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__option">
