@@ -8,6 +8,7 @@
 ---------------------------------------------------------  */
 
 'use strict';
+
 function debounce(func, timeout = 300) {
     let timer;
     return (...args) => {
@@ -120,6 +121,28 @@ function validatePassword(isRegister) {
     }
     return isRegister
 }
+
+function checkPassword(isRegister) {
+    var confirm_password = document.getElementById('confirm_password').value
+    var password = document.getElementById('password').value
+    if (confirm_password != password) {
+        document.getElementById('result_confirm_password').style.display = 'block';
+        document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
+        isRegister = false;
+    }
+    else {
+        document.getElementById('result_confirm_password').style.display = 'none';
+        isRegister = true;
+    }
+
+    if (confirm_password == "") {
+        document.getElementById('result_confirm_password').style.display = 'none';
+        isRegister = true;
+    }
+    return isRegister
+
+}
+
 function checkEmptyInput(isRegister) {
     isRegister = true;
     var firstName = document.getElementById('name').value;
@@ -131,12 +154,15 @@ function checkEmptyInput(isRegister) {
     var password = document.getElementById('password').value;
     var valPassword = validatePassword(isRegister);
 
+    var confirm_password = document.getElementById('confirm_password').value;
+    var valconfirm_password = checkPassword(isRegister);
+
     var email = document.getElementById('email').value;
     var valEmail = validateEmail(isRegister);
-    if (firstName == '' || password == '' || email == '') {
+    if (firstName == '' || password == '' || email == '' || confirm_password == '') {
         isRegister = false;
     }
-    if ((isRegister && valFirstName && valEmail && valPassword)) {
+    if ((isRegister && valFirstName && valEmail && valPassword && valconfirm_password)) {
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
@@ -213,14 +239,261 @@ const processChangeEmail = debounce(() => validateEmail());
 const processChangePassword = debounce(() => validatePassword());
 const processChangePhone = debounce(() => validatePhone());
 const processChangeAddress = debounce(() => validateAddress());
+const processConfirmPassword = debounce(() => checkPassword());
 
+// phan trang
+function handlePaginate(url) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        success: function (response) {
+            var dataContainer = $('.pagination_page').find('span');
+            let a = `<span href="#">Page ${response.current_page}/${response.last_page}</span>`;
+            dataContainer.html(a);
 
+            var products = $('.product.spad').find('.container').find('.row');
+            var item = '';
+            $.each(response.data, function (i, product) {
+                item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                    style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                        <div class="product__label">
+                            <span>${product.category_name}</span>
+                        </div>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="#">${product.productname}</a></h6>
+                        <div class="product__item__price">$${product.price_default}</div>
+                        <div class="cart_add">
+                            <a href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+            })
+            products.html(item);
+            $('#next_page').off('click').on('click', function () {
+                if (response.current_page < response.last_page) {
+                    handlePaginate(response.next_page_url);
+                }
+            });
+            $('#previous_page').off('click').on('click', function () {
+                if (response.current_page > 1) {
+                    handlePaginate(response.prev_page_url);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    });
+}
+
+function handlePaginateFilter(url, name) {
+    $.post(url, { category_name: name }, function (response) {
+        var dataContainer = $('.pagination_page').find('span');
+        let a = `<span href="#">Page ${response.current_page}/${response.last_page}</span>`;
+        dataContainer.html(a);
+
+        var products = $('.product.spad').find('.container').find('.row');
+        var item = '';
+        $.each(response.data, function (i, product) {
+            item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                    style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                        <div class="product__label">
+                            <span>${product.category_name}</span>
+                        </div>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="#">${product.productname}</a></h6>
+                        <div class="product__item__price">$${product.price_default}</div>
+                        <div class="cart_add">
+                            <a href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        })
+        products.html(item);
+
+        $('#next_page').off('click').on('click', function () {
+            if (response.current_page < response.last_page) {
+                handlePaginateFilter(response.next_page_url, name);
+            }
+        });
+        $('#previous_page').off('click').on('click', function () {
+            if (response.current_page > 1) {
+                handlePaginateFilter(response.prev_page_url, name);
+            }
+        });
+    }, 'json');
+}
+
+//filter categories
+function handleFilter(name) {
+    $.post('http://localhost:8000/categories', { category_name: name }, function (response) {
+        var dataContainer = $('.pagination_page').find('span');
+        let a = `<span href="#">Page ${response.current_page}/${response.last_page}</span>`;
+        dataContainer.html(a);
+
+        var products = $('.product.spad').find('.container').find('.row');
+        var item = '';
+        $.each(response.data, function (i, product) {
+            item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                    style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                        <div class="product__label">
+                            <span>${product.category_name}</span>
+                        </div>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="#">${product.productname}</a></h6>
+                        <div class="product__item__price">$${product.price_default}</div>
+                        <div class="cart_add">
+                            <a href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+        })
+        products.html(item);
+
+        $('#next_page').off('click').on('click', function () {
+            if (response.current_page < response.last_page) {
+                handlePaginateFilter(response.next_page_url, name);
+            }
+        });
+        $('#previous_page').off('click').on('click', function () {
+            if (response.current_page > 1) {
+                handlePaginateFilter(response.prev_page_url, name);
+            }
+        });
+    }, 'json');
+
+}
+
+function getDetailProduct(size, flavour, product_id) {
+    $.post('http://localhost:8000/productDetails', { size: size, flavour: flavour, product_id: product_id }, function (response) {
+        if (!response.error) {
+            $('.product__details__option').find('.primary-btn').css({"background": "#f08632", "pointer-events": "auto", "cursor": "pointer"});
+            $("#error_message").css("display", "none");
+            var img = `<img class="big_img" src="${response.data[0].image}" alt="">`;
+            var price = `<h5>$${response.data[0].price}</h5>`;
+            $('.product__details__big__img').html(img);
+            $('.product__details__text').find('h5').html(price).css({'border-bottom':'none', 'padding-bottom': '0px'});
+        } else {
+            $('.product__details__option').find('.primary-btn').css({"background": "#999", "pointer-events": "none", "cursor": "default"});
+            $("#error_message").css("display", "block");
+            $('#error_message').find('p').html(`<p style="color: red">Product does not exist</p>`);
+        }
+
+    }, 'json');
+}
 
 (function ($) {
 
-    // $('#register_form').on('submit', function (e) {
-    //     e.preventDefault(); // Event.preventDefault sẽ đảm bảo rằng form không bao giờ được gửi
-    // })
+    // phan trang all products
+    $(document).ready(function () {
+        $.ajax({
+            url: 'http://localhost:8000/products',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                var dataContainer = $('.pagination_page');
+                let a = `<span href="#">Page ${response.current_page}/${response.last_page}</span>`;
+                dataContainer.append(a);
+
+                $('#next_page').on('click', function () {
+                    if (response.current_page < response.last_page) {
+                        handlePaginate(response.next_page_url);
+                    }
+                });
+                $('#previous_page').on('click', function () {
+                    if (response.current_page > 1) {
+                        handlePaginate(response.prev_page_url);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        })
+    });
+
+    //filter categories
+    $(document).ready(function () {
+        $('.categories').find('h5').on('click', function () {
+            var category_name = $(this).text();
+            handleFilter(category_name);
+        });
+    });
+
+    $(document).ready(function () {
+        $('.categories').find('h5#all_products').on('click', function () {
+            $.ajax({
+                url: 'http://localhost:8000/products',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    var dataContainer = $('.pagination_page');
+                    let a = `<span href="#">Page ${response.current_page}/${response.last_page}</span>`;
+                    dataContainer.html(a);
+
+                    var products = $('.product.spad').find('.container').find('.row');
+                    var item = '';
+                    $.each(response.data, function (i, product) {
+                        item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                    style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                        <div class="product__label">
+                            <span>${product.category_name}</span>
+                        </div>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="#">${product.productname}</a></h6>
+                        <div class="product__item__price">$${product.price_default}</div>
+                        <div class="cart_add">
+                            <a href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+                    })
+                    products.html(item);
+
+                    $('#next_page').on('click', function () {
+                        if (response.current_page < response.last_page) {
+                            handlePaginate(response.next_page_url);
+                        }
+                    });
+                    $('#previous_page').on('click', function () {
+                        if (response.current_page > 1) {
+                            handlePaginate(response.prev_page_url);
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            })
+        });
+    });
+
+    $('.checkout__input__checkbox').find('input[type="radio"]').on('change', function () {
+        var count = $('.checkout__input__checkbox').find('input[type="radio"]:checked').length;
+        var size = $('.checkout__input__checkbox').find('input[name="optional_size"]:checked').val();
+        var flavour = $('.checkout__input__checkbox').find('input[name="optional_flavour"]:checked').val();
+        var product_id = $('.product__details__text').find('.product__label').attr('id');
+        if (count === 2) {
+            getDetailProduct(size, flavour, product_id);
+        }
+    })
 
     /*------------------
         Preloader
