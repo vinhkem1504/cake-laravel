@@ -25,13 +25,11 @@ use App\Http\Controllers\ProductController;
  * Home Routes
  */
 Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
-Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
-Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
 
 Route::post('/products', [HomeController::class, 'getListProducts'])->name('products.get');
 Route::post('/categories', [HomeController::class, 'filterCategory'])->name('categories.filter');
-Route::get('/product_id={product_id}',[ProductController::class,'index'])->name('client-views.productDetails');
-Route::get('/getSize_{product_id}',[ProductController::class,'getSize'])->name('productDetails.getSize');
+Route::get('/product_id={product_id}', [ProductController::class, 'index'])->name('client-views.productDetails');
+Route::get('/getSize_{product_id}', [ProductController::class, 'getSize'])->name('productDetails.getSize');
 Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
 
 
@@ -59,7 +57,9 @@ Route::group(['middleware' => ['auth']], function () {
     /* User Route */
     Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
     Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
+
+    Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+    Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
 });
 
 // Route::post('/api/cart', [CartController::class, 'addProductToCart']);
-
