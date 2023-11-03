@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +29,7 @@ Route::get('/product_id={product_id}',[ProductController::class,'index'])->name(
 Route::get('/getSize_{product_id}',[ProductController::class,'getSize'])->name('productDetails.getSize');
 Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
 
+Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
 
 Route::group(['middleware' => ['guest']], function () {
     /**
@@ -53,4 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout.perform');
 
     Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+
+    Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
+    Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
 });

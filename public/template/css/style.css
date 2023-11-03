@@ -27,6 +27,18 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+.user-image{
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+}
+.image-upload>input {
+  display: none;
+}
+.hidden-input {
+  display: none;
+}
+
 .btn_register {
   background: #c6c3c3 !important;
   /* font-size: 14px;
