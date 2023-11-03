@@ -60,5 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
 
     Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
-    Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
+
+    Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
+    Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
 });
