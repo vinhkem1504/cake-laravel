@@ -265,7 +265,7 @@ function handlePaginate(url) {
                     </div>
                     <div class="product__item__text">
                         <h6><a href="#">${product.productname}</a></h6>
-                        <div class="product__item__price">${product.price_default}</div>
+                        <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
                             <a href="#">Add to cart</a>
                         </div>
@@ -310,7 +310,7 @@ function handlePaginateFilter(url, name) {
                     </div>
                     <div class="product__item__text">
                         <h6><a href="#">${product.productname}</a></h6>
-                        <div class="product__item__price">${product.price_default}</div>
+                        <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
                             <a href="#">Add to cart</a>
                         </div>
@@ -353,7 +353,7 @@ function handleFilter(name) {
                     </div>
                     <div class="product__item__text">
                         <h6><a href="#">${product.productname}</a></h6>
-                        <div class="product__item__price">${product.price_default}</div>
+                        <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
                             <a href="#">Add to cart</a>
                         </div>
@@ -457,7 +457,7 @@ function getDetailProduct(size, flavour, product_id) {
                     </div>
                     <div class="product__item__text">
                         <h6><a href="#">${product.productname}</a></h6>
-                        <div class="product__item__price">${product.price_default}</div>
+                        <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
                             <a href="#">Add to cart</a>
                         </div>
