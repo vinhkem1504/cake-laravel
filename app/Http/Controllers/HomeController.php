@@ -23,6 +23,9 @@ class HomeController extends Controller
     {
         return view('client-views.user');
     }
+    public function showUserBills(){
+        return view('client-views.userBills');
+    }
 
     public function getListProducts(Request $request)
     {

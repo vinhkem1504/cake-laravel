@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\ProductController;
 
 /*
@@ -22,6 +25,9 @@ use App\Http\Controllers\ProductController;
  * Home Routes
  */
 Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
+Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
+
 Route::post('/products', [HomeController::class, 'getListProducts'])->name('products.get');
 Route::post('/categories', [HomeController::class, 'filterCategory'])->name('categories.filter');
 Route::get('/product_id={product_id}',[ProductController::class,'index'])->name('client-views.productDetails');
@@ -50,6 +56,10 @@ Route::group(['middleware' => ['auth']], function () {
      * Logout Routes
      */
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout.perform');
-
-    Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+    /* User Route */
+    Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
+    Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
 });
+
+// Route::post('/api/cart', [CartController::class, 'addProductToCart']);
+

@@ -107,6 +107,7 @@
 
     <!-- Product Section Begin -->
     <section class="product spad">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <div class="container">
             <div class="row">
                 @foreach ($products as $item)
@@ -121,7 +122,7 @@
                                 <h6><a href="{{ route('client-views.productDetails', ['product_id' => $item->product_id]) }}">{{ $item->productname }}</a></h6>
                                 <div class="product__item__price">${{ $item->price_default }}</div>
                                 <div class="cart_add">
-                                    <a href="#">Add to cart</a>
+                                    <a onclick="handleAddToCart(``)">Add to cart</a>
                                 </div>
                             </div>
                         </div>
@@ -137,3 +138,22 @@
     </section>
     <!-- Product Section End -->
 @endsection
+<script>
+    function handleAddToCart(productId){
+        var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy token CSRF
+        $.ajax({
+            type: 'POST',
+            url: 'http://127.0.0.1:8000/api/cart',
+            data: {
+                productId: productId,
+                _token: csrfToken
+            },
+            success: function(response){
+                console.log(response)
+            },
+            error: function(err){
+                console.log(err)
+            }
+        })
+    }
+</script>
