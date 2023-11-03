@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use GrahamCampbell\ResultType\Success;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -22,7 +25,7 @@ class RegisterController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    
+
     public function register(RegisterRequest $request)
     {
         $request->validate([
@@ -36,11 +39,15 @@ class RegisterController extends Controller
         $data['email'] = $request->email;
 
         $user = User::create($data);
+        $value = $this->checkRegister($request->email);
+        $json = json_decode($value, true);
+        dd($json);
         if ($user) {
             //Đoạn mã này đăng nhập người dùng mới đăng ký bằng cách sử dụng auth(), 
             //một đối tượng Laravel được sử dụng cho xác thực người dùng. 
             // Phương thức login() được gọi với đối tượng $user, điều này sẽ xác thực người dùng và tạo một phiên đăng nhập cho họ.
             auth()->login($user);
+
 
             // register susscess => vao Home page luon 
             return redirect('/')->with('success', "Account successfully registered.");
@@ -49,4 +56,13 @@ class RegisterController extends Controller
         }
     }
 
+    public function checkRegister($email)
+    {
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            return response()->json(['success' => true, 'data' => $user]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
 }

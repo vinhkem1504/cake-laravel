@@ -15,7 +15,7 @@ function handleImageChange(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             previewImage.src = e.target.result;
         };
 
@@ -396,18 +396,27 @@ function handleFilter(name) {
 function getDetailProduct(size, flavour, product_id) {
     $.post('http://localhost:8000/productDetails', { size: size, flavour: flavour, product_id: product_id }, function (response) {
         if (!response.error) {
-            $('.product__details__option').find('.primary-btn').css({"background": "#f08632", "pointer-events": "auto", "cursor": "pointer"});
+            $('.product__details__option').find('.primary-btn').css({ "background": "#f08632", "pointer-events": "auto", "cursor": "pointer" });
             $("#error_message").css("display", "none");
             var img = `<img class="big_img" src="${response.data[0].image}" alt="">`;
             var price = `<h5>$${response.data[0].price}</h5>`;
             $('.product__details__big__img').html(img);
-            $('.product__details__text').find('h5').html(price).css({'border-bottom':'none', 'padding-bottom': '0px'});
+            $('.product__details__text').find('h5').html(price).css({ 'border-bottom': 'none', 'padding-bottom': '0px' });
         } else {
-            $('.product__details__option').find('.primary-btn').css({"background": "#999", "pointer-events": "none", "cursor": "default"});
+            $('.product__details__option').find('.primary-btn').css({ "background": "#999", "pointer-events": "none", "cursor": "default" });
             $("#error_message").css("display", "block");
             $('#error_message').find('p').html(`<p style="color: red">Product does not exist</p>`);
         }
 
+    }, 'json');
+}
+
+function handleCheckRegister(email, name, password) {
+    $.post('http://localhost:8000/register', { email: email, name: name, password: password }, function (response) {
+        if (response.error) {
+            $('#result_email').css('display', 'block');
+            $('#result_email').text(response.message);
+        }
     }, 'json');
 }
 
@@ -501,6 +510,7 @@ function getDetailProduct(size, flavour, product_id) {
         });
     });
 
+    // show product details khi chon option
     $('.checkout__input__checkbox').find('input[type="radio"]').on('change', function () {
         var count = $('.checkout__input__checkbox').find('input[type="radio"]:checked').length;
         var size = $('.checkout__input__checkbox').find('input[name="optional_size"]:checked').val();
@@ -510,6 +520,16 @@ function getDetailProduct(size, flavour, product_id) {
             getDetailProduct(size, flavour, product_id);
         }
     })
+
+    //check register
+    $(document).ready(function () {
+        $('#btn_register').click(function () {
+            var email = $('#email').val();
+            var name = $('#name').val();
+            var password = $('#password').val();
+            handleCheckRegister(email, name, password);
+        });
+    });
 
     /*------------------
         Preloader

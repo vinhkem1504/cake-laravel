@@ -39,6 +39,7 @@ Route::group(['middleware' => ['guest']], function () {
      */
     Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
     Route::post('/register', [RegisterController::class, 'register'])->name('register.perform');
+    Route::get('/check_register/{email}', [RegisterController::class, 'checkRegister'])->name('register.checkRegister');
 
     /**
      * Login Routes
