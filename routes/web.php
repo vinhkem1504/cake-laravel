@@ -8,6 +8,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +30,10 @@ Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('clien
 
 Route::post('/products', [HomeController::class, 'getListProducts'])->name('products.get');
 Route::post('/categories', [HomeController::class, 'filterCategory'])->name('categories.filter');
+Route::get('/product_id={product_id}',[ProductController::class,'index'])->name('client-views.productDetails');
+Route::get('/getSize_{product_id}',[ProductController::class,'getSize'])->name('productDetails.getSize');
+Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
+
 
 Route::group(['middleware' => ['guest']], function () {
     /**
@@ -43,6 +49,8 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
 });
 
+
+// user phai login moi truy cap duoc cac link sau
 Route::group(['middleware' => ['auth']], function () {
     /**
      * Logout Routes

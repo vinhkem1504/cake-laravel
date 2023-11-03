@@ -12,7 +12,7 @@ class HomeController extends Controller
     {
         $products = DB::table('Products')
             ->join('Category', 'Products.category_id', '=', 'Category.category_id')
-            ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+            ->select('*')
             ->paginate(8);
 
         $category = Category::all();
@@ -33,7 +33,7 @@ class HomeController extends Controller
         if($value == null){
              $products = DB::table('Products')
             ->join('Category', 'Products.category_id', '=', 'Category.category_id')
-            ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+            ->select('*')
             ->paginate(8);
         }
         return response()->json($products);

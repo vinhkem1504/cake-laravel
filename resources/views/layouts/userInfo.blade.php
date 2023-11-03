@@ -81,5 +81,4 @@
     <script src="{{asset('template/js/jquery.nicescroll.min.js')}}"></script>
     <script src="{{asset('template/js/main.js')}}"></script>
 </body>
-
 </html>
