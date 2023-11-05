@@ -32,7 +32,6 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $cart = json_decode($request->cart);
-        // dd($cart);
         $request->validate([
             'email' => 'required',
             'password' => 'required',
@@ -41,10 +40,6 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            // $user = Auth::user();
-            // Session::put('user', $user);
-            // return response()->json(['success' => true, 'queries' => $credentials]);
-            // return redirect(route('client-views.home'));
             $userId = Auth::user()->user_id;
             $checkCart = DB::table('Cart')
             ->where('user_id', '=', $userId)
@@ -52,20 +47,18 @@ class LoginController extends Controller
             ->first();
             
             if(!$checkCart){
-                // dd($checkCart);
                 foreach ($cart as $item) {
                     $data = [
                         'user_id' => intval($userId),
                         'product_details_id' => intval($item->product_details_id),
                         'quanlity' => intval($item->quanlity)
                     ];
-                    // dd($data);
                     DB::table('Cart')->insert($data);
                 }
                 $cart = DB::table('Cart')
                 ->join('Products_details', 'Products_details.product_details_id', '=', 'Cart.product_details_id')
                 ->where('user_id', '=', $userId)
-                ->select(['Products_details.price', 'Cart.quality'])
+                ->select(['Products_details.price', 'Cart.quanlity'])
                 ->get();
                 $total = 0;
                 foreach ($cart as $item) {
@@ -73,7 +66,6 @@ class LoginController extends Controller
                 }
                 Session::put('cartLength', $cart->count());
                 Session::put('total', $total);
-                // dd($total);
             }
             else{
                 $cart = DB::table('Cart')
@@ -87,11 +79,23 @@ class LoginController extends Controller
                 }
                 Session::put('cartLength', $cart->count());
                 Session::put('total', $total);
-                // dd($total);
             }
             return redirect('/')->with('success', "Account successfully login.");
         } else {
             return response()->json(['error' => false, 'queries' => $credentials]);
+        }
+    }
+
+    public function checkLogin(Request $request){
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $check = DB::table('User')
+        ->where('email', $email)
+        ->where('password', $password)
+        ->count();
+
+        if($check != 1){
+            return response()->json(['error' => false]);
         }
     }
 
