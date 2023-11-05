@@ -44,8 +44,22 @@
                                 
                             </div>
                             <div class="header__top__right__cart">
-                                <a href="#"><img src="{{asset('template/img/icon/cart.png')}}" alt=""> <span>0</span></a>
-                                <div class="cart__price">Cart: <span>$0.00</span></div>
+                                @auth
+                                <a href="{{route('cart.show')}}"><img src="{{asset('template/img/icon/cart.png')}}" alt=""> <span id="quantityOfProduct">{{ session('cartLength') }}</span></a>
+                                <div class="cart__price">Cart: <span id="totalCartPrice">{{ session('total') }}</span></div>
+                                @endauth
+
+                                @guest
+                                    <a href="{{route('cart.show')}}"><img src="{{asset('template/img/icon/cart.png')}}" alt=""> <span id="quantityOfProduct"></span></a>
+                                    <div class="cart__price">Cart: <span id="totalCartPrice"></span></div>
+                                    <script>
+                                        var cart = JSON.parse(localStorage.getItem('guestCart'));
+                                        var cartLength = cart.listProducts.length;
+                                        var total = JSON.parse(localStorage.getItem('total'));
+                                        document.getElementById('quantityOfProduct').innerHTML = cartLength;
+                                        document.getElementById('totalCartPrice').innerHTML = total;
+                                    </script>
+                                @endguest
                             </div>
                         </div>
                     </div>

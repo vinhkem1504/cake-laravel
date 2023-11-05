@@ -20,7 +20,6 @@
         </div>
     </div>
 @endsection
-
 @section('content')
     <!-- Shop Details Section Begin -->
     <section class="product-details spad">
@@ -43,6 +42,7 @@
                 <div class="col-lg-6">
                     <div class="product__details__text">
                         <div class="product__label" id="{{ $product[0]->product_id}}">{{ $product[0]->category_name }}</div>
+                        <input type="hidden" name="product_id" value="{{ $product[0]->product_id }}">
                         <h4>{{ $product[0]->productname }}</h4>
                         <h5>${{ $product[0]->price_default }}</h5>
                         <p>{{ $product[0]->info }}</p>
@@ -52,12 +52,30 @@
                         <div class="product__details__option">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="2">
+                                    <input type="text" name="quantity" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="primary-btn" disabled>Add to cart</a>
+                            <a id="cart" onclick="handleAddToCart()" class="primary-btn" disabled >Add to cart</a>
+                            <button id="openAlertNotication" hidden class="btn btn-primary" data-toggle="modal" data-target="#alertDialog">Mở Hộp Thoại Cảnh Báo</button>
                             <a href="#" class="heart__btn"><span class="icon_heart_alt"></span></a>
-                           
+                            <!-- Alert add cart -->
+                            <div class="modal fade" id="alertDialog" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="height: 70px; padding: 10px 30px; align-items: center !important">
+                                            <h4 class="modal-title" id="modalTitle">Thông báo</h4>
+                                            <button type="button" class="close" data-dismiss="modal" id="closeButton">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Sản phẩm <i><b>{{ $product[0]->productname }}</b></i> đã được thêm vào giỏ hàng</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-success" data-dismiss="modal" id="closeDialogButton">Tiếp tục mua</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Alert add cart -->
                         </div>
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
@@ -75,7 +93,7 @@
                                             <div class="checkout__input__checkbox">
                                                 <label for="{{ $item->value }}">
                                                     {{ $item->value }}
-                                                    <input type="radio" name="optional_size" id="{{ $item->value }}" value="{{ $item->value }}">
+                                                    <input type="radio" name="optional_size" id="{{ $item->value }}" value="{{ $item->size_id }}">
                                                     <span class="checkmark"></span>
                                                 </label>
                                             </div>
@@ -88,7 +106,7 @@
                                             <div class="checkout__input__checkbox">
                                                 <label for="{{ $item->value }}">
                                                     {{ $item->value }}
-                                                    <input type="radio" name="optional_flavour" id="{{ $item->value }}" value="{{ $item->value }}">
+                                                    <input type="radio" name="optional_flavour" id="{{ $item->value }}" value="{{ $item->flavour_id }}">
                                                     <span class="checkmark"></span>
                                                 </label>
                                             </div>
@@ -131,7 +149,7 @@
                                     <h6><a href="#">{{ $item->productname }}</a></h6>
                                     <div class="product__item__price">${{ $item->price_default }}</div>
                                     <div class="cart_add">
-                                        <a href="#">Add to cart</a>
+                                        <a onclick="handleAddToCart()">Add to cart</a>
                                     </div>
                                 </div>
                             </div>
@@ -143,3 +161,4 @@
     </section>
     <!-- Related Products Section End -->
 @endsection
+

@@ -31,15 +31,15 @@ class ProductController extends Controller
             ->join('Size', 'Size.size_id', '=', 'Products_details.size_id')
             ->join('Flavour', 'Flavour.flavour_id', '=', 'Products_details.flavour_id')
             ->where('Products_details.product_id', '=', $value)
-            ->select('Size.value')
-            ->groupBy('Size.value')
+            ->select(['Size.value', 'Size.size_id'])
+            ->groupBy(['Size.value', 'Size.size_id'])
             ->get();
         $flavour = DB::table('Products_details')
             ->join('Size', 'Size.size_id', '=', 'Products_details.size_id')
             ->join('Flavour', 'Flavour.flavour_id', '=', 'Products_details.flavour_id')
             ->where('Products_details.product_id', '=', $value)
-            ->select('Flavour.value')
-            ->groupBy('Flavour.value')
+            ->select(['Flavour.value', 'Flavour.flavour_id'])
+            ->groupBy(['Flavour.value', 'Flavour.flavour_id'])
             ->get();
         return view(
             'client-views.productDetails',
