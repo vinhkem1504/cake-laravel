@@ -121,9 +121,38 @@
                     </div>
                 </div>
             </div>
+            <div class="product__details__tab">
+                <div class="col-lg-12">
+                    <ul class="nav cmt">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">Rate(1)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-3" role="tabpanel">
+                            <div class="row d-flex">
+                                <div class="col-lg-12">
+                                    <p>This delectable Strawberry Pie is an extraordinary treat filled with sweet and
+                                        tasty chunks of delicious strawberries. Made with the freshest ingredients, one
+                                        bite will send you to summertime. Each gift arrives in an elegant gift box and
+                                    arrives with a greeting card of your choice that you can personalize online!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cmt__newslatter">
+                        <form action="#">
+                            <textarea  rows="5" id='cmt' type="text" placeholder="Typing here"></textarea>
+                            {{-- <button type="submit"><i class="fa fa-send-o"></i></button> --}}
+                        </form>
+                </div>
+                </div>
+                
+            </div>
         </div>
     </section>
     <!-- Shop Details Section End -->
+
 
     <!-- Related Products Section Begin -->
     <section class="related-products spad">
