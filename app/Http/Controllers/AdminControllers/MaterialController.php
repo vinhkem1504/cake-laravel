@@ -31,10 +31,10 @@ class MaterialController extends Controller
     public function edit($id) 
     {
         $material = Material::find($id);
-        if ($material) {
-            return view('admin-views.material.add_or_edit', compact('material'));
+        if (!$material) {
+            return abort(404);
         }
-        return abort(404);
+        return view('admin-views.material.add_or_edit', compact('material'));
     }
     public function insert(Request $request)
     {
@@ -67,13 +67,13 @@ class MaterialController extends Controller
             ],
         ]);
         $material = Material::find($id);
-        if ($material) {
-            $material->material_name = $request->input('material_name');
-            $material->unit = $request->input('unit');
-            $material->save();
-            return redirect('/admin/material/index')->with('success', 'Material updated successfully');
+        if (!$material) {
+            return abort(404);          
         }
-        return abort(404);
+        $material->material_name = $request->input('material_name');
+        $material->unit = $request->input('unit');
+        $material->save();
+        return redirect('/admin/material/index')->with('success', 'Material updated successfully');
     }
 
     public function delete($id)
@@ -81,11 +81,11 @@ class MaterialController extends Controller
         //dd($id);
         try {
             $material = Material::find($id);
-            if ($material) {
-                $material->delete();
-                return redirect('/admin/material/index')->with('success', 'Material deleted successfully');
+            if (!$material) {  
+                return abort(404);
             }
-            return abort(404);
+            $material->delete();
+            return redirect('/admin/material/index')->with('success', 'Material deleted successfully');
         } catch (\Exception $e) {
             return redirect('/admin/material/index')->with('errors', 'Material deleted unsuccessfully');
         }

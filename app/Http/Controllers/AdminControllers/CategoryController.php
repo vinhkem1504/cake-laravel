@@ -25,10 +25,11 @@ class CategoryController extends Controller
     public function edit($id) 
     {
         $category = Category::find($id);
-        if ($category) {
-            return view('admin-views.category.add_or_edit', compact('category'));
+        if (!$category) {
+            return abort(404);
         }
-        return abort(404);
+        return view('admin-views.category.add_or_edit', compact('category'));
+
     }
     public function insert(Request $request)
     {
@@ -56,23 +57,23 @@ class CategoryController extends Controller
             ],
         ]);
         $category = Category::find($id);
-        if ($category) {
-            $category->category_name = $request->input('category_name');
-            $category->save();
-            return redirect('/admin/category/index')->with('success', 'Category updated successfully');
+        if (!$category) {
+            return abort(404);
         }
-        return abort(404);
+        $category->category_name = $request->input('category_name');
+        $category->save();
+        return redirect('/admin/category/index')->with('success', 'Category updated successfully');
     }
 
     public function delete($id)
     {
         try {
             $category = Category::find($id);
-            if ($category) {
-                $category->delete();
-                return redirect('/admin/category/index')->with('success', 'Category deleted successfully');
+            if (!$category) {
+                return abort(404);
             }
-            return abort(404);
+            $category->delete();
+            return redirect('/admin/category/index')->with('success', 'Category deleted successfully');                
         } catch (\Exception $e) {
             return redirect('/admin/category/index')->with('errors', 'Category deleted unsuccessfully');
         }

@@ -25,10 +25,10 @@ class FlavourController extends Controller
     public function edit($id) 
     {
         $flavour = Flavour::find($id);
-        if ($flavour) {
-            return view('admin-views.flavour.add_or_edit', compact('flavour'));
+        if (!$flavour) {
+            return abort(404);
         }
-        return abort(404);
+        return view('admin-views.flavour.add_or_edit', compact('flavour'));
     }
     public function insert(Request $request)
     {
@@ -55,23 +55,23 @@ class FlavourController extends Controller
             ],
         ]);
         $flavour = Flavour::find($id);
-        if ($flavour) {
-            $flavour->value = $request->input('value');
-            $flavour->save();
-            return redirect('/admin/flavour/index')->with('success', 'Flavour updated successfully');
+        if (!$flavour) {
+            return abort(404);
         }
-        return abort(404);
+        $flavour->value = $request->input('value');
+        $flavour->save();
+        return redirect('/admin/flavour/index')->with('success', 'Flavour updated successfully');
     }
 
     public function delete($id)
     {
         try {
             $flavour = Flavour::find($id);
-            if ($flavour) {
-                $flavour->delete();
-                return redirect('/admin/flavour/index')->with('success', 'Flavour deleted successfully');
+            if (!$flavour) {
+                return abort(404);
             }
-            return abort(404);
+            $flavour->delete();
+            return redirect('/admin/flavour/index')->with('success', 'Flavour deleted successfully');
         } catch (\Exception $e) {
             return redirect('/admin/flavour/index')->with('errors', 'Flavour deleted unsuccessfully');
         }

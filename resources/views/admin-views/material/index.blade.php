@@ -9,7 +9,7 @@
                         <h1 class="m-0">Material List</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6" style="text-align: right;">
-                        <a href="/admin/material/add_or_edit" class="btn btn-primary">Add New Material</a>
+                        <a href="/admin/material/add" class="btn btn-primary">Add New Material</a>
                     </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -90,10 +90,10 @@
                                                 <td>{{ $value->material_name }}</td>
                                                 <td>{{ $value->quantity }}</td>
                                                 <td>{{ $value->unit }}</td>
-                                                <td>{{ $value->created_at }}</td>
-                                                <td>{{ $value->updated_at }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->updated_at)) }}</td>
                                                 <td>
-                                                    <a href="/admin/material/add_or_edit/{{ $value->material_id }}"
+                                                    <a href="/admin/material/edit/{{ $value->material_id }}"
                                                         class="btn btn-primary">Edit</a>
                                                     <a href="/admin/material/delete/{{ $value->material_id }}"
                                                         class="btn btn-danger">Delete</a>

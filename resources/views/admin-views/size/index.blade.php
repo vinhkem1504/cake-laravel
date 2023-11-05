@@ -9,7 +9,7 @@
                         <h1 class="m-0">Size List</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6" style="text-align: right;">
-                        <a href="/admin/size/add_or_edit" class="btn btn-primary">Add New Size</a>
+                        <a href="/admin/size/add" class="btn btn-primary">Add New Size</a>
                     </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -70,10 +70,10 @@
                                             <tr>
                                                 <td>{{ $value->size_id }}</td>
                                                 <td>{{ $value->value }}</td>
-                                                <td>{{ $value->created_at }}</td>
-                                                <td>{{ $value->updated_at }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->updated_at)) }}</td>
                                                 <td>
-                                                    <a href="/admin/size/add_or_edit/{{ $value->size_id }}"
+                                                    <a href="/admin/size/edit/{{ $value->size_id }}"
                                                         class="btn btn-primary">Edit</a>
                                                     <a href="/admin/size/delete/{{ $value->size_id }}"
                                                         class="btn btn-danger">Delete</a>

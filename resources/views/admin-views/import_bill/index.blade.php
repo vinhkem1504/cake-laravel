@@ -6,10 +6,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Category List</h1>
+                        <h1 class="m-0">Import Bill List</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6" style="text-align: right;">
-                        <a href="/admin/category/add" class="btn btn-primary">Add New Category</a>
+                        <a href="/admin/import_bill/add" class="btn btn-primary">Add New Import Bill</a>
                     </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -23,23 +23,34 @@
                     <div class="col-md-12">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Category search</h3>
+                                <h3 class="card-title">Import Bill search</h3>
                             </div>
                             <form method="get">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="form-group col-md-3">
-                                            <label for="category_name">Name</label>
-                                            <input type="text" 
-                                                class="form-control" name="category_name" id="category_name"
-                                                value="{{ Request::get('category_name')}}"
-                                                placeholder="Enter Name"
+                                            <label for="date">Date</label>
+                                            <input type="date" 
+                                                class="form-control" name="date" id="date"
+                                                value="{{ Request::get('date')}}"
+                                                placeholder="Enter Date"
                                                />
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="supplier_id">Supplier</label>
+                                            <select class="form-control" name="supplier_id">
+                                                <option value="">Select Supplier</option>
+                                                @foreach($suppliers as $value)
+                                                    <option value="{{ $value->supplier_id }}" {{ (Request::get('supplier_id') == $value->supplier_id) ? 'selected' : '' }}>
+                                                        {{ $value->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <button class="btn btn-primary" style="margin-top:30px">Search</button>
                                             <a class="btn btn-success" style="margin-top:30px" 
-                                            href="/admin/category">Reset</a>
+                                            href="/admin/import_bill">Reset</a>
                                         </div>
                                     </div>
                                 </div>
@@ -51,7 +62,7 @@
                         @include('_message')
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Category List (Total: {{ $categories->total() }})</h3>
+                                <h3 class="card-title">Import Bill List (Total: {{ $import_bills->total() }})</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body p-0">
@@ -59,23 +70,27 @@
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Name</th>
+                                            <th>Date</th>
+                                            <th>Supplier</th>
+                                            <th>Total Price</th>
                                             <th>Created At</th>
                                             <th>Updated At</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($categories as $value)
+                                        @foreach ($import_bills as $value)
                                             <tr>
-                                                <td>{{ $value->category_id }}</td>
-                                                <td>{{ $value->category_name }}</td>
+                                                <td>{{  $value->import_bill_id  }}</td>
+                                                <td>{{  date('d-m-Y', strtotime($value->date)) }}</td>
+                                                <td> {{  $value->supplier_name  }}  </td>
+                                                <td> {{  $value->total_price  }} $</td>
                                                 <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
                                                 <td>{{ date('d-m-Y h:i A', strtotime($value->updated_at)) }}</td>
                                                 <td>
-                                                    <a href="/admin/category/edit/{{ $value->category_id }}"
+                                                    <a href="/admin/import_bill/edit/{{ $value->import_bill_id }}"
                                                         class="btn btn-primary">Edit</a>
-                                                    <a href="/admin/category/delete/{{ $value->category_id }}"
+                                                    <a href="/admin/import_bill/delete/{{ $value->import_bill_id }}"
                                                         class="btn btn-danger">Delete</a>
                                                 </td>
                                             </tr>
@@ -86,7 +101,7 @@
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <div class="float-right">
-                                    {!! $categories->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                                    {!! $import_bills->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
                                 </div>
                             </div>
                         </div>

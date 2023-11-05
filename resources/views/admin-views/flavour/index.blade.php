@@ -9,7 +9,7 @@
                         <h1 class="m-0">Flavour List</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6" style="text-align: right;">
-                        <a href="/admin/flavour/add_or_edit" class="btn btn-primary">Add New Flavour</a>
+                        <a href="/admin/flavour/add" class="btn btn-primary">Add New Flavour</a>
                     </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -70,10 +70,10 @@
                                             <tr>
                                                 <td>{{ $value->flavour_id }}</td>
                                                 <td>{{ $value->value }}</td>
-                                                <td>{{ $value->created_at }}</td>
-                                                <td>{{ $value->updated_at }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->updated_at)) }}</td>
                                                 <td>
-                                                    <a href="/admin/flavour/add_or_edit/{{ $value->flavour_id }}"
+                                                    <a href="/admin/flavour/edit/{{ $value->flavour_id }}"
                                                         class="btn btn-primary">Edit</a>
                                                     <a href="/admin/flavour/delete/{{ $value->flavour_id }}"
                                                         class="btn btn-danger">Delete</a>

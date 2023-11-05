@@ -25,10 +25,10 @@ class SizeController extends Controller
     public function edit($id) 
     {
         $size = Size::find($id);
-        if ($size) {
-            return view('admin-views.size.add_or_edit', compact('size'));
+        if (!$size) {
+            return abort(404);
         }
-        return abort(404);
+        return view('admin-views.size.add_or_edit', compact('size'));
     }
     public function insert(Request $request)
     {
@@ -55,23 +55,23 @@ class SizeController extends Controller
             ],
         ]);
         $size = Size::find($id);
-        if ($size) {
-            $size->value = $request->input('value');
-            $size->save();
-            return redirect('/admin/size/index')->with('success', 'Size updated successfully');
+        if (!$size) {
+            return abort(404);
         }
-        return abort(404);
+        $size->value = $request->input('value');
+        $size->save();
+        return redirect('/admin/size/index')->with('success', 'Size updated successfully');
     }
 
     public function delete($id)
     {
         try {
             $size = Size::find($id);
-            if ($size) {
-                $size->delete();
-                return redirect('/admin/size/index')->with('success', 'Size deleted successfully');
+            if (!$size) {
+                return abort(404);
             }
-            return abort(404);
+            $size->delete();
+            return redirect('/admin/size/index')->with('success', 'Size deleted successfully');
         } catch (\Exception $e) {
             return redirect('/admin/size/index')->with('errors', 'Size deleted unsuccessfully');
         }

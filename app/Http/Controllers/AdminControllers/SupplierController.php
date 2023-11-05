@@ -31,10 +31,11 @@ class SupplierController extends Controller
     public function edit($id) 
     {
         $supplier = Suplier::find($id);
-        if ($supplier) {
-            return view('admin-views.supplier.add_or_edit', compact('supplier'));
+        if (!$supplier) {
+            return abort(404);
         }
-        return abort(404);
+        return view('admin-views.supplier.add_or_edit', compact('supplier'));
+
     }
     public function insert(Request $request)
     {
@@ -79,25 +80,26 @@ class SupplierController extends Controller
             ],
         ]);
         $supplier = Suplier::find($id);
-        if ($supplier) {
-            $supplier->name = $request->input('name');
-            $supplier->phone = $request->input('phone');
-            $supplier->address = $request->input('address');
-            $supplier->save();
-            return redirect('/admin/supplier/index')->with('success', 'Suplier updated successfully');
+        if (!$supplier) {
+            return abort(404);
         }
-        return abort(404);
+        $supplier->name = $request->input('name');
+        $supplier->phone = $request->input('phone');
+        $supplier->address = $request->input('address');
+        $supplier->save();
+        return redirect('/admin/supplier/index')->with('success', 'Suplier updated successfully');
+
     }
 
     public function delete($id)
     {
         try {
             $supplier = Suplier::find($id);
-            if ($supplier) {
-                $supplier->delete();
-                return redirect('/admin/supplier/index')->with('success', 'Suplier deleted successfully');
+            if (!$supplier) {
+                return abort(404);
             }
-            return abort(404);
+            $supplier->delete();
+            return redirect('/admin/supplier/index')->with('success', 'Suplier deleted successfully');
         } catch (\Exception $e) {
             return redirect('/admin/supplier/index')->with('errors', 'Suplier deleted unsuccessfully');
         }

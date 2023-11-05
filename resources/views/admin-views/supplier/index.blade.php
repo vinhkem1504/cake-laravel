@@ -9,7 +9,7 @@
                         <h1 class="m-0">Supplier List</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6" style="text-align: right;">
-                        <a href="/admin/supplier/add_or_edit" class="btn btn-primary">Add New Supplier</a>
+                        <a href="/admin/supplier/add" class="btn btn-primary">Add New Supplier</a>
                     </div>
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -90,10 +90,10 @@
                                                 <td>{{ $value->name }}</td>
                                                 <td>{{ $value->phone }}</td>
                                                 <td>{{ $value->address }}</td>
-                                                <td>{{ $value->created_at }}</td>
-                                                <td>{{ $value->updated_at }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
+                                                <td>{{ date('d-m-Y h:i A', strtotime($value->updated_at)) }}</td>
                                                 <td>
-                                                    <a href="/admin/supplier/add_or_edit/{{ $value->supplier_id }}"
+                                                    <a href="/admin/supplier/edit/{{ $value->supplier_id }}"
                                                         class="btn btn-primary">Edit</a>
                                                     <a href="/admin/supplier/delete/{{ $value->supplier_id }}"
                                                         class="btn btn-danger">Delete</a>
