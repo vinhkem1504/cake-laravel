@@ -163,19 +163,4 @@ class Cart extends Model
         return $product;
         
     }
-
-    //Data: quantity, price, detailsId, imageDetails, name
-    public function addOneProductFromCartGuest($userId, $detailsId){
-        //TODO
-    }
-
-    //Data: quantity, price, detailsId, imageDetails, name
-    public function deleteOneProductFromCartGuest($userId, $detailsId){
-        //TODO
-    }
-
-    //Data: quantity, price, detailsId, imageDetails, name
-    public function deleteOneTypeProductFromCartGuest($userId, $detailsId){
-       //TODO
-    }
 }

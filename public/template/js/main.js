@@ -315,7 +315,7 @@ function handlePaginateFilter(url, name) {
 
 //filter categories
 function handleFilter(name) {
-    $.post('http://localhost:8000/categories', { category_name: name }, function (response) {
+    $.post('http://127.0.0.1:8000/categories', { category_name: name }, function (response) {
         var dataContainer = $('.pagination_page').find('span');
         let a = `<span href="#">Page ${response.current_page}/${response.last_page}</span>`;
         dataContainer.html(a);
@@ -358,7 +358,7 @@ function handleFilter(name) {
 }
 
 function getDetailProduct(size, flavour, product_id) {
-    $.post('http://localhost:8000/productDetails', { size: size, flavour: flavour, product_id: product_id }, function (response) {
+    $.post('http://127.0.0.1:8000/productDetails', { size: size, flavour: flavour, product_id: product_id }, function (response) {
         if (!response.error) {
             $('.product__details__option').find('.primary-btn').css({"background": "#f08632", "pointer-events": "auto", "cursor": "pointer"});
             $("#error_message").css("display", "none");
@@ -470,7 +470,7 @@ function handleAddToCart(){
                             return item;
                           });
                         
-                          console.log('new', newCart);
+                        //   console.log('new', newCart);
                           localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                     }
                     else{
@@ -617,7 +617,7 @@ function checkExistProduct(productId){
 
 //update number and total cart in header
 function updateHeaderCart(quantity, total){
-    console.log(quantity, total);
+    // console.log(quantity, total);
     document.getElementById('quantityOfProduct').innerHTML = quantity;
     document.getElementById('totalCartPrice').innerHTML = total;
 }
@@ -630,7 +630,7 @@ function updateHeaderCart(total){
     // phan trang all products
     $(document).ready(function () {
         $.ajax({
-            url: 'http://localhost:8000/products',
+            url: 'http://127.0.0.1:8000/products',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
@@ -666,7 +666,7 @@ function updateHeaderCart(total){
     $(document).ready(function () {
         $('.categories').find('h5#all_products').on('click', function () {
             $.ajax({
-                url: 'http://localhost:8000/products',
+                url: 'http://127.0.0.1:8000/products',
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {

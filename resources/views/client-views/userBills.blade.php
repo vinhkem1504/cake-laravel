@@ -27,17 +27,63 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="checkout__title">List Bills</h6>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-danger">Da cho</span></h5>
-                            </li>
-                            <li class="list-group-item">
-                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-success">Da xac nhan</span></h5>
-                            </li>
-                            <li class="list-group-item" >
-                                <h5 style="display: flex; justify-content: space-between; align-items: flex-end">Bill 1<span class="badge badge-pill badge-success">Da xac nhan</span></h5>
-                            </li>
-                        </ul>
+                        <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th scope="col" style="width: 10%">ID</th>
+                                <th scope="col" style="width: 50%">ADDRESS</th>
+                                <th scope="col" style="width: 20%">DATE</th>
+                                <th scope="col" style="width: 20%">STATUS</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">3</th>
+                                <td>Larry the BirdLarry the BirdLarry the BirdLarry the Bird</td>
+                                <td>@twitter</td>
+                                <td>@mdo</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h6 class="order__title">Your order</h6>
+                            <div class="checkout__order__products">Product <span>Total</span></div>
+                            <ul class="checkout__total__products" style="overflow: auto; height: 350px;">
+                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
+                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
+                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
+                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
+                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
+                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
+                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
+                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
+                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
+                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
+                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
+                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
+                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
+                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
+                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
+                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
+                            </ul>
+                            <ul class="checkout__total__all">
+                                <li>Total <span>$750.99</span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </form>
