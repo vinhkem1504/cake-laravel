@@ -45,7 +45,7 @@
                             <input type="password" name="password" id="password" onkeyup="processChangePassword()" oninput="checkLogin(isRegister)">
                             <p id="result_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                         </div>
-                    
+                        <input type="hidden" name="cart" id="cartInfo-guest">
                     </div>
                 </div>
                 <button type="submit" class="site-btn btn_register" id="btn_register" disabled="true">SIGN IN</button>
@@ -54,3 +54,12 @@
     </div>
 </section>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Lấy dữ liệu từ localStorage
+    var cartStore = JSON.parse(localStorage.getItem('guestCart'));
+    var products = JSON.stringify(cartStore.listProducts);
+    // Đặt giá trị trường ẩn
+    document.getElementById('cartInfo-guest').value = products;
+});
+</script>

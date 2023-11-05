@@ -6,7 +6,6 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
-
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 /*
@@ -32,6 +31,12 @@ Route::post('/productDetails', [ProductController::class, 'getProductDetails'])-
 
 Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
 
+Route::post('/cart/add', [CartController::class, 'addProductToCart']);
+Route::post('/cart/addOneProduct', [CartController::class, 'addOneProductFromCart']);
+Route::delete('/cart/deleteOneProduct', [CartController::class, 'deleteOneProductFromCart']);
+Route::delete('/cart/deleteOneTypeProduct', [CartController::class, 'deleteOneTypeProductFromCart']);
+
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::group(['middleware' => ['guest']], function () {
     /**
      * Register Routes
@@ -44,6 +49,7 @@ Route::group(['middleware' => ['guest']], function () {
      */
     Route::get('/login', [LoginController::class, 'show'])->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    
 });
 
 

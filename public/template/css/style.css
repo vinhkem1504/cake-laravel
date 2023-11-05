@@ -27,6 +27,15 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+#modalTitle{
+  font-size: 20px;
+  margin: 0;
+}
+
+.check-out-product-image{
+    height: 90px;
+    width: 90px;
+}
 .user-image{
   width: 128px;
   height: 128px;
