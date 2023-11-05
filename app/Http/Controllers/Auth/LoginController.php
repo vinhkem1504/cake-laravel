@@ -65,7 +65,7 @@ class LoginController extends Controller
                 $cart = DB::table('Cart')
                 ->join('Products_details', 'Products_details.product_details_id', '=', 'Cart.product_details_id')
                 ->where('user_id', '=', $userId)
-                ->select(['Products_details.price', 'Cart.quality'])
+                ->select(['Products_details.price', 'Cart.quanlity'])
                 ->get();
                 $total = 0;
                 foreach ($cart as $item) {

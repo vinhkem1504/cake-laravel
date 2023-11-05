@@ -55,7 +55,7 @@
                                     <input type="text" name="quantity" value="1">
                                 </div>
                             </div>
-                            <a id="cart" onclick="handleAddToCart()" class="primary-btn" disabled >Add to cart</a>
+                            <a id="cart" onclick="handleAddToCart()" class="primary-btn btn_register" disabled >Add to cart</a>
                             <button id="openAlertNotication" hidden class="btn btn-primary" data-toggle="modal" data-target="#alertDialog">Mở Hộp Thoại Cảnh Báo</button>
                             <a href="#" class="heart__btn"><span class="icon_heart_alt"></span></a>
                             <!-- Alert add cart -->

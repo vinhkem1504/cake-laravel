@@ -11,6 +11,7 @@
 
 /*Handle addcart */
 
+var port = 'http://127.0.0.1';
 
 function debounce(func, timeout = 300) {
     let timer;
@@ -173,8 +174,8 @@ function checkLogin(isLogIn) {
     }
 
 }
-function checkBill(isEmpty) {
-    isEmpty = true;
+function checkBill(isRegister) {
+    isRegister = true;
     var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isRegister);
 
@@ -182,6 +183,7 @@ function checkBill(isEmpty) {
     // var valLastName = validateLastName(isRegister);
 
     var email = document.getElementById('email').value;
+    console.log('email', email)
     var valEmail = validateEmail(isRegister);
 
     var address = document.getElementById('address').value;
@@ -190,9 +192,10 @@ function checkBill(isEmpty) {
     var phone = document.getElementById('phone').value;
     var valPhone = validatePhone(isRegister);
     if (firstName == '' || address == '' || email == '' || phone == '') {
-        isEmpty = false;
+        isRegister = false;
+        console.log('if 1')
     }
-    if (isEmpty && valFirstName && valEmail && valPhone && valAddress) {
+    if (isRegister && valEmail && valPhone && valAddress) {
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
@@ -315,7 +318,7 @@ function handlePaginateFilter(url, name) {
 
 //filter categories
 function handleFilter(name) {
-    $.post('http://127.0.0.1:8000/categories', { category_name: name }, function (response) {
+    $.post(`${port}:8000/categories`, { category_name: name }, function (response) {
         var dataContainer = $('.pagination_page').find('span');
         let a = `<span href="#">Page ${response.current_page}/${response.last_page}</span>`;
         dataContainer.html(a);
@@ -358,33 +361,54 @@ function handleFilter(name) {
 }
 
 function getDetailProduct(size, flavour, product_id) {
-    $.post('http://127.0.0.1:8000/productDetails', { size: size, flavour: flavour, product_id: product_id }, function (response) {
-        if (!response.error) {
-            $('.product__details__option').find('.primary-btn').css({"background": "#f08632", "pointer-events": "auto", "cursor": "pointer"});
+    $.post(`${port}:8000/productDetails`, { size: size, flavour: flavour, product_id: product_id }, function (response) {
+        if (response.error == false) {
+            $('.product__details__option').find('.primary-btn').css({ "background": "#f08632", "pointer-events": "auto", "cursor": "pointer" });
             $("#error_message").css("display", "none");
             var img = `<img class="big_img" src="${response.data[0].image}" alt="">`;
             var price = `<h5>$${response.data[0].price}</h5>`;
             $('.product__details__big__img').html(img);
-            $('.product__details__text').find('h5').html(price).css({'border-bottom':'none', 'padding-bottom': '0px'});
+            $('.product__details__text').find('h5').html(price).css({ 'border-bottom': 'none', 'padding-bottom': '0px' });
         } else {
-            $('.product__details__option').find('.primary-btn').css({"background": "#999", "pointer-events": "none", "cursor": "default"});
+            $('.product__details__option').find('.primary-btn').css({ "background": "#999", "pointer-events": "none", "cursor": "default" });
             $("#error_message").css("display", "block");
-            $('#error_message').find('p').html(`<p style="color: red">Product does not exist</p>`);
+            $('#error_message').find('p').html(`<p style="color: red">Product sold out!</p>`);
         }
 
     }, 'json');
 }
 
+function handleRegister(name, email, password) {
+    $.post(`${port}:8000/register`, { name: name, email: email, password: password }, function (response) {
+        if (response.success === false) {
+            $('.checkout__input').find('#result_email').css('display', 'block');
+            $('.checkout__input').find('#result_email').text(`${response.error}`);
+        } else {
+            $('.status_register').css('display', 'block');
+            $('.status_register').text(`${response.error}`);
+            setTimeout(function () {
+                $('.status_register').hide();
+            }, 5000);
+            $('#email').val("");
+            $('#name').val("");
+            $('#password').val("");
+            $('#confirm_password').val("");
+            $('#btn_register').prop('disabled', 'true');
+            $('#btn_register').addClass("btn_register");
+        }
+    }, 'json');
+}
+
 //show cart guest
-function showCartFromLocal(){
+function showCartFromLocal() {
     var cart = JSON.parse(localStorage.getItem('guestCart'));
     var quantity = cart.length;
-    if(cart.listProducts){
+    if (cart.listProducts) {
         var str = '';
         var total = 0;
-        cart.listProducts.forEach(function(item){
-            str += 
-            `
+        cart.listProducts.forEach(function (item) {
+            str +=
+                `
             <tr>
                 <td class="product__cart__item">
                     <div class="product__cart__item__pic">
@@ -412,13 +436,13 @@ function showCartFromLocal(){
         })
         document.getElementById('displayTable').innerHTML = str;
         document.getElementById('total-cart-price').innerHTML = total;
-        
+
         updateHeaderCart(quantity, total);
     }
 }
 
 //add cart guest
-function handleAddToCart(){
+function handleAddToCart() {
     var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy token CSRF
     var checkBoxsSize = document.querySelectorAll('input[name="optional_size"]');
     var checkBoxsFlavour = document.querySelectorAll('input[name="optional_flavour"]');
@@ -426,23 +450,22 @@ function handleAddToCart(){
     var size_id;
     var flavour_id;
     var quantity = document.querySelector('input[name="quantity"]').value;
-    
+
     checkBoxsSize.forEach(element => {
-        if(element.checked == true){
+        if (element.checked == true) {
             size_id = element.value;
         }
     });
     checkBoxsFlavour.forEach(element => {
-        if(element.checked == true){
+        if (element.checked == true) {
             flavour_id = element.value;
         }
     });
-    // console.log(size_id, flavour_id, product_id, quantity)
-    
+
     $.ajax({
         type: 'POST',
         dataType: 'json',
-        url: 'http://127.0.0.1:8000/cart/add',
+        url: `${port}:8000/cart/add`,
         data: {
             productId: product_id,
             sizeId: size_id,
@@ -450,8 +473,8 @@ function handleAddToCart(){
             quantity: quantity,
             _token: csrfToken
         },
-        success: function(response){
-            if(response.guest){
+        success: function (response) {
+            if (response.guest) {
                 var product = {
                     product_details_id: response.product_details_id,
                     productname: response.productname,
@@ -461,11 +484,11 @@ function handleAddToCart(){
                 }
                 var cart = JSON.parse(localStorage.getItem('guestCart'));
 
-                if(cart){
-                    if(checkExistProduct(product.product_details_id)){
+                if (cart) {
+                    if (checkExistProduct(product.product_details_id)) {
                         var newCart = cart.listProducts.map(function (item) {
                             if (item.product_details_id === product.product_details_id) {
-                              item.quanlity = +item.quanlity + +product.quanlity;
+                                item.quanlity = +item.quanlity + +product.quanlity;
                             }
                             return item;
                           });
@@ -473,12 +496,12 @@ function handleAddToCart(){
                         //   console.log('new', newCart);
                           localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                     }
-                    else{
-                        var newCart = {...cart, listProducts: [...cart.listProducts, product]}
+                    else {
+                        var newCart = { ...cart, listProducts: [...cart.listProducts, product] }
                         localStorage.setItem('guestCart', JSON.stringify(newCart));
                     }
                 }
-                else{
+                else {
                     var newCart = {
                         listProducts: [product]
                     }
@@ -486,7 +509,7 @@ function handleAddToCart(){
                 }
             }
         },
-        error: function(err){
+        error: function (err) {
             console.log(err)
         }
     })
@@ -502,29 +525,29 @@ function handleAddToCart(){
 }
 
 //deleteONeTypeProduct
-function handleDeleteOneTypeProduct(detailsId){
+function handleDeleteOneTypeProduct(detailsId) {
     var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy token CSRF
     $.ajax({
         type: 'DELETE',
         dataType: 'json',
-        url: 'http://127.0.0.1:8000/cart/deleteOneTypeProduct',
+        url: `${port}:8000/cart/deleteOneTypeProduct`,
         // headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data: {
             detailsId: detailsId,
             _token: csrfToken
         },
-        success: function(response){
+        success: function (response) {
             var str = ''
             var total = 0
-            if(response === 'guest'){
+            if (response === 'guest') {
                 var cart = JSON.parse(localStorage.getItem('guestCart'));
                 var newCart = cart.listProducts.filter(function (item) {
                     return item.product_details_id !== detailsId;
                 });
                 var quantity = newCart.length;
-                newCart.forEach((item)=>{
-                    str += 
-                    `
+                newCart.forEach((item) => {
+                    str +=
+                        `
                     <tr>
                         <td class="product__cart__item">
                             <div class="product__cart__item__pic">
@@ -555,11 +578,11 @@ function handleDeleteOneTypeProduct(detailsId){
                 localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                 updateHeaderCart(quantity, total);
             }
-            else{
+            else {
                 var quantity = response.length;
-                response.forEach((item)=>{
-                    str += 
-                    `
+                response.forEach((item) => {
+                    str +=
+                        `
                     <tr>
                         <td class="product__cart__item">
                             <div class="product__cart__item__pic">
@@ -588,27 +611,27 @@ function handleDeleteOneTypeProduct(detailsId){
                     total += +item.quanlity * +item.price;
                 })
             }
-            
+
             document.getElementById('displayTable').innerHTML = str;
             document.getElementById('total-cart-price').innerHTML = total;
-            
+
             updateHeaderCart(quantity, total);
         },
-        error: function(err){
+        error: function (err) {
             console.log(err)
         }
     })
 }
 
-function checkExistProduct(productId){
+function checkExistProduct(productId) {
     var cart = JSON.parse(localStorage.getItem('guestCart'));
     var isProductExist = false; // Biến theo dõi trạng thái sự tồn tại của sản phẩm
 
     if (cart.listProducts) {
         $(cart.listProducts).each(function (index, product) {
-        if (product.product_details_id === productId) {
-            isProductExist = true;
-            return false; // Dừng vòng lặp ngay sau khi tìm thấy sản phẩm
+            if (product.product_details_id === productId) {
+                isProductExist = true;
+                return false; // Dừng vòng lặp ngay sau khi tìm thấy sản phẩm
             }
         });
     }
@@ -622,15 +645,37 @@ function updateHeaderCart(quantity, total){
     document.getElementById('totalCartPrice').innerHTML = total;
 }
 
-function updateHeaderCart(total){
+function updateHeaderCart(total) {
     document.getElementById('totalCartPrice').innerHTML = total;
 }
+
+function handleRegister(name, email, password) {
+    $.post(`${port}:8000/register`, { name: name, email: email, password: password }, function (response) {
+        if (response.success === false) {
+            $('.checkout__input').find('#result_email').css('display', 'block');
+            $('.checkout__input').find('#result_email').text(`${response.error}`);
+        } else {
+            $('.status_register').css('display', 'block');
+            $('.status_register').text(`${response.error}`);
+            setTimeout(function () {
+                $('.status_register').hide();
+            }, 1000);
+            $('#email').val("");
+            $('#name').val("");
+            $('#password').val("");
+            $('#confirm_password').val("");
+            $('#btn_register').prop('disabled', 'true');
+            $('#btn_register').addClass("btn_register");
+        }
+    }, 'json');
+}
+
 (function ($) {
 
     // phan trang all products
     $(document).ready(function () {
         $.ajax({
-            url: 'http://127.0.0.1:8000/products',
+            url: `${port}:8000/products`,
             type: 'POST',
             dataType: 'json',
             success: function (response) {
@@ -666,7 +711,7 @@ function updateHeaderCart(total){
     $(document).ready(function () {
         $('.categories').find('h5#all_products').on('click', function () {
             $.ajax({
-                url: 'http://127.0.0.1:8000/products',
+                url: `${port}:8000/products`,
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {
@@ -723,6 +768,20 @@ function updateHeaderCart(total){
         if (count === 2) {
             getDetailProduct(size, flavour, product_id);
         }
+        if (size && flavour) {
+            $('#cart').removeAttr("disabled");
+            $('#cart').removeClass('btn_register');
+        }
+    })
+
+
+    $(document).ready(function () {
+        $('#btn_register').click(function () {
+            var email = $('#email').val();
+            var name = $('#name').val();
+            var password = $('#password').val();
+            handleRegister(name, email, password);
+        });
     })
 
     /*------------------
@@ -917,30 +976,30 @@ function updateHeaderCart(total){
         }
     });
 
-    function handleDec(id, csrfToken){
-        
+    function handleDec(id, csrfToken) {
+
         $.ajax({
             type: 'DELETE',
             dataType: 'json',
-            url: 'http://127.0.0.1:8000/cart/deleteOneProduct',
+            url: `${port}:8000/cart/deleteOneProduct`,
             // headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             data: {
                 detailsId: id,
                 _token: csrfToken
             },
-            success: function(response){
-                if(response === 'guest'){
+            success: function (response) {
+                if (response === 'guest') {
                     var cart = JSON.parse(localStorage.getItem('guestCart'));
-                    
+
                     var newCart = cart.listProducts.map(function (item) {
                         // console.log('itemId',item.product_details_id)
                         if (item.product_details_id === +id) {
-                          item.quanlity = +item.quanlity - 1;
-                        //   console.log(item.quanlity)
+                            item.quanlity = +item.quanlity - 1;
+                            //   console.log(item.quanlity)
                         }
                         return item;
-                      });
-                    
+                    });
+
                     // console.log('new', newCart);
                     localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                 }
@@ -951,34 +1010,34 @@ function updateHeaderCart(total){
                 document.getElementById(`total-cart-price`).innerHTML = (+totalCart - +price);
                 updateHeaderCart(+totalCart - +price);
             },
-            error: function(err){
+            error: function (err) {
                 console.log(err)
             }
         })
     }
-    function handleInc(id, csrfToken){
+    function handleInc(id, csrfToken) {
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: 'http://127.0.0.1:8000/cart/addOneProduct',
+            url: `${port}:8000/cart/addOneProduct`,
             // headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             data: {
                 detailsId: id,
                 _token: csrfToken
             },
-            success: function(response){
-                if(response === 'guest'){
+            success: function (response) {
+                if (response === 'guest') {
                     var cart = JSON.parse(localStorage.getItem('guestCart'));
-                    
+
                     var newCart = cart.listProducts.map(function (item) {
                         // console.log('itemId',item.product_details_id)
                         if (item.product_details_id === +id) {
-                          item.quanlity = +item.quanlity + 1;
-                        //   console.log(item.quanlity)
+                            item.quanlity = +item.quanlity + 1;
+                            //   console.log(item.quanlity)
                         }
                         return item;
-                      });
-                    
+                    });
+
                     // console.log('new', newCart);
                     localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                 }
@@ -989,7 +1048,7 @@ function updateHeaderCart(total){
                 document.getElementById(`total-cart-price`).innerHTML = (+totalCart + +price);
                 updateHeaderCart(+totalCart + +price);
             },
-            error: function(err){
+            error: function (err) {
                 console.log(err)
             }
         })

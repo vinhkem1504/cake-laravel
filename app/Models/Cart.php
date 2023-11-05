@@ -6,12 +6,30 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class Cart extends Model
 {
     use HasFactory;
     protected $table = "Cart";
     
+    //Checkout cart
+    //Get products from cart
+    public function getProductsFromCart(){
+        $userId = Auth::user()->user_id;
+        $products = DB::table('Cart')
+        ->join('Products_details', 'Products_details.product_details_id', '=', 'Cart.product_details_id')
+        ->join('Products', 'Products.product_id', '=', 'Products_details.product_id')
+        ->join('Size', 'Size.size_id', '=', 'Products_details.size_id')
+        ->join('Flavour', 'Flavour.flavour_id', '=', 'Products_details.flavour_id')
+        ->where('user_id', '=', $userId)
+        ->select(['Products_details.product_details_id', 'Cart.quanlity', 'Products_details.price', 'Size.value AS sizeValue', 'Flavour.value AS flavourValue', 'Products.productname'])
+        ->groupBy(['Products_details.product_details_id', 'Cart.quanlity', 'Products_details.price', 'Size.value', 'Flavour.value', 'Products.productname'])
+        ->get();
+
+        return $products;
+    }
+
     //Login case
     public function getCartUser($userId){
         $cart = DB::table('Cart')
