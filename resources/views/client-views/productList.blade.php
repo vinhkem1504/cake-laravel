@@ -136,7 +136,6 @@
 </section>
 <!-- Add cart handle -->
 <script>
-    v
     function handleAddToCart(productId){
         var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy token CSRF
         $.ajax({

@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class RegisterController extends Controller
 {
@@ -22,7 +25,7 @@ class RegisterController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    
+
     public function register(RegisterRequest $request)
     {
         $request->validate([
@@ -35,18 +38,23 @@ class RegisterController extends Controller
         $data['password'] = Hash::make($request->password);
         $data['email'] = $request->email;
 
-        $user = User::create($data);
-        if ($user) {
-            //Đoạn mã này đăng nhập người dùng mới đăng ký bằng cách sử dụng auth(), 
-            //một đối tượng Laravel được sử dụng cho xác thực người dùng. 
-            // Phương thức login() được gọi với đối tượng $user, điều này sẽ xác thực người dùng và tạo một phiên đăng nhập cho họ.
-            auth()->login($user);
+        $checkUser = DB::table('User')
+            ->where('email', $request->email)
+            ->get()
+            ->count();
 
-            // register susscess => vao Home page luon 
-            return redirect('/')->with('success', "Account successfully registered.");
+        if ($checkUser == 1) {
+            return response()->json(['success' => false, 'error' => 'This email is already in use.']); 
         } else {
-            return response()->json(['success' => false, 'error' => 'Registration failed']);
+            $user = User::create($data);
+            if ($user) {
+                auth()->login($user);
+                Session::flush();
+                Auth::logout();
+                return response()->json(['success'=> true,'error'=> 'Successful account registration']);
+            } else {
+                return response()->json(['success' => false, 'error' => 'Registration failed']);
+            }
         }
     }
-
 }
