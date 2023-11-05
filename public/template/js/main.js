@@ -225,9 +225,9 @@ function checkBill(isEmpty) {
 
 function checkUser(isUser) {
     isUser = true;
-    var firstName = document.getElementById('username').value;
+    var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isUser);
-
+    
     var email = document.getElementById('email').value;
     var valEmail = validateEmail(isUser);
     if (firstName == '' || email == '') {
