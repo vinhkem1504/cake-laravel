@@ -19,11 +19,12 @@
                                     </ul>
                                 </li>
                                 @auth
-                                <li><a href="{{route('logout.perform')}}">Log out</a> <span class="arrow_carrot-down"></span></li>
+                                <li><a href="{{route('logout.perform')}}">Sign out</a> <span class="arrow_carrot-down"></span></li>
                                 @endauth
 
                                 @guest
-                                <li><a href="{{route('login.show')}}">Log in</a> <span class="arrow_carrot-down"></span></li>
+                                <li><a href="{{route('login.show')}}">Sign In</a> <span class="arrow_carrot-down"></span></li>
+                                <li><a href="{{route('register.show')}}">Register</a> <span class="arrow_carrot-down"></span></li>
                                 @endguest
                             </ul>
                         </div>

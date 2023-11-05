@@ -69,8 +69,8 @@ class ProductController extends Controller
             ->join('Size', 'Size.size_id', '=', 'Products_details.size_id')
             ->join('Flavour', 'Flavour.flavour_id', '=', 'Products_details.flavour_id')
             ->where('Products_details.product_id', '=', $product_id)
-            ->where('Size.value', '=', $size)
-            ->where('Flavour.value', '=', $flavour)
+            ->where('Size.size_id', '=', $size)
+            ->where('Flavour.flavour_id', '=', $flavour)
             ->select('Products_details.price', 'Products_details.image')
             ->get();
 

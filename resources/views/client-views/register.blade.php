@@ -28,7 +28,7 @@
                 @csrf
                 <div class="row">
                     <div class="col-lg-12 col-md-6">
-                        <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have an account? <a href="{{route('login.show')}}">Click
+                        <h6 class="status_register" style="display: none"><span class="icon_tag_alt"></span> Have an account? <a href="{{route('login.show')}}">Click
                                 <b>here</b></a> to sgin in your account</h6>
                         <h6 class="checkout__title">Information</h6>
                         <div class="row">
@@ -62,7 +62,6 @@
                     </div>
                 </div>
                 <button type="button" class="site-btn btn_register" id="btn_register" disabled="true">REGISTER</button>
-                <h6 class="status_register" style="display: none; margin-top: 30px"></h6>
             </form>
         </div>
     </div>
