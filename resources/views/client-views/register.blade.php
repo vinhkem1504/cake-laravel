@@ -61,7 +61,8 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="site-btn btn_register" id="btn_register" disabled="true">REGISTER</button>
+                <button type="button" class="site-btn btn_register" id="btn_register" disabled="true">REGISTER</button>
+                <h6 class="status_register" style="display: none; margin-top: 30px"></h6>
             </form>
         </div>
     </div>
