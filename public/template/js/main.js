@@ -21,11 +21,13 @@ function debounce(func, timeout = 300) {
     };
 }
 function validateAddress(isRegister) {
+    isRegister = true;
     var address = document.getElementById('address').value;
     if (address == "") {
         document.getElementById('result_address').style.display = 'none';
-        isRegister = true;
+        isRegister = false;
     }
+    return isRegister;
 }
 function validatePhone(isRegister) {
     var phoneRGEX = /^\d{10}$/;
@@ -43,8 +45,8 @@ function validatePhone(isRegister) {
         document.getElementById('result_phone').style.display = 'none';
         isRegister = true;
     }
-
-
+    return isRegister;
+    
 }
 function validateFirstName() {
     var nameRGEX = /^[a-zA-Z]+$/;
@@ -174,35 +176,32 @@ function checkLogin(isLogIn) {
     }
 
 }
-function checkBill(isRegister) {
-    isRegister = true;
+function checkBill(isEmpty) {
+    isEmpty = true;
     var firstName = document.getElementById('name').value;
-    var valFirstName = validateFirstName(isRegister);
+    var valFirstName = validateFirstName(isEmpty);
 
     // var lastName = document.getElementById('last_name').value;
-    // var valLastName = validateLastName(isRegister);
+    // var valLastName = validateLastName(isEmpty);
 
     var email = document.getElementById('email').value;
-    console.log('email', email)
-    var valEmail = validateEmail(isRegister);
+    var valEmail = validateEmail(isEmpty);
 
     var address = document.getElementById('address').value;
-    var valAddress = validateAddress(isRegister);
+    var valAddress = validateAddress(isEmpty);
 
     var phone = document.getElementById('phone').value;
-    var valPhone = validatePhone(isRegister);
-    if (firstName == '' || address == '' || email == '' || phone == '') {
-        isRegister = false;
-        console.log('if 1')
+    var valPhone = validatePhone(isEmpty);
+    if (address == '' || email == '' || phone == '') {
+        isEmpty = false;
     }
-    if (isRegister && valEmail && valPhone && valAddress) {
+    if (isEmpty && valEmail && valPhone && valAddress) {
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
     else {
         document.getElementById('btn_register').classList.add('btn_register');
         document.getElementById('btn_register').disabled = true;
-
     }
 }
 
