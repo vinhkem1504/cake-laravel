@@ -134,24 +134,4 @@
         </div>
     </div>
 </section>
-<!-- Add cart handle -->
-<script>
-    function handleAddToCart(productId){
-        var csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy token CSRF
-        $.ajax({
-            type: 'POST',
-            url: 'http://127.0.0.1:8000/api/cart',
-            data: {
-                productId: productId,
-                _token: csrfToken
-            },
-            success: function(response){
-                console.log(response)
-            },
-            error: function(err){
-                console.log(err)
-            }
-        })
-    }
-</script>
 <!-- Product Section End -->
