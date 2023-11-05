@@ -625,6 +625,28 @@ function updateHeaderCart(quantity, total){
 function updateHeaderCart(total){
     document.getElementById('totalCartPrice').innerHTML = total;
 }
+
+function handleRegister(name, email, password) {
+    $.post('http://localhost:8000/register',{ name: name, email: email, password: password }, function (response) {
+        if (response.success === false) {
+            $('.checkout__input').find('#result_email').css('display', 'block');
+            $('.checkout__input').find('#result_email').text(`${response.error}`);
+        } else {
+            $('.status_register').css('display', 'block');
+            $('.status_register').text(`${response.error}`);
+            setTimeout(function() {
+                $('.status_register').hide();
+              }, 1000);
+            $('#email').val("");
+            $('#name').val("");
+            $('#password').val("");
+            $('#confirm_password').val("");
+            $('#btn_register').prop('disabled', 'true');
+            $('#btn_register').addClass("btn_register");
+        }
+    }, 'json');
+}
+
 (function ($) {
 
     // phan trang all products
@@ -723,6 +745,16 @@ function updateHeaderCart(total){
         if (count === 2) {
             getDetailProduct(size, flavour, product_id);
         }
+    })
+
+
+    $(document).ready(function(){
+        $('#btn_register').click(function(){
+            var email = $('#email').val();
+            var name = $('#name').val();
+            var password = $('#password').val();
+            handleRegister(name, email, password);
+        });
     })
 
     /*------------------

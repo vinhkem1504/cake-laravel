@@ -2235,6 +2235,14 @@ ol {
 /*---------------------
   Checkout
 -----------------------*/
+.status_register{
+  color: #444444;
+  font-size: 14px;
+  border-top: 2px solid #5bc65d;
+  background: #f5f5f5;
+  padding: 23px 30px 18px;
+  margin-bottom: 50px;
+}
 .coupon__code {
   color: #444444;
   font-size: 14px;
