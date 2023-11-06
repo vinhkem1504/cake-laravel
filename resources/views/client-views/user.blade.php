@@ -53,7 +53,7 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Your Name<span>*</span></p>
-                                    <input type="text" value="{{auth()->user()->name}}" id="name" name="userName" onkeyup="processChangeFirstName()" oninput="checkEmptyInput(isUser)">
+                                    <input type="text" value="{{auth()->user()->name}}" id="name" name="userName" onkeyup="processChangeFirstName(isUser)" oninput="checkEmptyInput(isUser)">
                                     <p id="result_firstName" style="display: block; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
 
                                 </div>
@@ -63,7 +63,7 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text" value="{{auth()->user()->email}}" id="email" name="email" onkeyup="processChangeEmail()" oninput="checkEmptyInput(isUser)">
+                                    <input type="text" value="{{auth()->user()->email}}" id="email" name="email" disabled>
                                     <p id="result_email" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
 
                                 </div>
@@ -72,7 +72,7 @@
                         <div class="checkout__input__checkbox">
                             <label for="diff-acc">
                                 Change password?
-                                <input type="checkbox" id="diff-acc" onchange="showInputChangePassword(isChange)" name="check">
+                                <input type="checkbox" id="diff-acc" onchange="showInputChangePassword()" name="check">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
