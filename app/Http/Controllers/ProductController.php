@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Products;
+use App\Models\Rate_Comments;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -41,9 +42,14 @@ class ProductController extends Controller
             ->select(['Flavour.value', 'Flavour.flavour_id'])
             ->groupBy(['Flavour.value', 'Flavour.flavour_id'])
             ->get();
+        $cmt = DB::table('Rate_comments')
+            ->join('User', 'User.user_id', '=', 'Rate_comments.user_id')
+            ->where('Rate_comments.product_id', '=', $product[0]->product_id)
+            ->select('User.name', 'User.avatar_image', 'Rate_comments.description', 'Rate_comments.value', 'Rate_comments.created_at')
+            ->get()->count();
         return view(
             'client-views.productDetails',
-            compact('value', 'product', 'product_details', 'products_related', 'size', 'flavour')
+            compact('value', 'product', 'product_details', 'products_related', 'size', 'flavour', 'cmt')
         );
     }
 
@@ -75,9 +81,37 @@ class ProductController extends Controller
             ->get();
 
         if (empty(json_decode($productDetailInfo))) {
-            return response()->json(['data'=>$productDetailInfo,'error' => true]);
+            return response()->json(['data' => $productDetailInfo, 'error' => true]);
         } else {
-            return response()->json(['data'=>$productDetailInfo,'error' => false]);
+            return response()->json(['data' => $productDetailInfo, 'error' => false]);
+        }
+    }
+
+    public function getRating($product_id)
+    {
+        $cmt = DB::table('Rate_comments')
+            ->join('User', 'User.user_id', '=', 'Rate_comments.user_id')
+            ->where('Rate_comments.product_id', '=', $product_id)
+            ->select('User.name', 'User.avatar_image', 'Rate_comments.description', 'Rate_comments.value', 'Rate_comments.created_at')
+            ->get();
+
+        return response()->json(['data' => $cmt]);
+    }
+
+    public function createRating(Request $request)
+    {
+        if (Auth::check()) {
+            $user_id = Auth::user()->user_id;
+            // $comment = Rate_Comments::created($data);
+            $comment = new Rate_Comments;
+            $comment->user_id = $user_id;
+            $comment->description = $request->input('description');
+            $comment->value = $request->input('value');
+            $comment->product_id = $request->input('product_id');
+            $comment->save();
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Please sign in to comment']);
         }
     }
 }

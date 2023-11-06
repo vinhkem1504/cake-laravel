@@ -27,6 +27,117 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+
+.comment-list li{
+  list-style-type: none;
+}
+/*---rating star----*/
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+fieldset, label { margin: 0; padding: 0; }
+body{ margin: 20px; }
+h1 { font-size: 1.5em; margin: 10px; }
+
+/****** Style Star Rating Widget *****/
+
+.rating { 
+  border: none;
+  float: left;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+/*---rating star----*/
+
+.cmt__newslatter form {
+  position: relative;
+}
+#cmt::placeholder{
+  color: #111111;
+}
+.cmt__newslatter form textarea {
+  height: 100%;
+  width: 100%;
+  padding: 22px;
+  padding-right: 60px;
+  background:#c6c3c363;
+  border: none;
+  color: #111111;
+  font-size: 14px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.cmt__newslatter form textarea::-webkit-textarea-placeholder {
+  color: #c6c3c363;
+}
+
+.cmt__newslatter form textarea::-moz-placeholder {
+  color: #c6c3c363;
+}
+
+.cmt__newslatter form textarea:-ms-textarea-placeholder {
+  color: #c6c3c363;
+}
+
+.cmt__newslatter form textarea::-ms-textarea-placeholder {
+  color: #c6c3c363;
+}
+
+.cmt__newslatter form textarea::placeholder {
+  color: #c6c3c363;
+}
+
+.cmt__newslatter form button {
+  font-size: 18px;
+  color: #f08632;
+  background: transparent;
+  border: none;
+  /* position: absolute;
+  right: 0;
+  top: -20; */
+  height: 100%;
+  padding: 5px 20px;
+}
+.product__details__tab .cmt {
+  border-bottom: 1px solid #e1e1e1;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: left;
+}
+.product__details__tab .cmt .nav-item .nav-link.active {
+  color: #111111;
+  border-bottom: 1px solid #111111;
+}
 #modalTitle{
   font-size: 20px;
   margin: 0;
@@ -1974,8 +2085,8 @@ ol {
 .product__details__tab .tab-content p {
   color: #444444;
   line-height: 30px;
-  text-align: center;
-  padding-top: 44px;
+  text-align: left;
+  padding-bottom: 10px;
   margin-bottom: 0;
 }
 
