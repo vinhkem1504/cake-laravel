@@ -28,6 +28,8 @@ Route::post('/categories', [HomeController::class, 'filterCategory'])->name('cat
 Route::get('/product_id={product_id}', [ProductController::class, 'index'])->name('client-views.productDetails');
 Route::get('/getSize_{product_id}', [ProductController::class, 'getSize'])->name('productDetails.getSize');
 Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
+Route::get('/ratingOf_{product_id}', [ProductController::class, 'getRating'])->name('rating.get');
+Route::post('/createRate', [ProductController::class, 'createRating'])->name('rating.create');
 
 Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
 
