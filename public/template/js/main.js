@@ -223,29 +223,29 @@ function checkBill(isEmpty) {
     }
 }
 
-function checkEmptyInput(isUser) {
-    isRegister = true;
+function checkUser(isUser) {
+    isUser = true;
     var firstName = document.getElementById('name').value;
-    var valFirstName = validateFirstName(isRegister);
+    var valFirstName = validateFirstName(isUser);
 
     var password = document.getElementById('password').value;
-    var valPassword = validatePassword(isRegister);
+    var valPassword = validatePassword(isUser);
 
     var confirm_password = document.getElementById('confirm_password').value;
-    var valconfirm_password = checkPassword(isRegister);
+    var valconfirm_password = checkPassword(isUser);
 
     var email = document.getElementById('email').value;
-    var valEmail = validateEmail(isRegister);
+
     if (firstName == '' || password == '' || email == '' || confirm_password == '') {
-        isRegister = false;
+        isUser = false;
     }
-    if ((isRegister && valFirstName && valEmail && valPassword && valconfirm_password)) {
-        document.getElementById('btn_register').classList.remove('btn_register');
-        document.getElementById('btn_register').disabled = false;
+    if ((isUser && valFirstName && valPassword && valconfirm_password)) {
+        document.getElementById('btn_update').classList.remove('btn_update');
+        document.getElementById('btn_update').disabled = false;
     }
     else {
-        document.getElementById('btn_register').classList.add('btn_register');
-        document.getElementById('btn_register').disabled = true;
+        document.getElementById('btn_update').classList.add('btn_update');
+        document.getElementById('btn_update').disabled = true;
 
     }
 }
