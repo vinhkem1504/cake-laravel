@@ -243,7 +243,7 @@ const processChangePhone = debounce(() => validatePhone());
 const processChangeAddress = debounce(() => validateAddress());
 const processConfirmPassword = debounce(() => checkPassword());
 
-// phan trang
+// phan trang - Home page
 function handlePaginate(url) {
     $.ajax({
         url: url,
@@ -844,9 +844,60 @@ function showComment(product_id){
     })
 }
 
+
+// phan trang - Page Shope
+function handlePaginateShop(url) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        success: function (response) {
+            var dataContainer = $('.page_shop_pagination');
+                let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
+                dataContainer.html(a);
+
+            var products = $('.shop.spad').find('.container').find('.products_list');
+            var item = '';
+            $.each(response.products.data, function (i, product) {
+                item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                    style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                        <div class="product__label">
+                            <span>${product.category_name}</span>
+                        </div>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="#">${product.productname}</a></h6>
+                        <div class="product__item__price">$${product.price_default}</div>
+                        <div class="cart_add">
+                            <a href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+            })
+            products.html(item);
+            $('#next_page_shop').off('click').on('click', function () {
+                if (response.products.current_page < response.products.last_page) {
+                    handlePaginateShop(response.products.next_page_url);
+                }
+            });
+            $('#previous_page_shop').off('click').on('click', function () {
+                if (response.products.current_page > 1) {
+                    handlePaginateShop(response.products.prev_page_url);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    });
+}
+
 (function ($) {
 
-    // phan trang all products
+    // phan trang all products ở trang Home
     $(document).ready(function () {
         $.ajax({
             url: `${port}:8000/products`,
@@ -873,6 +924,35 @@ function showComment(product_id){
             }
         })
     });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: `${port}:8000/paginationShop`,
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                console.log('current page: ' + response.products.current_page)
+                var dataContainer = $('.page_shop_pagination');
+                let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
+                dataContainer.append(a);
+
+                $('#next_page_shop').off('click').on('click', function () {
+                    if (response.products.current_page < response.products.last_page) {
+                        handlePaginateShop(response.products.next_page_url);
+                    }
+                });
+                $('#previous_page_shop').off('click').on('click', function () {
+                    if (response.products.current_page > 1) {
+                        handlePaginateShop(response.products.prev_page_url);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
 
     //filter categories
     $(document).ready(function () {

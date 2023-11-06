@@ -76,7 +76,7 @@
                     <ul>
                         <li class="active"><a href="{{route('client-views.home')}}">Home</a></li>
                         <li><a href="./about.html">About</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
+                        <li><a href="{{route('shop.show')}}">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a href="./shop-details.html">Shop Details</a></li>

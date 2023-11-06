@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Models\Rate_Comments;
 use Illuminate\Support\Facades\Auth;
@@ -113,5 +115,31 @@ class ProductController extends Controller
         } else {
             return response()->json(['success' => false, 'message' => 'Please sign in to comment']);
         }
+    }
+
+
+    // get list + phan trang
+    public function getAllProduct()
+    {
+        $products = DB::table('Products')
+            ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+            ->select('*')
+            ->paginate(16);
+        $count = DB::table('Products')
+        ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+        ->select('*')->get()->count();
+        
+        return response()->json(['products' => $products, 'count' => $count]);
+    }
+
+    public function showAllProduct()
+    {
+        $products = DB::table('Products')
+            ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+            ->select('*')
+            ->paginate(16);
+
+        $category = Category::all();
+        return view('client-views.shopProduct', compact('products', 'category'));
     }
 }

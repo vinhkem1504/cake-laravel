@@ -37,6 +37,10 @@ Route::post('/cart/addOneProduct', [CartController::class, 'addOneProductFromCar
 Route::delete('/cart/deleteOneProduct', [CartController::class, 'deleteOneProductFromCart']);
 Route::delete('/cart/deleteOneTypeProduct', [CartController::class, 'deleteOneTypeProductFromCart']);
 
+
+Route::get('/shop', [ProductController::class, 'showAllProduct'])->name('shop.show');
+Route::post('/paginationShop', [ProductController::class, 'getAllProduct'])->name('shop.getAll');
+
 Route::group(['middleware' => ['guest']], function () {
     /**
      * Register Routes
