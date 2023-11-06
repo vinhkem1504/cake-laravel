@@ -9,9 +9,22 @@
 
 'use strict';
 
-/*Handle addcart */
-
 var port = 'http://127.0.0.1';
+/*Handle changeimage */
+function handleImageChange(input) {
+    const previewImage = document.getElementById('preview-image');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 
 function debounce(func, timeout = 300) {
     let timer;

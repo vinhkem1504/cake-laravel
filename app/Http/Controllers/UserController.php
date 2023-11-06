@@ -96,7 +96,7 @@ class UserController extends Controller
             return redirect(route('get-all-userBill'));
         }
         
-        return 'cart empty';
+        return redirect(route('client-views.home'));
     }
 
     function showCheckoutCart(){
