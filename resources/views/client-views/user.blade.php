@@ -61,14 +61,14 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text" value="{{auth()->user()->email}}" disabled="true" name="email">
+                                    <input type="text" value="{{auth()->user()->email}}" disabled name="email">
                                 </div>
                             </div>
                         </div>
                         <div class="checkout__input__checkbox">
                             <label for="diff-acc">
                                 Change password?
-                                <input type="checkbox" id="diff-acc" onchange="showInputChangePassword(isChange)" name="check">
+                                <input type="checkbox" id="diff-acc" onchange="showInputChangePassword()" name="check">
                                 <span class="checkmark"></span>
                             </label>
                         </div>

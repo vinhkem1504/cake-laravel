@@ -47,6 +47,7 @@ Route::group(['middleware' => ['guest']], function () {
      */
     Route::get('/login', [LoginController::class, 'show'])->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    Route::get('/checkLogin', [LoginController::class, 'checkLogin'])->name('login.checkLogin');
     
 });
 
