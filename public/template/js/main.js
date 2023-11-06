@@ -90,7 +90,7 @@ function validateEmail(isRegister) {
 }
 function validatePassword(isRegister) {
     // password nhap 6 ki tu gom chu va so
-    var passwordRGEX = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+    var passwordRGEX = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
     var password = document.getElementById('password').value
     if (!passwordRGEX.test(password)) {
         document.getElementById('result_password').style.display = 'block';
@@ -164,6 +164,8 @@ function checkLogin(isLogIn) {
     var valEmail = validateEmail(isLogIn);
     if (password == '' || email == '') {
         isLogIn = false;
+    } else if(password != '' || email != ''){
+        document.getElementById('check_login').style.display = 'none';
     }
     if ((isLogIn && valEmail && valPassword)) {
         document.getElementById('btn_register').classList.remove('btn_register');
@@ -174,7 +176,24 @@ function checkLogin(isLogIn) {
         document.getElementById('btn_register').disabled = true;
 
     }
-
+    $.ajax({
+        url: `${port}:8000/checkLogin`,
+        type: 'GET',
+        data: {
+            email: email,
+            password: password
+        },
+        success: function (response) {
+            if (email !== '' && password !== '') {
+                document.getElementById('btn_register').classList.add('btn_register');
+                document.getElementById('btn_register').disabled = true;
+                document.getElementById('check_login').style.display = 'block';
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    })
 }
 function checkBill(isEmpty) {
     isEmpty = true;
@@ -865,6 +884,7 @@ function cancelBill(billId){
             handleRegister(name, email, password);
         });
     })
+
 
     /*------------------
         Preloader
