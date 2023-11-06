@@ -223,6 +223,33 @@ function checkBill(isEmpty) {
     }
 }
 
+function checkUser(isUser) {
+    isUser = true;
+    var firstName = document.getElementById('name').value;
+    var valFirstName = validateFirstName(isUser);
+
+    var password = document.getElementById('password').value;
+    var valPassword = validatePassword(isUser);
+
+    var confirm_password = document.getElementById('confirm_password').value;
+    var valconfirm_password = checkPassword(isUser);
+
+    var email = document.getElementById('email').value;
+    //var valEmail = validateEmail(isUser);
+    if (firstName == '' || password == '' || email == '' || confirm_password == '') {
+        isUser = false;
+    }
+    if ((isUser && valFirstName && valEmail && valPassword && valconfirm_password)) {
+        document.getElementById('btn_update').classList.remove('btn_update');
+        document.getElementById('btn_update').disabled = false;
+    }
+    else {
+        document.getElementById('btn_update').classList.add('btn_update');
+        document.getElementById('btn_update').disabled = true;
+
+    }
+}
+
 function showInputChangePassword() {
     var checkbox = document.getElementById("diff-acc");
     if (checkbox.checked) {
