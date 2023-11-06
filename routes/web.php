@@ -29,14 +29,12 @@ Route::get('/product_id={product_id}', [ProductController::class, 'index'])->nam
 Route::get('/getSize_{product_id}', [ProductController::class, 'getSize'])->name('productDetails.getSize');
 Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
 
-Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
-
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/add', [CartController::class, 'addProductToCart']);
 Route::post('/cart/addOneProduct', [CartController::class, 'addOneProductFromCart']);
 Route::delete('/cart/deleteOneProduct', [CartController::class, 'deleteOneProductFromCart']);
 Route::delete('/cart/deleteOneTypeProduct', [CartController::class, 'deleteOneTypeProductFromCart']);
 
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::group(['middleware' => ['guest']], function () {
     /**
      * Register Routes
@@ -70,4 +68,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
     Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
+
+    Route::get('/user/bills', [UserController::class, 'getUserBill'])->name('client-views.bills');
+    Route::get('/user/bills/{billId}', [UserController::class, 'getDetailsBill'])->name('user.bill-details');
+    Route::put('/user/bills/cancel', [UserController::class, 'cancelBill'])->name('user.cancel-bill');
+    Route::get('/bill/all', [UserController::class, 'getUserBill'])->name('get-all-userBill');
+    // Route::post('')
+    Route::get('/cart/get-products', [UserController::class, 'getProductsFromCart'])->name('user.get-cart');
+    Route::get('/checkout', [UserController::class, 'showCheckoutCart'])->name('show.checkoutCart');
+    Route::post('/checkout', [UserController::class, 'createUserBill'])->name('create.bill');
 });
