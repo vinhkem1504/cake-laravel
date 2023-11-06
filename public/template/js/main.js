@@ -695,9 +695,11 @@ function handleRating(content, star){
         if(response.success == true) {
             $('textarea').val("");
             $('input[name="rating"][type="radio"]').prop('checked', false);
-            // $('#count_cmt').text(`Rate(${})`)
+            var count = $('#count_cmt').text();
+            var number = parseInt(count)+1;
+            $('#count_cmt').text(number);
+            showComment(product_id);
         } else {
-            console.log(response.message);
             $('textarea').val(`${response.message}`);
             $('input[name="rating"][type="radio"]').prop('checked', false);
         }
@@ -710,20 +712,24 @@ function showComment(product_id){
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            var dataContainer = $('.comment-list')
+            var dataContainer = $('.comment-list');
             var cmt = '';
+            var sum = 0;
             if(response.data.length > 0){
                 $.each(response.data, function (i, item) {
+                    sum += parseFloat(item.value);
+                    console.log(sum);
                     cmt += `<li style="background-color: #c6c3c363; margin-top: 15px; padding-top: 10px; padding-bottom: 10px;">
                     <div class="col-lg-12">
                         <img src="${item.avatar_image ? item.avatar_image : '/template/img/user.png'}" width="30px" height="30px" style="border-radius: 100%; position:absolute; top: 0px"/>
                         <p id="user_cmt" style="margin-top: 20px; padding-left: 45px">${item.name}</p>
-                        <p>5 <img src="/template/img/shop/details/detail_options/star.png"/> | ${item.description}</p>
+                        <p>${item.value} <img src="/template/img/shop/details/detail_options/star.png"/> | ${item.description}</p>
                         <p style="font-size: 12px">${item.created_at}</p>
                     </div>
                 </li>`
                 })
                 dataContainer.html(cmt);
+                $('#sum_star').text(`${(1.0*sum)/response.data.length}`);
             }
             else{
                 cmt = `<li style="background-color: #c6c3c363; margin-top: 15px; padding-top: 10px; padding-bottom: 10px;">
@@ -858,9 +864,9 @@ function showComment(product_id){
     $(document).ready(function () {
         var product_id = $('.product__details__text').find('.product__label').attr('id');
         showComment(product_id);
-        $('#reload').on('click', function () {
-            showComment(product_id);
-        })
+        // $('#reload').on('click', function () {
+        //     showComment(product_id);
+        // })
     })
 
     //btn send comment
@@ -868,7 +874,13 @@ function showComment(product_id){
         $('#send_cmt').on('click', function(){
             var content = $('textarea').val();
             var star = $('input[name="rating"][type="radio"]:checked').val();
-            handleRating(content, star);
+            if(content == "" || star == null){
+                    $('textarea').val(`Please fill your comment or rating. Thank you!`);
+                    $('input[name="rating"][type="radio"]').prop('checked', false);
+            } else {
+                handleRating(content, star);
+            }
+            
         })
     })
 

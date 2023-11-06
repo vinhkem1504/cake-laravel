@@ -48,6 +48,7 @@
                         <p>{{ $product[0]->info }}</p>
                         <ul>
                             <li>Category: <span>{{ $product[0]->category_name }}</span></li>
+                            <li>Rating: <span id="sum_star"></span> <img src="/template/img/shop/details/detail_options/star.png"/> </li>
                         </ul>
                         <div class="product__details__option">
                             <div class="quantity">
@@ -126,9 +127,9 @@
                 <div class="col-lg-12">
                     <ul class="nav cmt">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab" id="count_cmt">Rate({{$cmt}})</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">Rate(<span id="count_cmt">{{$cmt}}</span>)</a>
                         </li>
-                        <li style="padding-top: 10px; padding-left: 20px"><a id="reload"><img src="/template/img/shop/details/detail_options/reload.png" /></a></li>
+                        {{-- <li style="padding-top: 10px; padding-left: 20px"><a id="reload"><img src="/template/img/shop/details/detail_options/reload.png" /></a></li> --}}
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-3" role="tabpanel">
