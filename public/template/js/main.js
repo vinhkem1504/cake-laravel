@@ -715,17 +715,22 @@ function showBillDetails(billId){
     })
 }
 function handleCancel(billId){
-    $(`#alertDialog-${billId}`).modal("show");
+    const element = document.getElementById("status-bill-" + billId);
+    if(!element.classList.contains('clicked')){
+        $(`#alertDialog-${billId}`).modal("show");
     
-    $(`#confirmDialogButton-${billId}`).off("click");
+        $(`#confirmDialogButton-${billId}`).off("click");
 
-    $(`#confirmDialogButton-${billId}`).click(function(){
-        cancelBill(billId);
-        $(`#alertDialog-${billId}`).modal("hide");
-    })
-    $("#closeDialogButton").click(function(){
-        $(`#alertDialog-${billId}`).modal("hide");
-    })
+        $(`#confirmDialogButton-${billId}`).click(function(){
+            cancelBill(billId)
+            element.classList.add("clicked");
+            $(`#alertDialog-${billId}`).modal("hide");
+        })
+        $("#closeDialogButton").click(function(){
+            $(`#alertDialog-${billId}`).modal("hide");
+        })
+    }
+    
 }
 
 //handle cancel pending bill
