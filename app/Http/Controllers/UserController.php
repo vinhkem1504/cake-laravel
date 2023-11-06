@@ -14,6 +14,7 @@ class UserController extends Controller
         return $user;
     }
 
+
     function updateUser(Request $req){
         // dd($req);
         $user = User::find(Auth::user()->user_id);
@@ -44,5 +45,7 @@ class UserController extends Controller
         }
         
         return redirect('/user');
-    }
+    }    
+
+
 }
