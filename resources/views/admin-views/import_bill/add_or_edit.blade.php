@@ -60,8 +60,10 @@
                         @include('_message')
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Import Bill ID: {{ isset($import_bill) ? $import_bill->import_bill_id : '' }} (Total: {{ $details_import_bills->total() }} / Total Price: {{ $total }} $)</h3>
-                                <a href="/admin/details_import_bill/add/{{$import_bill->import_bill_id}}" class="btn btn-primary float-right">Add New Detail</a>
+                                <h3 class="card-title">Import Bill ID: {{ isset($import_bill) ? $import_bill->import_bill_id : '' }} (Total: {{ isset($details_import_bills) ? $details_import_bills->total() : 0 }} / Total Price: {{ $total ?? 0 }} $)</h3>
+                                @if(isset($import_bill))
+                                    <a href="/admin/details_import_bill/add/{{ $import_bill->import_bill_id }}" class="btn btn-primary float-right">Add New Detail</a>
+                                @endif
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body p-0">
@@ -79,30 +81,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($details_import_bills as $value)
-                                            <tr>
-                                                <td>{{ $value->details_import_bill_id }}</td>
-                                                <td>{{ $value->material_name }}</td>
-                                                <td> {{ $value->quantity }} </td>
-                                                <td> {{ $value->price }} $</td>
-                                                <td> {{ $value->price * $value->quantity }} $</td>
-                                                <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
-                                                <td>{{ date('d-m-Y h:i A', strtotime($value->updated_at)) }}</td>
-                                                <td>
-                                                    <a href="/admin/details_import_bill/edit/{{ $value->details_import_bill_id }}"
-                                                        class="btn btn-primary">Edit</a>
-                                                    <a href="/admin/details_import_bill/delete/{{ $value->details_import_bill_id }}"
-                                                        class="btn btn-danger">Delete</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        @if(isset($details_import_bills))
+                                            @foreach ($details_import_bills as $value)
+                                                <tr>
+                                                    <td>{{ $value->details_import_bill_id }}</td>
+                                                    <td>{{ $value->material_name }}</td>
+                                                    <td> {{ $value->quantity }} </td>
+                                                    <td> {{ $value->price }} $</td>
+                                                    <td> {{ $value->price * $value->quantity }} $</td>
+                                                    <td>{{ date('d-m-Y h:i A', strtotime($value->created_at)) }}</td>
+                                                    <td>{{ date('d-m-Y h:i A', strtotime($value->updated_at)) }}</td>
+                                                    <td>
+                                                        <a href="/admin/details_import_bill/edit/{{ $value->details_import_bill_id }}"
+                                                            class="btn btn-primary">Edit</a>
+                                                        <a href="/admin/details_import_bill/delete/{{ $value->details_import_bill_id }}"
+                                                            class="btn btn-danger">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <div class="float-right">
-                                    {!! $details_import_bills->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                                    @if(isset($details_import_bills))
+                                        {!! $details_import_bills->appends(Illuminate\Support\Facades\Request::except('page'))->links() !!}
+                                    @endif
                                 </div>
                             </div>
                         </div>
