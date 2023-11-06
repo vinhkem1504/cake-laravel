@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -67,11 +68,35 @@ class UserController extends Controller
     }
 
     function createUserBill(Request $request){
+        //Get data
         $address = $request->address;
         $phoneNumber = $request->phoneNumber;
-        $newBill = $this->bill->createBill($address, $phoneNumber);
-        dd($newBill);
-        return 'ok';
+
+        $userId = Auth::user()->user_id;
+        $products = $this->cart->getCartUser($userId);
+        
+        //Check cart
+        if(count($products) != 0){
+            //Create bill
+            $newBillId = $this->bill->createBill($address, $phoneNumber);
+
+            //Add details bill
+            foreach ($products as $item) {
+                $data = [
+                    'bill_id' => $newBillId,
+                    'product_details_id' => $item->product_details_id,
+                    'quanlity' => $item->quanlity,
+                    'price' => $item->price
+    
+                ];
+                DB::table('Bill_details')->insert($data);
+            }
+
+            $clear = $this->cart->clearUserCart();
+            return redirect(route('get-all-userBill'));
+        }
+        
+        return 'cart empty';
     }
 
     function showCheckoutCart(){
@@ -81,13 +106,21 @@ class UserController extends Controller
 
     function getUserBill(){
         $bill = $this->bill->getAllUserBill();
-
-        return view('client-views.userBills', compact('bill'));
+        $details = $this->getDetailsBill($bill[0]->bill_id);
+        // dd($details);
+        return view('client-views.userBills', compact('bill', 'details'));
     }
 
     function getDetailsBill($billId){
         $products = $this->billDetails->getDetailsBillById($billId);
-
+        // dd($products);
         return $products;
+    }
+
+    function cancelBill(Request $request){
+        $billId = $request->billId;
+        $isCancel = $this->bill->cancelBill($billId);
+
+        return $isCancel;
     }
 }

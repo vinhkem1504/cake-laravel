@@ -37,51 +37,61 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td>Larry the BirdLarry the BirdLarry the BirdLarry the Bird</td>
-                                <td>@twitter</td>
-                                <td>@mdo</td>
-                              </tr>
+                                @foreach ($bill as $item)
+                                <tr>
+                                    <th scope="row" onclick="showBillDetails({{ $item->bill_id }})">{{ $item->bill_id }}</th>
+                                    <td>{{ $item->address }}</td>
+                                    <td>{{ $item->date }}</td>
+                                    @if ($item->status == 0)
+                                        <td class="alert alert-warning" onclick="handleCancel({{ $item->bill_id }})" id="status-bill-{{ $item->bill_id }}">Pending</td>
+                                        <a href="#" class="heart__btn"><span class="icon_heart_alt"></span></a>
+                                        <!-- Alert add cart -->
+                                        <div class="modal fade" id="alertDialog-{{ $item->bill_id }}" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="height: 70px; padding: 10px 30px; align-items: center !important">
+                                                        <h4 class="modal-title" id="modalTitle">Thông báo</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" id="closeButton">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Xác nhận hủy <i><b>{{ $item->bill_id }}</b></i> ?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeDialogButton-{{ $item->bill_id }}">Cancel</button>
+                                                        <button type="button" class="btn btn-success" id="confirmDialogButton-{{ $item->bill_id }}">Confirm</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif ($item->status == 1)
+                                        <td class="alert alert-success" id="status-bill-{{ $item->bill_id }}">Deliverd</td>
+                                    @else
+                                        <td class="alert alert-danger" id="status-bill-{{ $item->bill_id }}">Cancel</td>
+                                    @endif
+                                  </tr>
+                                @endforeach
                             </tbody>
                           </table>
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="checkout__order">
-                            <h6 class="order__title">Your order</h6>
+                            <h6 class="order__title">Your order: <i id="current-bill-id">ID {{ $bill[0]->bill_id }}</i></h6>
                             <div class="checkout__order__products">Product <span>Total</span></div>
-                            <ul class="checkout__total__products" style="overflow: auto; height: 350px;">
-                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
-                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
-                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
-                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
-                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
-                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
-                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
-                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
-                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
-                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
-                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
-                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
-                                <li><samp>01.</samp> Vanilla salted caramel <span>$ 300.0</span></li>
-                                <li><samp>02.</samp> German chocolate <span>$ 170.0</span></li>
-                                <li><samp>03.</samp> Sweet autumn <span>$ 170.0</span></li>
-                                <li><samp>04.</samp> Cluten free mini dozen <span>$ 110.0</span></li>
+                            <ul id="bill-details-products" class="checkout__total__products" style="overflow: auto; height: 250px;">
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @if ($details)
+                                    @foreach ($details as $item)
+                                        <li><samp>{{ $item->quanlity }}</samp> {{ $item->productname . ' - ' . $item->flavourValue . ' - ' . $item->sizeValue }} <span>$ {{ $item->price * $item->quanlity }}</span></li>
+                                        @php
+                                            $total += $item->price * $item->quanlity;
+                                        @endphp
+                                    @endforeach
+                                @endif
                             </ul>
-                            <ul class="checkout__total__all">
-                                <li>Total <span>$750.99</span></li>
+                            <ul class="checkout__total__all" >
+                                <li>Total <span id="bill-total">${{ $total }}</span></li>
                             </ul>
                         </div>
                     </div>

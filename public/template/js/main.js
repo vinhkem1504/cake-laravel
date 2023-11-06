@@ -485,19 +485,26 @@ function handleAddToCart() {
 
                 if (cart) {
                     if (checkExistProduct(product.product_details_id)) {
+                        var total = 0;
                         var newCart = cart.listProducts.map(function (item) {
                             if (item.product_details_id === product.product_details_id) {
                                 item.quanlity = +item.quanlity + +product.quanlity;
                             }
+                            total += +item.price * +item.quanlity;
                             return item;
                           });
                         
                         //   console.log('new', newCart);
-                          localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
+                        localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
+                        var quantity = newCart.length;
+                        // console.log('total', total, quantity);
+                        updateHeaderCart(quantity, total);
                     }
                     else {
                         var newCart = { ...cart, listProducts: [...cart.listProducts, product] }
+                        var total = JSON.parse(localStorage.getItem('total'));
                         localStorage.setItem('guestCart', JSON.stringify(newCart));
+                        updateHeaderCart(newCart.listProducts.length, +total + +product.price);
                     }
                 }
                 else {
@@ -505,7 +512,16 @@ function handleAddToCart() {
                         listProducts: [product]
                     }
                     localStorage.setItem('guestCart', JSON.stringify(newCart));
+                    updateHeaderCart(1, +product.price * +product.quanlity);
                 }
+            }
+            else{
+                var total = 0;
+                var quantity = response.length;
+                response.forEach(function(item){
+                    total += item.quanlity * item.price;
+                })
+                updateHeaderCart(quantity, total);
             }
         },
         error: function (err) {
@@ -513,8 +529,7 @@ function handleAddToCart() {
         }
     })
     //update header
-    // var quantity = newCart.length;
-    // updateHeaderCart(quantity, total);
+    
 
     //show modal
     $('#openAlertNotication').click();
@@ -602,7 +617,7 @@ function handleDeleteOneTypeProduct(detailsId) {
                             </div>
                         </td>
                         <td class="cart__price" id="product-details-id-${item.product_details_id}-total-price">
-                            ${item.price.toFix(1) * item.quanlity.toFix(1)}
+                            ${item.price * item.quanlity}
                         </td>
                         <td class="cart__close"><span class="icon_close" onclick="handleDeleteOneTypeProduct(${item.product_details_id})"></span></td>
                     </tr>
@@ -613,7 +628,6 @@ function handleDeleteOneTypeProduct(detailsId) {
 
             document.getElementById('displayTable').innerHTML = str;
             document.getElementById('total-cart-price').innerHTML = total;
-
             updateHeaderCart(quantity, total);
         },
         error: function (err) {
@@ -639,13 +653,15 @@ function checkExistProduct(productId) {
 
 //update number and total cart in header
 function updateHeaderCart(quantity, total){
-    // console.log(quantity, total);
+    console.log('*******************',quantity, total);
     document.getElementById('quantityOfProduct').innerHTML = quantity;
-    document.getElementById('totalCartPrice').innerHTML = total;
+    document.getElementById('totalCartPrice').innerHTML = '$ '+total;
+    localStorage.setItem('total', total);
 }
 
-function updateHeaderCart(total) {
-    document.getElementById('totalCartPrice').innerHTML = total;
+function updateHeaderCartTotal(total) {
+    document.getElementById('totalCartPrice').innerHTML = '$ '+total;
+    localStorage.setItem('total', total);
 }
 
 function handleRegister(name, email, password) {
@@ -667,6 +683,73 @@ function handleRegister(name, email, password) {
             $('#btn_register').addClass("btn_register");
         }
     }, 'json');
+}
+
+//hanld show Bill details
+function showBillDetails(billId){
+    console.log(billId);
+    
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: `${port}:8000/user/bills/${billId}`,
+        success: function(response){
+            console.log('res', response) 
+            var str = '';
+            var total = 0;
+            response.forEach((product)=>{
+                str += 
+                `
+                    <li><samp>${product.quanlity}</samp> ${product.productname + ' - ' + product.flavourValue + ' - ' + product.sizeValue} <span>$ ${+product.price * +product.quanlity}</span></li>
+                `
+                total += +product.price * +product.quanlity;
+            })
+
+            document.getElementById('current-bill-id').innerHTML = 'ID '+billId;
+            document.getElementById('bill-details-products').innerHTML = str;
+            document.getElementById('bill-total').innerHTML = '$'+total;
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
+}
+function handleCancel(billId){
+    $(`#alertDialog-${billId}`).modal("show");
+    
+    $(`#confirmDialogButton-${billId}`).off("click");
+
+    $(`#confirmDialogButton-${billId}`).click(function(){
+        cancelBill(billId);
+        $(`#alertDialog-${billId}`).modal("hide");
+    })
+    $("#closeDialogButton").click(function(){
+        $(`#alertDialog-${billId}`).modal("hide");
+    })
+}
+
+//handle cancel pending bill
+function cancelBill(billId){
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: 'PUT',
+        dataType: 'json',
+        url: `${port}:8000/user/bills/cancel`,
+        data: {
+            billId: billId,
+            _token: csrfToken
+        },
+        success: function(response){
+            if(response == 1){
+                document.getElementById(`status-bill-${billId}`).innerHTML = 'Cancel';
+                document.getElementById(`status-bill-${billId}`).classList.remove('alert-warning');
+                document.getElementById(`status-bill-${billId}`).classList.add('alert-danger');
+            } 
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
 }
 
 (function ($) {
@@ -1002,12 +1085,12 @@ function handleRegister(name, email, password) {
                     // console.log('new', newCart);
                     localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                 }
-                var price = parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
-                var totalPrice = document.getElementById(`product-details-id-${id}-total-price`).textContent;
-                var totalCart = document.getElementById(`total-cart-price`).textContent;
-                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (+totalPrice - +price);
-                document.getElementById(`total-cart-price`).innerHTML = (+totalCart - +price);
-                updateHeaderCart(+totalCart - +price);
+                var price = +parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
+                var totalPrice = +parseFloat(document.getElementById(`product-details-id-${id}-total-price`).textContent).toFixed(1);
+                var totalCart = +parseFloat(document.getElementById(`total-cart-price`).textContent).toFixed(1);
+                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (totalPrice - price).toFixed(1);
+                document.getElementById(`total-cart-price`).innerHTML = (totalCart - price).toFixed(1);
+                updateHeaderCartTotal((totalCart - price).toFixed(1));
             },
             error: function (err) {
                 console.log(err)
@@ -1040,12 +1123,13 @@ function handleRegister(name, email, password) {
                     // console.log('new', newCart);
                     localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                 }
-                var price = parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
-                var totalPrice = document.getElementById(`product-details-id-${id}-total-price`).textContent;
-                var totalCart = document.getElementById(`total-cart-price`).textContent;
-                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (+totalPrice + +price);
-                document.getElementById(`total-cart-price`).innerHTML = (+totalCart + +price);
-                updateHeaderCart(+totalCart + +price);
+                var price = +parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
+                var totalPrice = +parseFloat(document.getElementById(`product-details-id-${id}-total-price`).textContent).toFixed(1);
+                var totalCart = +parseFloat(document.getElementById(`total-cart-price`).textContent).toFixed(1);
+                // console.log(typeof price, typeof totalPrice, typeof totalCart);
+                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (totalPrice + price).toFixed(1);
+                document.getElementById(`total-cart-price`).innerHTML = (totalCart + price).toFixed(1);
+                updateHeaderCartTotal((totalCart + price).toFixed(1));
             },
             error: function (err) {
                 console.log(err)

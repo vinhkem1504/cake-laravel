@@ -50,8 +50,8 @@ class LoginController extends Controller
             ->where('user_id', '=', $userId)
             ->select('*')
             ->first();
-            
-            if(!$checkCart){
+            // dd($checkCart);
+            if(!$checkCart && $cart){
                 // dd($checkCart);
                 foreach ($cart as $item) {
                     $data = [

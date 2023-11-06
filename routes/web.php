@@ -69,6 +69,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
 
     Route::get('/user/bills', [UserController::class, 'getUserBill'])->name('client-views.bills');
+    Route::get('/user/bills/{billId}', [UserController::class, 'getDetailsBill'])->name('user.bill-details');
+    Route::put('/user/bills/cancel', [UserController::class, 'cancelBill'])->name('user.cancel-bill');
     Route::get('/bill/all', [UserController::class, 'getUserBill'])->name('get-all-userBill');
     // Route::post('')
     Route::get('/cart/get-products', [UserController::class, 'getProductsFromCart'])->name('user.get-cart');

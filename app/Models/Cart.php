@@ -30,6 +30,16 @@ class Cart extends Model
         return $products;
     }
 
+    //Clear cart
+    public function clearUserCart(){
+        $userId = Auth::user()->user_id;
+        $clear = DB::table('Cart')
+        ->where('user_id', '=', $userId)
+        ->delete();
+
+        return $clear;
+    }
+
     //Login case
     public function getCartUser($userId){
         $cart = DB::table('Cart')
@@ -74,7 +84,11 @@ class Cart extends Model
             ->where('user_id', '=', $userId)
             ->where('product_details_id', '=', $detailsId->product_details_id)
             ->update($data);
-            $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+            $cart = DB::table('Cart')
+            ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+            ->where('user_id', '=', $userId)
+            ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+            ->get();
             return $cart;
         }
         else{
@@ -84,7 +98,11 @@ class Cart extends Model
                 'quanlity' => intval($quantity)
             ];
             DB::table('Cart')->insert($data);
-            $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+            $cart = DB::table('Cart')
+            ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+            ->where('user_id', '=', $userId)
+            ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+            ->get();
             return $cart;
         }
     }
@@ -104,7 +122,11 @@ class Cart extends Model
         ->where('product_details_id', '=', $detailsId)
         ->update($data);
 
-        $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+        $cart = DB::table('Cart')
+        ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+        ->where('user_id', '=', $userId)
+        ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+        ->get();
         return $cart;
     }
 
@@ -123,7 +145,11 @@ class Cart extends Model
         ->where('product_details_id', '=', $detailsId)
         ->update($data);
 
-        $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+        $cart = DB::table('Cart')
+        ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+        ->where('user_id', '=', $userId)
+        ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+        ->get();
         return $cart;
     }
 

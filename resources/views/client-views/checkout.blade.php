@@ -26,6 +26,7 @@
         <div class="container">
             <div class="checkout__form">
                 <form action="{{route('create.bill')}}" method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
                             <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
@@ -56,7 +57,7 @@
                                 <div class="col-lg-6">
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
-                                        <input type="text" name="email" id="email" onkeyup="processChangeEmail()" oninput="checkBill(isRegister)">
+                                        <input type="text" name="email" disabled id="email" value="{{ auth()->user()->email }}"  onkeyup="processChangeEmail()" oninput="checkBill(isRegister)">
                                         <p id="result_email" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                                     </div>
                                 </div>
@@ -71,7 +72,7 @@
                                         $total = 0;
                                     @endphp
                                     @foreach ($products as $item)
-                                        <li><samp>{{ $item->product_details_id }}</samp> {{ $item->productname . ' - ' . $item->flavourValue . ' - ' . $item->sizeValue }} <span>{{ $item->price * $item->quanlity }}</span></li>
+                                        <li><samp>{{ $item->product_details_id }}</samp> {{ $item->productname . ' - ' . $item->flavourValue . ' - ' . $item->sizeValue }} <span>$ {{ $item->price * $item->quanlity }}</span></li>
                                         @php
                                             $total += $item->price * $item->quanlity;
                                         @endphp

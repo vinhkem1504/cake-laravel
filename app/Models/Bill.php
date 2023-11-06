@@ -17,6 +17,7 @@ class Bill extends Model
         $userId = Auth::user()->user_id;
         $allBills = DB::table('Bill')
         ->where('user_id', '=', $userId)
+        ->orderBy('status', 'asc')
         ->get();
 
         return $allBills;
@@ -33,16 +34,25 @@ class Bill extends Model
             'date' => $date
         ];
 
-        $bill = DB::table('Bill')->insert($data);
-        dd($bill);
-        return $bill;
+        $billId = DB::table('Bill')->insertGetId($data);
+
+        return $billId;
     }
 
-    public function cancleBill($billId){
+    public function cancelBill($billId){
         $data = ['status' => 2];
-
-        DB::table('Bill')
+        $bill = DB::table('Bill')
         ->where('bill_id', '=', $billId)
-        ->update($data);
+        ->first();
+
+        if($bill->status == 0){
+            $cancel = DB::table('Bill')
+            ->where('bill_id', '=', $billId)
+            ->update($data);
+
+            return $cancel;
+        }
+        
+        return false;
     }
 }
