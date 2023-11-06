@@ -195,6 +195,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="/admin/bill" class="nav-link">
+            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+            <p>
+              Bill
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="javascript::void(0)" class="nav-link">
             <i class="nav-icon fas fa-tree"></i>
             <p>

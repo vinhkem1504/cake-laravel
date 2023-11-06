@@ -74,7 +74,7 @@ class ImportBillController extends Controller
         $import_bill->date = $request->input('date');
         $import_bill->supplier_id = $request->input('supplier_id');
         $import_bill->save();
-        return redirect('/admin/import_bill/edit/'.$import_bill->id)->with('success', 'Import Bill created successfully');
+        return redirect('/admin/import_bill/edit/'.$import_bill->import_bill_id)->with('success', 'Import Bill created successfully');
     }
 
     public function update($id, Request $request)
