@@ -53,13 +53,8 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Your Name<span>*</span></p>
-<<<<<<< HEAD
                                     <input type="text" value="{{auth()->user()->name}}" id="name" name="userName" onkeyup="processChangeFirstName()" oninput="checkUser(isUser)">
                                     <p id="result_firstName" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
-=======
-                                    <input type="text" value="{{auth()->user()->name}}" id="name" name="userName" onkeyup="processChangeFirstName(isUser)" oninput="checkEmptyInput(isUser)">
-                                    <p id="result_firstName" style="display: block; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
->>>>>>> 1161049f5d43ea4046baef2b5a56beee070b5294
 
                                 </div>
                             </div>
@@ -68,11 +63,7 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-<<<<<<< HEAD
-                                    <input type="text" value="{{auth()->user()->email}}" id="email" name="email" onkeyup="processChangeEmail()" oninput="checkUser(isUser)">
-=======
-                                    <input type="text" value="{{auth()->user()->email}}" id="email" name="email" disabled>
->>>>>>> 1161049f5d43ea4046baef2b5a56beee070b5294
+                                    <input type="text" value="{{auth()->user()->email}}" disabled="true" id="email" name="email" onkeyup="processChangeEmail()" oninput="checkUser(isUser)">
                                     <p id="result_email" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
 
                                 </div>

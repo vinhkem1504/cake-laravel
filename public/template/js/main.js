@@ -223,39 +223,29 @@ function checkBill(isEmpty) {
     }
 }
 
-function checkUser(isUser) {
-    isUser = true;
+function checkEmptyInput(isUser) {
+    isRegister = true;
     var firstName = document.getElementById('name').value;
-    var valFirstName = validateFirstName(isUser);
-<<<<<<< HEAD
+    var valFirstName = validateFirstName(isRegister);
 
     var password = document.getElementById('password').value;
-    var valPassword = validatePassword(isUser);
+    var valPassword = validatePassword(isRegister);
 
     var confirm_password = document.getElementById('confirm_password').value;
-    var valconfirm_password = checkPassword(isUser);
+    var valconfirm_password = checkPassword(isRegister);
 
     var email = document.getElementById('email').value;
-    //var valEmail = validateEmail(isUser);
+    var valEmail = validateEmail(isRegister);
     if (firstName == '' || password == '' || email == '' || confirm_password == '') {
-        isUser = false;
+        isRegister = false;
     }
-    if ((isUser && valFirstName && valEmail && valPassword && valconfirm_password)) {
-=======
-    
-    var email = document.getElementById('email').value;
-    var valEmail = validateEmail(isUser);
-    if (firstName == '' || email == '') {
-        isUser = false;
-    }
-    if ((isUser && valFirstName && valEmail)) {
->>>>>>> 1161049f5d43ea4046baef2b5a56beee070b5294
-        document.getElementById('btn_update').classList.remove('btn_update');
-        document.getElementById('btn_update').disabled = false;
+    if ((isRegister && valFirstName && valEmail && valPassword && valconfirm_password)) {
+        document.getElementById('btn_register').classList.remove('btn_register');
+        document.getElementById('btn_register').disabled = false;
     }
     else {
-        document.getElementById('btn_update').classList.add('btn_update');
-        document.getElementById('btn_update').disabled = true;
+        document.getElementById('btn_register').classList.add('btn_register');
+        document.getElementById('btn_register').disabled = true;
 
     }
 }
