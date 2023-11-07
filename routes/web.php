@@ -16,9 +16,7 @@ use App\Http\Controllers\AdminControllers\SupplierController;
 use App\Http\Controllers\AdminControllers\ImportBillController;
 use App\Http\Controllers\AdminControllers\DetailsImportBillController;
 use App\Http\Controllers\AdminControllers\BillController;
-use App\Http\Controllers\AdminControllers\ProductController;
 use App\Http\Controllers\AdminControllers\ProductDetailsController;
-use App\Http\Controllers\AdminControllers\UserController;
 
 
 /*
