@@ -197,6 +197,34 @@ function showInputChangePassword() {
         document.getElementById('confirm_password').classList.add('hidden-input');
     }
 }
+
+function checkUser(isUser) {
+    isUser = true;
+    var firstName = document.getElementById('name').value;
+    var valFirstName = validateFirstName(isUser);
+
+    var password = document.getElementById('password').value;
+    var valPassword = validatePassword(isUser);
+
+    var confirm_password = document.getElementById('confirm_password').value;
+    var valconfirm_password = checkPassword(isUser);
+
+    var email = document.getElementById('email').value;
+
+    if (firstName == '' || password == '' || email == '' || confirm_password == '') {
+        isUser = false;
+    }
+    if ((isUser && valFirstName && valPassword && valconfirm_password)) {
+        document.getElementById('btn_update').classList.remove('btn_update');
+        document.getElementById('btn_update').disabled = false;
+    }
+    else {
+        document.getElementById('btn_update').classList.add('btn_update');
+        document.getElementById('btn_update').disabled = true;
+
+    }
+}
+
 const processChangeFirstName = debounce(() => validateFirstName());
 // const processChangeLastName = debounce(() => validateLastName());
 const processChangeEmail = debounce(() => validateEmail());
@@ -205,6 +233,15 @@ const processChangePhone = debounce(() => validatePhone());
 const processChangeAddress = debounce(() => validateAddress());
 const processConfirmPassword = debounce(() => checkPassword());
 
+function handleOnChangeForgetPassword(isChange) {
+    var messageElement = document.getElementById("message");
+  
+    if (isChange) {
+      messageElement.textContent = "Mật khẩu đã thay đổi.";
+    } else {
+      messageElement.textContent = "Mật khẩu không thay đổi.";
+    }
+  }
 // phan trang - Home page
 function handlePaginate(url) {
     $.ajax({
