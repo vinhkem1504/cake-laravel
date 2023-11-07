@@ -18,7 +18,7 @@ class AdminRedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, string ...$guards): Response
+    public function handle(Request $request, Closure $next, ...$guards)
     {
         if (Auth::guard('admin')->check()) {
             return redirect()->route('admin-views.dashboard');

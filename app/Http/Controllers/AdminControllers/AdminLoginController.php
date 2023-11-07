@@ -21,23 +21,22 @@ class AdminLoginController extends Controller
         ]);
 
         if($validator->passes()){
-            // if(Auth::guard('admin')->attempt(['username'=> $request->username, 'password'=> 
-            // $request->password], $request->get('remember'))){
-            //     //$admin = Auth::guard('admin')->admin();
+            if(Auth::guard('admin')->attempt(['username'=> $request->username, 'password'=> 
+            $request->password])){
+                //$admin = Auth::guard('admin')->admin();
 
-            //     return redirect()->route('admin-views.dashboard');
-            // }
-            // else{
-            //     return redirect()->route('admin-views.login')->with('error', 'Either username/password is incorrect');
-            // }
-            if (auth('admin')->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember'))) {
-                // Authentication successful
-                $admin = Auth::guard('admin')->user();
-                return redirect()->route('admin-views.dashboard'); // Redirect to the admin dashboard or any other route
-            } else {
-                // Authentication failed
-                return redirect()->route('admin-views.login')->with('error', 'Either username/password is incorrect'); // Redirect back with an error message
+                return redirect()->route('admin-views.dashboard');
             }
+            else{
+                return redirect()->route('admin-views.login')->with('error', 'Either username/password is incorrect');
+            }
+            // if (auth('admin')->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember'))) {
+            //     // Authentication successful
+            //     return redirect()->route('admin-views.dashboard'); // Redirect to the admin dashboard or any other route
+            // } else {
+            //     // Authentication failed
+            //     return redirect()->route('admin-views.login')->with('error', 'Either username/password is incorrect'); // Redirect back with an error message
+            // }
              
             
         } else{

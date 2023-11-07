@@ -36,7 +36,7 @@ use App\Http\Controllers\AdminControllers\HomeAdminController;
 /**
  * Home Routes
  */
-Route::get('/', [HomeAdminController::class, 'index'])->name('client-views.home');
+Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
 Route::post('/products', [HomeController::class, 'getListProducts'])->name('products.get');
 Route::post('/categories', [HomeController::class, 'filterCategory'])->name('categories.filter');
 Route::get('/product_id={product_id}', [ProductController::class, 'index'])->name('client-views.productDetails');
