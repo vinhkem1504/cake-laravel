@@ -197,7 +197,26 @@ function checkEmptyInput(isRegister) {
 
     }
 }
+function checkLogin(isLogIn) {
+    isLogIn = true;
+    var password = document.getElementById('account_password').value;
+    var valPassword = validatePassword(isLogIn);
 
+    var email = document.getElementById('email').value;
+    var valEmail = validateEmail(isLogIn);
+    if (password == '' || email == '') {
+        isLogIn = false;
+    }
+    if ((isLogIn && valEmail && valPassword)) {
+        document.getElementById('btn_login').classList.remove('btn_register');
+        document.getElementById('btn_login').disabled = false;
+    }
+    else {
+        document.getElementById('btn_login').classList.add('btn_register');
+        document.getElementById('btn_login').disabled = true;
+    }
+
+}
 function checkBill(isEmpty) {
     isEmpty = true;
     var firstName = document.getElementById('name').value;

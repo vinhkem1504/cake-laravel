@@ -35,20 +35,20 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text" name="email" id="email" onkeyup="processChangeEmail()">
+                                    <input type="text" name="email" id="email" onkeyup="processChangeEmail()" oninput="checkLogin(isRegister)">
                                     <p id="result_email" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                                 </div>
                             </div>
                         </div>
                         <div class="checkout__input">
                             <p>Account Password<span>*</span></p>
-                            <input type="password" name="password" id="account_password" onkeyup="processChangePassword()">
+                            <input type="password" name="password" id="account_password" onkeyup="processChangePassword()" oninput="checkLogin(isRegister)">
                             <p id="result_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                         </div>
                         <input type="hidden" name="cart" id="cartInfo-guest">
                     </div>
                 </div>
-                <button type="button" class="site-btn" id="btn_login">SIGN IN</button>
+                <button type="button" class="site-btn btn_register" id="btn_login">SIGN IN</button>
                 <h6 id="check_login" style="display: none; color: red; font-size: small; font-style: italic; margin-top: 30px;">Email or password incorrect. Please try again</h6>
             </form>
         </div>
