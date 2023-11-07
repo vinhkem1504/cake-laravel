@@ -42,7 +42,7 @@
                         </div>
                         <div class="checkout__input">
                             <p>Account Password<span>*</span></p>
-                            <input type="password" name="password" id="password" onkeyup="processChangePassword()">
+                            <input type="password" name="password" id="account_password" onkeyup="processChangePassword()">
                             <p id="result_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                         </div>
                         <input type="hidden" name="cart" id="cartInfo-guest">

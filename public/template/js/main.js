@@ -50,7 +50,7 @@ function validatePhone(isRegister) {
     return isRegister;
 
 }
-function validateFirstName() {
+function validateFirstName(isRegister) {
     var nameRGEX = /^[a-zA-Z]+$/;
     var nameVN = /^[\p{L}\p{Mn}\p{Pd}\p{Zs}]+$/u;
     var firstName = document.getElementById('name').value;
@@ -93,7 +93,25 @@ function validateEmail(isRegister) {
 function validatePassword(isRegister) {
     // password nhap 6 ki tu gom chu va so
     var passwordRGEX = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
-    var password = document.getElementById('password').value
+    var password = document.getElementById('account_password').value
+    var new_password = document.getElementById('new_password').value
+    
+    //new_password
+    if (!passwordRGEX.test(new_password)) {
+        document.getElementById('result_new_password').style.display = 'block';
+        document.getElementById('result_new_password').innerHTML = "Please enter a password of 6 characters including letters and numbers.";
+        isRegister = false;
+    }
+    else {
+        document.getElementById('result_new_password').style.display = 'none';
+        isRegister = true;
+    }
+    if (new_password == "") {
+        document.getElementById('result_new_password').style.display = 'none';
+        isRegister = true;
+    }
+    
+    // account_password
     if (!passwordRGEX.test(password)) {
         document.getElementById('result_password').style.display = 'block';
         document.getElementById('result_password').innerHTML = "Please enter a password of 6 characters including letters and numbers.";
@@ -112,13 +130,24 @@ function validatePassword(isRegister) {
 
 function checkPassword(isRegister) {
     var confirm_password = document.getElementById('confirm_password').value
-    var password = document.getElementById('password').value
-    if (confirm_password != password) {
+    var password = document.getElementById('account_password').value
+    var new_password = document.getElementById('new_password').value
+
+    if (confirm_password != new_password) {
+        document.getElementById('result_confirm_password').style.display = 'block';
+        document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
+        isRegister = false;
+    } else if (confirm_password == new_password){
+        document.getElementById('result_confirm_password').style.display = 'none';
+        isRegister = true;
+    }
+
+    else if (confirm_password != password) {
         document.getElementById('result_confirm_password').style.display = 'block';
         document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
         isRegister = false;
     }
-    else {
+    else if (confirm_password == password){
         document.getElementById('result_confirm_password').style.display = 'none';
         isRegister = true;
     }
@@ -136,7 +165,7 @@ function checkEmptyInput(isRegister) {
     var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isRegister);
 
-    var password = document.getElementById('password').value;
+    var password = document.getElementById('account_password').value;
     var valPassword = validatePassword(isRegister);
 
     var confirm_password = document.getElementById('confirm_password').value;
@@ -187,43 +216,49 @@ function checkBill(isEmpty) {
     }
 }
 
-function checkUser(isUser) {
+
+function showInputChangePassword() {
+    var checkbox = document.getElementById("diff-acc");
+    if (checkbox.checked) {
+        document.getElementById('accountPassword').classList.remove('hidden-input');
+        document.getElementById('newPassword').classList.remove('hidden-input');
+        document.getElementById('confirmPassword').classList.remove('hidden-input');
+    } else {
+        document.getElementById('accountPassword').classList.add('hidden-input');
+        document.getElementById('newPassword').classList.add('hidden-input');
+        document.getElementById('confirmPassword').classList.add('hidden-input');
+    }
+}
+
+function checkUpdateUser(isUser){
     isUser = true;
     var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isUser);
 
-    var password = document.getElementById('password').value;
+    var password = document.getElementById('account_password').value;
     var valPassword = validatePassword(isUser);
 
     var confirm_password = document.getElementById('confirm_password').value;
     var valconfirm_password = checkPassword(isUser);
 
-    var email = document.getElementById('email').value;
+    var new_password = document.getElementById('new_password').value;
+    var valnew_password = checkPassword(isUser);
 
-    if (firstName == '' || password == '' || email == '' || confirm_password == '') {
+    if (firstName == '' || password == '' || new_password == '' || confirm_password == '') {
         isUser = false;
     }
-    if ((isUser && valFirstName && valPassword && valconfirm_password)) {
-        document.getElementById('btn_update').classList.remove('btn_update');
+    if ((isUser && valFirstName && valnew_password && valPassword && valconfirm_password)) {
+        document.getElementById('btn_update').classList.remove('btn_register');
         document.getElementById('btn_update').disabled = false;
     }
     else {
-        document.getElementById('btn_update').classList.add('btn_update');
+        document.getElementById('btn_update').classList.add('btn_register');
         document.getElementById('btn_update').disabled = true;
 
     }
+
 }
 
-function showInputChangePassword() {
-    var checkbox = document.getElementById("diff-acc");
-    if (checkbox.checked) {
-        document.getElementById('new_password').classList.remove('hidden-input');
-        document.getElementById('confirm_password').classList.remove('hidden-input');
-    } else {
-        document.getElementById('new_password').classList.add('hidden-input');
-        document.getElementById('confirm_password').classList.add('hidden-input');
-    }
-}
 const processChangeFirstName = debounce(() => validateFirstName());
 // const processChangeLastName = debounce(() => validateLastName());
 const processChangeEmail = debounce(() => validateEmail());
