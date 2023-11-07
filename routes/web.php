@@ -16,8 +16,7 @@ use App\Http\Controllers\AdminControllers\SupplierController;
 use App\Http\Controllers\AdminControllers\ImportBillController;
 use App\Http\Controllers\AdminControllers\DetailsImportBillController;
 use App\Http\Controllers\AdminControllers\BillController;
-
-
+use App\Http\Controllers\AdminControllers\ProductDetailsController;
 
 
 /*
@@ -91,7 +90,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/checkout', [UserController::class, 'createUserBill'])->name('create.bill');
 });
 
-
+Route::post('/pusher/auth', [UserController::class, 'pusherAuth']);
 
 Route::get('/admin/dashboard', function () {
     return view('admin-views.dashboard');
@@ -169,4 +168,26 @@ Route::get('/admin/bill/index', [BillController::class, 'index']);
 Route::get('/admin/bill/', [BillController::class, 'index']);
 Route::get('/admin/bill/{id}', [BillController::class, 'detail']);
 Route::post('/admin/bill/{bill_id}', [BillController::class, 'update_status']);
+
+# Admin Product
+Route::get('/admin/product/index', [ProductController::class, 'index']);
+Route::get('/admin/product/', [ProductController::class, 'index']);
+Route::get('/admin/product/add', [ProductController::class, 'add']);
+Route::post('/admin/product/add', [ProductController::class, 'insert']);
+Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit']);
+Route::post('/admin/product/edit/{id}', [ProductController::class, 'update']);
+Route::get('/admin/product/delete/{id}', [ProductController::class, 'delete']);
+
+# Admin Product Detail
+Route::get('/admin/product_details/index/{product_id}', [ProductDetailsController::class, 'index']);
+Route::get('/admin/product_details/add/{product_id}', [ProductDetailsController::class, 'add']);
+Route::post('/admin/product_details/add/{product_id}', [ProductDetailsController::class, 'insert']);
+Route::get('/admin/product_details/edit/{id}', [ProductDetailsController::class, 'edit']);
+Route::post('/admin/product_details/edit/{id}', [ProductDetailsController::class, 'update']);
+Route::get('/admin/product_details/delete/{id}', [ProductDetailsController::class, 'delete']);
+
+# Admin user list
+Route::get('/admin/user/index/', [UserController::class, 'index']);
+Route::get('/admin/user/', [UserController::class, 'index']);
+
 

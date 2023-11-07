@@ -27,17 +27,17 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="name">Name<span class="text-danger">*</span></label>
-                                            <input type="text" value="{{ isset($supplier) ? $supplier->name : '' }}" required class="form-control" name="name" id="name" placeholder="Enter name">
+                                            <input type="text" value="{{ old('name', isset($supplier) ? $supplier->name : '') }}" required class="form-control" name="name" id="name" placeholder="Enter name">
                                             <div style="color:red">{{ $errors->first('name') }}</div>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="address">Address <span class="text-danger">*</span></label>
-                                            <input type="tel" value="{{ isset($supplier) ? $supplier->phone : '' }}" required class="form-control" name="phone" id="phone" placeholder="Enter phone">
+                                            <label for="address">Phone <span class="text-danger">*</span></label>
+                                            <input type="tel" value="{{ old('phone', isset($supplier) ? $supplier->phone : '') }}" required class="form-control" name="phone" id="phone" placeholder="Enter phone">
                                             <div style="color:red">{{ $errors->first('phone') }}</div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <label for="address">Address <span class="text-danger">*</span></label>
-                                            <input type="text" value="{{ isset($supplier) ? $supplier->address : '' }}" required class="form-control" name="address" id="address" placeholder="Enter address">
+                                            <input type="text" value="{{ old('address', isset($supplier) ? $supplier->address : '') }}" required class="form-control" name="address" id="address" placeholder="Enter address">
                                             <div style="color:red">{{ $errors->first('address') }}</div>
                                         </div>
                                     </div>

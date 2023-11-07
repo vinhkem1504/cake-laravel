@@ -27,12 +27,12 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label for="material_name">Name<span class="text-danger">*</span></label>
-                                            <input type="text" value="{{ isset($material) ? $material->material_name : '' }}" required class="form-control" name="material_name" id="material_name" placeholder="Enter name">
+                                            <input type="text" value="{{ old('material_name', isset($material) ? $material->material_name : '') }}" required class="form-control" name="material_name" id="material_name" placeholder="Enter name">
                                             <div style="color:red">{{ $errors->first('material_name') }}</div>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="">Unit <span class="text-danger">*</span></label>
-                                            <input type="text" value="{{ isset($material) ? $material->unit : '' }}" required class="form-control" name="unit" id="unit" placeholder="Enter unit">
+                                            <input type="text" value="{{ old('unit', isset($material) ? $material->unit : '') }}" required class="form-control" name="unit" id="unit" placeholder="Enter unit">
                                             <div style="color:red">{{ $errors->first('unit') }}</div>
                                         </div>
                                     </div>

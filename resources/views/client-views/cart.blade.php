@@ -103,7 +103,7 @@
                                                 document.getElementById('displayTable').innerHTML = str;
                                                 localStorage.setItem('total', JSON.stringify(total));
                                                 document.getElementById('quantityOfProduct').innerHTML = quantity;
-                                                document.getElementById('totalCartPrice').innerHTML = total;
+                                                document.getElementById('totalCartPrice').innerHTML = + total;;
                                             }
                                         }
                                         showCartFromLocal();
@@ -143,7 +143,7 @@
                                 @else
                                     <script>
                                         var total = JSON.parse(localStorage.getItem('total'));
-                                        document.getElementById('total-cart-price').innerHTML = total;
+                                        document.getElementById('total-cart-price').innerHTML = + total;;
                                     </script>
                                 @endif
                                 

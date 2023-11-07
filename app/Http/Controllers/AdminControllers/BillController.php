@@ -6,6 +6,8 @@ use App\Models\Bill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use App\Events\ConfirmBill;
+use Pusher\Pusher;
 
 class BillController extends Controller
 {
@@ -70,12 +72,46 @@ class BillController extends Controller
         if (!$bill) {
             return abort(404);
         };
+        $userId = $bill->user_id;
         $status = $request->input('status');
+        
         $bill->status = $status;
         $bill->save();
 
-        // if ($status == 1) {
-        // }
+        //make notifications
+        $content = '';
+        if ($status == 1) {
+            $content = 'Đơn hàng '. $bill_id .' đang được vận chuyển đến bạn!';
+        }
+        else{
+            $content = 'Đơn hàng '. $bill_id .' đã bị hủy!';
+        }
+
+        $data['content'] = $content;
+        $data['created_at'] = time();
+        $noti = DB::table('Notifications')->insert([
+            'user_id'=>$userId,
+            'content'=>$content
+        ]);
+
+        if($noti){
+            $options = array(
+                'cluster' => 'ap1',
+                'encrypted' => true
+            );
+            $pusher = new Pusher(
+                env('PUSHER_APP_KEY'),
+                env('PUSHER_APP_SECRET'),
+                env('PUSHER_APP_ID'),
+                $options
+            );
+            $privateChannelName = 'private-channel-user-' . $userId;
+            // dd($data);
+            $pusher->trigger($privateChannelName, 'send-noti', $data);
+            // return 'ok sende';
+            return redirect('/admin/bill/'.$bill_id)->with('success', 'Bill status updated successfully');
+        }
+        dd($noti);
         return redirect('/admin/bill/'.$bill_id)->with('success', 'Bill status updated successfully');
     }
 }
