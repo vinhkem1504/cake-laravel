@@ -51,7 +51,7 @@
                         </div>
                         <div class="checkout__input">
                             <p>Account Password<span>*</span></p>
-                            <input name="password" type="password" id="password" value="{{ old('password') }}" onkeyup="processChangePassword()" oninput="checkEmptyInput(isRegister)">
+                            <input name="password" type="password" id="account_password" value="{{ old('password') }}" onkeyup="processChangePassword()" oninput="checkEmptyInput(isRegister)">
                             <p id="result_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                         </div>
                         <div class="checkout__input">

@@ -53,7 +53,9 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Your Name<span>*</span></p>
-                                    <input type="text" value="{{auth()->user()->name}}" name="userName">
+                                    <input type="text" value="{{auth()->user()->name}}" id="name" name="userName" onkeyup="processChangeFirstName(isUser)" oninput="checkUpdateUser(isUser)">
+                                    <p id="result_firstName" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
+
                                 </div>
                             </div>
                         </div>
@@ -61,7 +63,9 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text" value="{{auth()->user()->email}}" disabled name="email">
+                                    <input type="text" value="{{auth()->user()->email}}" disabled="true" id="email" name="email" oninput="checkUser(isUser)">
+                                    <p id="result_email" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
+
                                 </div>
                             </div>
                         </div>
@@ -72,21 +76,25 @@
                                 <span class="checkmark"></span>
                             </label>
                         </div>
-                        <div class="checkout__input hidden-input" id="password">
+                        <div class="checkout__input hidden-input" id="accountPassword">
                             <p>Account Password<span>*</span></p>
-                            <input type="password" name="password" value="">
+                            <input type="password" name="password" id="account_password" value="{{ old('accountPassword') }}"  onkeyup="processChangePassword()"  oninput="checkUpdateUser(isUser)">
+                            <p id="result_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                         </div>
-                        <div class="checkout__input hidden-input" id="new_password">
+                        <div class="checkout__input hidden-input"  id="newPassword">
                             <p>New Password<span>*</span></p>
-                            <input type="password" name="newPassword" onkeyup="">
+                            <input type="password" name="newPassword" id="new_password" value="{{ old('newPassword') }}" onkeyup="processChangePassword()" oninput="checkUpdateUser(isUser)">
+                            <p id="result_new_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
                         </div>
-                        <div class="checkout__input hidden-input" id="confirm_password">
+                        <div class="checkout__input hidden-input" id="confirmPassword" >
                             <p>Confirm Password<span>*</span></p>
-                            <input type="password" name="confirmPassword" onkeyup="handleOnChangeForgetPassword(isChange)">
+                            <input type="password" name="confirmPassword" id="confirm_password" value="{{ old('confirm_password') }}" onkeyup="processConfirmPassword()" oninput="checkUpdateUser(isUser)">
+                            <p id="result_confirm_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
+
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="site-btn" id="btn_update">UPDATE</button>
+                <button type="submit" class="site-btn btn_register" id="btn_update" disabled="true">UPDATE</button>
             </form>
         </div>
     </div>
