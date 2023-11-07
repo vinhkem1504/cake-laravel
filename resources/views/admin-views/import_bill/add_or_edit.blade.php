@@ -37,8 +37,7 @@
                                         <select class="form-control" required name="supplier_id">
                                             <option value="">Select Supplier</option>
                                             @foreach ($suppliers as $value)
-                                                <option value="{{ $value->supplier_id }}"
-                                                    {{ isset($import_bill) && $import_bill->supplier_id == $value->supplier_id ? 'selected' : '' }}>
+                                                <option value="{{ $value->supplier_id }}" {{ (old('supplier_id') == $value->supplier_id) ? 'selected' : ((isset($import_bill) && $import_bill->supplier_id == $value->supplier_id) ? 'selected' : '') }}>
                                                     {{ $value->name }}
                                                 </option>
                                             @endforeach
