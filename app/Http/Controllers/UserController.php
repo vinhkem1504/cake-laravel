@@ -58,7 +58,7 @@ class UserController extends Controller
             $userImage->move(public_path('user-images'),$name);
             $user->avatar_image = '/user-images/'.$name;
             $user->save();
-            return redirect('/user')->with('message', 'update success');
+            return redirect('/user', )->with('message', 'update success');
         }
 
         if($userName !== $user->name){
@@ -71,6 +71,7 @@ class UserController extends Controller
             if(Hash::check($password, $user->password)){
                 $user->password = Hash::make($newPassword);
                 $user->save();
+                // return redirect('/user', ['message'=>'Change password success']);
             }
         }
         

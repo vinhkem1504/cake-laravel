@@ -242,9 +242,11 @@ function showInputChangePassword() {
     if (checkbox.checked) {
         document.getElementById('new_password').classList.remove('hidden-input');
         document.getElementById('confirm_password').classList.remove('hidden-input');
+        document.getElementById('password').classList.remove('hidden-input');
     } else {
         document.getElementById('new_password').classList.add('hidden-input');
         document.getElementById('confirm_password').classList.add('hidden-input');
+        document.getElementById('password').classList.add('hidden-input');
     }
 }
 const processChangeFirstName = debounce(() => validateFirstName());

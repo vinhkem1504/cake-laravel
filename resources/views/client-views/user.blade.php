@@ -29,12 +29,15 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="checkout__title">Information Details</h6>
-                        {{-- @if ($message)
-                            <h6 class="checkout__title success">{{$message}}</h6>
-                        @endif --}}
+                        @if (session('message'))
+                            <h6 class="checkout__title success">{{session('message')}}</h6>
+                        @endif
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="">
+                                    @isset($message)
+                                        <p style="color: red;">{{ $message }}</p>
+                                    @endisset
                                     <p>Avatar<span>*</span></p>
                                     <div class="image-upload">
                                         <label for="file-input">
