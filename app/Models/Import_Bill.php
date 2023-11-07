@@ -9,4 +9,5 @@ class Import_Bill extends Model
 {
     use HasFactory;
     protected $table = "Import_Bill";
+    protected $primaryKey = "import_bill_id";
 }

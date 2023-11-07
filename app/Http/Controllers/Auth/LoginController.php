@@ -81,6 +81,15 @@ class LoginController extends Controller
                 Session::put('cartLength', $cart->count());
                 Session::put('total', $total);
             }
+
+            $notifications = DB::table('Notifications')
+            ->where('user_id', '=', $userId)
+            ->orderByDesc('created_at')
+            ->get();
+            // dd($notifications);
+
+            $request->session()->put('notifications', $notifications);
+
             return redirect('/')->with('success', "Account successfully login.");
         } else {
             return response()->json(['error' => false, 'queries' => $credentials]);

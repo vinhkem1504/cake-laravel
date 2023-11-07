@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Pusher\Pusher;
 
 class UserController extends Controller
 {
@@ -22,6 +23,21 @@ class UserController extends Controller
         $this->bill = new Bill();
         $this->billDetails = new Bill_details();
         $this->cart = new Cart();
+    }
+
+    public function pusherAuth()
+    {
+        $user = auth()->user();
+
+        if ($user) {
+            $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'));
+            echo $pusher->socket_auth(request()->input('channel_name'), request()->input('socket_id'));
+            return;
+        }else {
+            header('', true, 403);
+            echo "Forbidden";
+            return;
+        }
     }
 
     function getUser(){

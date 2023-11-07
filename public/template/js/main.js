@@ -430,6 +430,21 @@ function handleRegister(name, email, password) {
     }, 'json');
 }
 
+/*Handle changeimage */
+function handleImageChange(input) {
+    const previewImage = document.getElementById('preview-image');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 //show cart guest
 function showCartFromLocal() {
     var cart = JSON.parse(localStorage.getItem('guestCart'));
@@ -687,12 +702,12 @@ function checkExistProduct(productId) {
 function updateHeaderCart(quantity, total){
     console.log('*******************',quantity, total);
     document.getElementById('quantityOfProduct').innerHTML = quantity;
-    document.getElementById('totalCartPrice').innerHTML = '$ '+total;
+    document.getElementById('totalCartPrice').innerHTML = total;
     localStorage.setItem('total', total);
 }
 
 function updateHeaderCartTotal(total) {
-    document.getElementById('totalCartPrice').innerHTML = '$ '+total;
+    document.getElementById('totalCartPrice').innerHTML = total;
     localStorage.setItem('total', total);
 }
 
@@ -739,7 +754,7 @@ function showBillDetails(billId){
 
             document.getElementById('current-bill-id').innerHTML = 'ID '+billId;
             document.getElementById('bill-details-products').innerHTML = str;
-            document.getElementById('bill-total').innerHTML = '$'+total;
+            document.getElementById('bill-total').innerHTML = total;
         },
         error: function (err) {
             console.log(err)
@@ -1210,3 +1225,11 @@ function cancelBill(billId){
     });
 
 })(jQuery);
+document.getElementById("notification-button").addEventListener("click", function() {
+    var menu = document.getElementById("notification-menu");
+    if (menu.style.display === "none" || menu.style.display === "") {
+      menu.style.display = "block";
+    } else {
+      menu.style.display = "none";
+    }
+  });
