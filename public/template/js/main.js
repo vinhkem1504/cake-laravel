@@ -94,23 +94,26 @@ function validatePassword(isRegister) {
     // password nhap 6 ki tu gom chu va so
     var passwordRGEX = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
     var password = document.getElementById('account_password').value
-    var new_password = document.getElementById('new_password').value
-    
-    //new_password
-    if (!passwordRGEX.test(new_password)) {
-        document.getElementById('result_new_password').style.display = 'block';
-        document.getElementById('result_new_password').innerHTML = "Please enter a password of 6 characters including letters and numbers.";
-        isRegister = false;
+    var new_password;
+    if (document.querySelector('div #newPassword')) {
+        new_password = document.getElementById('new_password').value
+        //new_password
+        if (!passwordRGEX.test(new_password)) {
+            document.getElementById('result_new_password').style.display = 'block';
+            document.getElementById('result_new_password').innerHTML = "Please enter a password of 6 characters including letters and numbers.";
+            isRegister = false;
+        }
+        else {
+            document.getElementById('result_new_password').style.display = 'none';
+            isRegister = true;
+        }
+        if (new_password == "") {
+            document.getElementById('result_new_password').style.display = 'none';
+            isRegister = true;
+        }
+
     }
-    else {
-        document.getElementById('result_new_password').style.display = 'none';
-        isRegister = true;
-    }
-    if (new_password == "") {
-        document.getElementById('result_new_password').style.display = 'none';
-        isRegister = true;
-    }
-    
+    // else {
     // account_password
     if (!passwordRGEX.test(password)) {
         document.getElementById('result_password').style.display = 'block';
@@ -125,38 +128,46 @@ function validatePassword(isRegister) {
         document.getElementById('result_password').style.display = 'none';
         isRegister = true;
     }
+    // }
     return isRegister
 }
 
 function checkPassword(isRegister) {
     var confirm_password = document.getElementById('confirm_password').value
     var password = document.getElementById('account_password').value
-    var new_password = document.getElementById('new_password').value
+    var new_password;
+    if (document.querySelector('div #newPassword')) {
+        new_password = document.getElementById('new_password').value
+        if (confirm_password != new_password) {
+            document.getElementById('result_confirm_password').style.display = 'block';
+            document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
+            isRegister = false;
+        } else {
+            document.getElementById('result_confirm_password').style.display = 'none';
+            isRegister = true;
+        }
+        if (confirm_password == "") {
+            document.getElementById('result_confirm_password').style.display = 'none';
+            isRegister = true;
+        }
+        return isRegister;
+    } else {
+        if (confirm_password != password) {
+            document.getElementById('result_confirm_password').style.display = 'block';
+            document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
+            isRegister = false;
+        }
+        else {
+            document.getElementById('result_confirm_password').style.display = 'none';
+            isRegister = true;
+        }
 
-    if (confirm_password != new_password) {
-        document.getElementById('result_confirm_password').style.display = 'block';
-        document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
-        isRegister = false;
-    } else if (confirm_password == new_password){
-        document.getElementById('result_confirm_password').style.display = 'none';
-        isRegister = true;
+        if (confirm_password == "") {
+            document.getElementById('result_confirm_password').style.display = 'none';
+            isRegister = true;
+        }
+        return isRegister
     }
-
-    else if (confirm_password != password) {
-        document.getElementById('result_confirm_password').style.display = 'block';
-        document.getElementById('result_confirm_password').innerHTML = 'Password does not match';
-        isRegister = false;
-    }
-    else if (confirm_password == password){
-        document.getElementById('result_confirm_password').style.display = 'none';
-        isRegister = true;
-    }
-
-    if (confirm_password == "") {
-        document.getElementById('result_confirm_password').style.display = 'none';
-        isRegister = true;
-    }
-    return isRegister
 
 }
 
@@ -230,7 +241,7 @@ function showInputChangePassword() {
     }
 }
 
-function checkUpdateUser(isUser){
+function checkUpdateUser(isUser) {
     isUser = true;
     var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isUser);
@@ -434,7 +445,7 @@ function handleRegister(name, email, password) {
             }, 5000);
             $('#email').val("");
             $('#name').val("");
-            $('#password').val("");
+            $('#account_password').val("");
             $('#confirm_password').val("");
             $('#btn_register').prop('disabled', 'true');
             $('#btn_register').addClass("btn_register");
@@ -736,7 +747,7 @@ function handleRegister(name, email, password) {
             }, 1000);
             $('#email').val("");
             $('#name').val("");
-            $('#password').val("");
+            $('#account_password').val("");
             $('#confirm_password').val("");
             $('#btn_register').prop('disabled', 'true');
             $('#btn_register').addClass("btn_register");
@@ -1057,7 +1068,7 @@ function handlePaginateShop(url) {
         $('#btn_register').click(function () {
             var email = $('#email').val();
             var name = $('#name').val();
-            var password = $('#password').val();
+            var password = $('#account_password').val();
             handleRegister(name, email, password);
         });
     })
@@ -1143,7 +1154,7 @@ function handlePaginateShop(url) {
 
     $('#btn_login').click(function () {
         var email = $('#email').val();
-        var password = $('#password').val();
+        var password = $('#account_password').val();
         $.post(`${port}:8000/login`, { email: email, password: password }, function (response) {
             if (response.error == true) {
                 console.log('failed to login');
