@@ -35,8 +35,7 @@
                                         <select class="form-control" required name="material_id">
                                             <option value="">Select Material</option>
                                             @foreach ($materials as $value)
-                                                <option value="{{ $value->material_id }}"
-                                                    {{ isset($details_import_bill) && $details_import_bill->material_id == $value->material_id ? 'selected' : '' }}>
+                                                <option value="{{ $value->material_id }}" {{ (old('material_id') == $value->material_id) ? 'selected' : ((isset($details_import_bill) && $details_import_bill->material_id == $value->material_id) ? 'selected' : '') }}>
                                                     {{ $value->material_name }}
                                                 </option>
                                             @endforeach
@@ -46,7 +45,7 @@
                                     <div class="form-group">
                                         <label for="quantity">Quantity<span class="text-danger">*</span></label>
                                         <input type="number"
-                                            value="{{ isset($details_import_bill) ? $details_import_bill->quantity : '' }}"
+                                            value="{{ old('quantity', isset($details_import_bill) ? $details_import_bill->quantity : '') }}"
                                             required class="form-control" name="quantity" id="quantity"
                                             placeholder="Enter quantity">
                                         <div style="color:red">{{ $errors->first('quantity') }}</div>
@@ -54,7 +53,7 @@
                                     <div class="form-group">
                                         <label for="price">Price <span class="text-danger">*</span></label>
                                         <input type="text"
-                                            value="{{ isset($details_import_bill) ? $details_import_bill->price : '' }}"
+                                            value="{{ old('price', isset($details_import_bill) ? $details_import_bill->price : '') }}"
                                             required class="form-control" name="price" id="price"
                                             placeholder="Enter price">
                                         <div style="color:red">{{ $errors->first('price') }}</div>
