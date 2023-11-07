@@ -9,9 +9,11 @@
 
 'use strict';
 
+
+
 /*Handle addcart */
 
-var port = 'http://localhost';
+var port = 'http://127.0.0.1';
 
 function debounce(func, timeout = 300) {
     let timer;
@@ -21,11 +23,13 @@ function debounce(func, timeout = 300) {
     };
 }
 function validateAddress(isRegister) {
+    isRegister = true;
     var address = document.getElementById('address').value;
     if (address == "") {
         document.getElementById('result_address').style.display = 'none';
-        isRegister = true;
+        isRegister = false;
     }
+    return isRegister;
 }
 function validatePhone(isRegister) {
     var phoneRGEX = /^\d{10}$/;
@@ -43,7 +47,7 @@ function validatePhone(isRegister) {
         document.getElementById('result_phone').style.display = 'none';
         isRegister = true;
     }
-
+    return isRegister;
 
 }
 function validateFirstName() {
@@ -153,73 +157,33 @@ function checkEmptyInput(isRegister) {
 
     }
 }
-function checkLogin(isLogIn) {
-    isLogIn = true;
-    var password = document.getElementById('password').value;
-    var valPassword = validatePassword(isLogIn);
 
-    var email = document.getElementById('email').value;
-    var valEmail = validateEmail(isLogIn);
-    if (password == '' || email == '') {
-        isLogIn = false;
-    } else if(password != '' || email != ''){
-        document.getElementById('check_login').style.display = 'none';
-    }
-    if ((isLogIn && valEmail && valPassword)) {
-        document.getElementById('btn_register').classList.remove('btn_register');
-        document.getElementById('btn_register').disabled = false;
-    }
-    else {
-        document.getElementById('btn_register').classList.add('btn_register');
-        document.getElementById('btn_register').disabled = true;
-
-    }
-    $.ajax({
-        url: `${port}:8000/checkLogin`,
-        type: 'GET',
-        data: {
-            email: email,
-            password: password
-        },
-        success: function (response) {
-            if (email !== '' && password !== '') {
-                document.getElementById('btn_register').classList.add('btn_register');
-                document.getElementById('btn_register').disabled = true;
-                document.getElementById('check_login').style.display = 'block';
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.responseText);
-        }
-    })
-}
 function checkBill(isEmpty) {
     isEmpty = true;
     var firstName = document.getElementById('name').value;
-    var valFirstName = validateFirstName(isRegister);
+    var valFirstName = validateFirstName(isEmpty);
 
     // var lastName = document.getElementById('last_name').value;
-    // var valLastName = validateLastName(isRegister);
+    // var valLastName = validateLastName(isEmpty);
 
     var email = document.getElementById('email').value;
-    var valEmail = validateEmail(isRegister);
+    var valEmail = validateEmail(isEmpty);
 
     var address = document.getElementById('address').value;
-    var valAddress = validateAddress(isRegister);
+    var valAddress = validateAddress(isEmpty);
 
     var phone = document.getElementById('phone').value;
-    var valPhone = validatePhone(isRegister);
-    if (firstName == '' || address == '' || email == '' || phone == '') {
+    var valPhone = validatePhone(isEmpty);
+    if (address == '' || email == '' || phone == '') {
         isEmpty = false;
     }
-    if (isEmpty && valFirstName && valEmail && valPhone && valAddress) {
+    if (isEmpty && valEmail && valPhone && valAddress) {
         document.getElementById('btn_register').classList.remove('btn_register');
         document.getElementById('btn_register').disabled = false;
     }
     else {
         document.getElementById('btn_register').classList.add('btn_register');
         document.getElementById('btn_register').disabled = true;
-
     }
 }
 
@@ -268,7 +232,7 @@ const processChangePhone = debounce(() => validatePhone());
 const processChangeAddress = debounce(() => validateAddress());
 const processConfirmPassword = debounce(() => checkPassword());
 
-// phan trang
+// phan trang - Home page
 function handlePaginate(url) {
     $.ajax({
         url: url,
@@ -443,6 +407,21 @@ function handleRegister(name, email, password) {
     }, 'json');
 }
 
+/*Handle changeimage */
+function handleImageChange(input) {
+    const previewImage = document.getElementById('preview-image');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            previewImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 //show cart guest
 function showCartFromLocal() {
     var cart = JSON.parse(localStorage.getItem('guestCart'));
@@ -530,19 +509,26 @@ function handleAddToCart() {
 
                 if (cart) {
                     if (checkExistProduct(product.product_details_id)) {
+                        var total = 0;
                         var newCart = cart.listProducts.map(function (item) {
                             if (item.product_details_id === product.product_details_id) {
                                 item.quanlity = +item.quanlity + +product.quanlity;
                             }
+                            total += +item.price * +item.quanlity;
                             return item;
                         });
 
-                        console.log('new', newCart);
+                        //   console.log('new', newCart);
                         localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
+                        var quantity = newCart.length;
+                        // console.log('total', total, quantity);
+                        updateHeaderCart(quantity, total);
                     }
                     else {
                         var newCart = { ...cart, listProducts: [...cart.listProducts, product] }
+                        var total = JSON.parse(localStorage.getItem('total'));
                         localStorage.setItem('guestCart', JSON.stringify(newCart));
+                        updateHeaderCart(newCart.listProducts.length, +total + +product.price);
                     }
                 }
                 else {
@@ -550,7 +536,16 @@ function handleAddToCart() {
                         listProducts: [product]
                     }
                     localStorage.setItem('guestCart', JSON.stringify(newCart));
+                    updateHeaderCart(1, +product.price * +product.quanlity);
                 }
+            }
+            else {
+                var total = 0;
+                var quantity = response.length;
+                response.forEach(function (item) {
+                    total += item.quanlity * item.price;
+                })
+                updateHeaderCart(quantity, total);
             }
         },
         error: function (err) {
@@ -558,8 +553,7 @@ function handleAddToCart() {
         }
     })
     //update header
-    // var quantity = newCart.length;
-    // updateHeaderCart(quantity, total);
+
 
     //show modal
     $('#openAlertNotication').click();
@@ -647,7 +641,7 @@ function handleDeleteOneTypeProduct(detailsId) {
                             </div>
                         </td>
                         <td class="cart__price" id="product-details-id-${item.product_details_id}-total-price">
-                            ${item.price.toFix(1) * item.quanlity.toFix(1)}
+                            ${item.price * item.quanlity}
                         </td>
                         <td class="cart__close"><span class="icon_close" onclick="handleDeleteOneTypeProduct(${item.product_details_id})"></span></td>
                     </tr>
@@ -658,7 +652,6 @@ function handleDeleteOneTypeProduct(detailsId) {
 
             document.getElementById('displayTable').innerHTML = str;
             document.getElementById('total-cart-price').innerHTML = total;
-
             updateHeaderCart(quantity, total);
         },
         error: function (err) {
@@ -684,13 +677,15 @@ function checkExistProduct(productId) {
 
 //update number and total cart in header
 function updateHeaderCart(quantity, total) {
-    console.log(quantity, total);
+    console.log('*******************', quantity, total);
     document.getElementById('quantityOfProduct').innerHTML = quantity;
-    document.getElementById('totalCartPrice').innerHTML = total;
+    document.getElementById('totalCartPrice').innerHTML = '$ ' + total;
+    localStorage.setItem('total', total);
 }
 
-function updateHeaderCart(total) {
-    document.getElementById('totalCartPrice').innerHTML = total;
+function updateHeaderCartTotal(total) {
+    document.getElementById('totalCartPrice').innerHTML = '$ ' + total;
+    localStorage.setItem('total', total);
 }
 
 function handleRegister(name, email, password) {
@@ -714,10 +709,184 @@ function handleRegister(name, email, password) {
     }, 'json');
 }
 
+//hanld show Bill details
+function showBillDetails(billId) {
+    console.log(billId);
+
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: `${port}:8000/user/bills/${billId}`,
+        success: function (response) {
+            console.log('res', response)
+            var str = '';
+            var total = 0;
+            response.forEach((product) => {
+                str +=
+                    `
+                    <li><samp>${product.quanlity}</samp> ${product.productname + ' - ' + product.flavourValue + ' - ' + product.sizeValue} <span>$ ${+product.price * +product.quanlity}</span></li>
+                `
+                total += +product.price * +product.quanlity;
+            })
+
+            document.getElementById('current-bill-id').innerHTML = 'ID ' + billId;
+            document.getElementById('bill-details-products').innerHTML = str;
+            document.getElementById('bill-total').innerHTML = '$' + total;
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
+}
+function handleCancel(billId) {
+    $(`#alertDialog-${billId}`).modal("show");
+
+    $(`#confirmDialogButton-${billId}`).off("click");
+
+    $(`#confirmDialogButton-${billId}`).click(function () {
+        cancelBill(billId);
+        $(`#alertDialog-${billId}`).modal("hide");
+    })
+    $("#closeDialogButton").click(function () {
+        $(`#alertDialog-${billId}`).modal("hide");
+    })
+}
+
+//handle cancel pending bill
+function cancelBill(billId) {
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: 'PUT',
+        dataType: 'json',
+        url: `${port}:8000/user/bills/cancel`,
+        data: {
+            billId: billId,
+            _token: csrfToken
+        },
+        success: function (response) {
+            if (response == 1) {
+                document.getElementById(`status-bill-${billId}`).innerHTML = 'Cancel';
+                document.getElementById(`status-bill-${billId}`).classList.remove('alert-warning');
+                document.getElementById(`status-bill-${billId}`).classList.add('alert-danger');
+            }
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
+}
+
+function handleRating(content, star) {
+    var product_id = $('.product__details__text').find('.product__label').attr('id');
+    $.post(`${port}:8000/createRate`, { description: content, value: star, product_id: product_id }, function (response) {
+        if (response.success == true) {
+            $('textarea').val("");
+            $('input[name="rating"][type="radio"]').prop('checked', false);
+            var count = $('#count_cmt').text();
+            var number = parseInt(count) + 1;
+            $('#count_cmt').text(number);
+            showComment(product_id);
+        } else {
+            $('textarea').val(`${response.message}`);
+            $('input[name="rating"][type="radio"]').prop('checked', false);
+        }
+    }, 'json');
+}
+
+function showComment(product_id) {
+    $.ajax({
+        url: `${port}:8000/ratingOf_${product_id}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            var dataContainer = $('.comment-list');
+            var cmt = '';
+            var sum = 0;
+            if (response.data.length > 0) {
+                $.each(response.data, function (i, item) {
+                    sum += parseFloat(item.value);
+                    console.log(sum);
+                    cmt += `<li style="background-color: #c6c3c363; margin-top: 15px; padding-top: 10px; padding-bottom: 10px;">
+                    <div class="col-lg-12">
+                        <img src="${item.avatar_image ? item.avatar_image : '/template/img/user.png'}" width="30px" height="30px" style="border-radius: 100%; position:absolute; top: 0px"/>
+                        <p id="user_cmt" style="margin-top: 20px; padding-left: 45px">${item.name}</p>
+                        <p>${item.value} <img src="/template/img/shop/details/detail_options/star.png"/> | ${item.description}</p>
+                        <p style="font-size: 12px">${item.created_at}</p>
+                    </div>
+                </li>`
+                })
+                dataContainer.html(cmt);
+                $('#sum_star').text(`${(1.0 * sum) / response.data.length}`);
+            }
+            else {
+                cmt = `<li style="background-color: #c6c3c363; margin-top: 15px; padding-top: 10px; padding-bottom: 10px;">
+                    <div class="col-lg-12">
+                    No comments yet
+                    </div>
+                </li>`;
+                dataContainer.html(cmt);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    })
+}
+
+
+// phan trang - Page Shope
+function handlePaginateShop(url) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        success: function (response) {
+            var dataContainer = $('.page_shop_pagination');
+            let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
+            dataContainer.html(a);
+
+            var products = $('.shop.spad').find('.container').find('.products_list');
+            var item = '';
+            $.each(response.products.data, function (i, product) {
+                item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                    style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                        <div class="product__label">
+                            <span>${product.category_name}</span>
+                        </div>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="#">${product.productname}</a></h6>
+                        <div class="product__item__price">$${product.price_default}</div>
+                        <div class="cart_add">
+                            <a href="#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+            })
+            products.html(item);
+            $('#next_page_shop').off('click').on('click', function () {
+                if (response.products.current_page < response.products.last_page) {
+                    handlePaginateShop(response.products.next_page_url);
+                }
+            });
+            $('#previous_page_shop').off('click').on('click', function () {
+                if (response.products.current_page > 1) {
+                    handlePaginateShop(response.products.prev_page_url);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+        }
+    });
+}
 
 (function ($) {
 
-    // phan trang all products
+    // phan trang all products ở trang Home
     $(document).ready(function () {
         $.ajax({
             url: `${port}:8000/products`,
@@ -744,6 +913,35 @@ function handleRegister(name, email, password) {
             }
         })
     });
+
+    $(document).ready(function () {
+        $.ajax({
+            url: `${port}:8000/paginationShop`,
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                console.log('current page: ' + response.products.current_page)
+                var dataContainer = $('.page_shop_pagination');
+                let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
+                dataContainer.append(a);
+
+                $('#next_page_shop').off('click').on('click', function () {
+                    if (response.products.current_page < response.products.last_page) {
+                        handlePaginateShop(response.products.next_page_url);
+                    }
+                });
+                $('#previous_page_shop').off('click').on('click', function () {
+                    if (response.products.current_page > 1) {
+                        handlePaginateShop(response.products.prev_page_url);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
 
     //filter categories
     $(document).ready(function () {
@@ -829,6 +1027,98 @@ function handleRegister(name, email, password) {
         });
     })
 
+    // rating - cmt
+    $(document).ready(function () {
+        var product_id = $('.product__details__text').find('.product__label').attr('id');
+        showComment(product_id);
+        // $('#reload').on('click', function () {
+        //     showComment(product_id);
+        // })
+    })
+
+    //btn send comment
+    $(document).ready(function () {
+        $('#send_cmt').on('click', function () {
+            var content = $('textarea').val();
+            var star = $('input[name="rating"][type="radio"]:checked').val();
+            if (content == "" || star == null) {
+                $('textarea').val(`Please fill your comment or rating. Thank you!`);
+                $('input[name="rating"][type="radio"]').prop('checked', false);
+            } else {
+                handleRating(content, star);
+            }
+
+        })
+    })
+
+
+    // search - Shop Page
+    $(document).ready(function () {
+        $('.shop__option__search').find('button').click(function () {
+            var category_name = $('#title_select').val();
+            var product_name = $('#search_shop').val();
+
+            $.post(`${port}:8000/search_filter_shop`, { category_name: category_name, product_name: product_name }, function (response) {
+                var dataContainer = $('.page_shop_pagination');
+                // let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
+                dataContainer.html("");
+                var products = $('.shop.spad').find('.container').find('.products_list');
+                if (response.data.length == 0) {
+                    products.html('No products!')
+                } else {
+                    var item = '';
+                    $.each(response.data, function (i, product) {
+                        item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                        style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                            <div class="product__label">
+                                <span>${product.category_name}</span>
+                            </div>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="#">${product.productname}</a></h6>
+                            <div class="product__item__price">$${product.price_default}</div>
+                            <div class="cart_add">
+                                <a href="#">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+                    })
+                    products.html(item);
+                }
+            }, 'json');
+        });
+    })
+
+    //active header
+    $(document).ready(function () {
+        var menuLinks = $('.header__menu.mobile-menu').find('li');
+
+        menuLinks.each(function (event) {
+            var hrefValue = $(this).find('a').attr('href');
+            if (window.location.href === hrefValue) {
+                menuLinks.removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+    })
+
+
+    $('#btn_login').click(function () {
+        var email = $('#email').val();
+        var password = $('#password').val();
+        $.post(`${port}:8000/login`, { email: email, password: password }, function (response) {
+            if (response.error == true) {
+                console.log('failed to login');
+                $('#check_login').css('display', 'block');
+            } else {
+                console.log('success to login');
+                window.location.href = `${port}:8000/`
+            }
+        }, 'json');
+    })
 
     /*------------------
         Preloader
@@ -1049,12 +1339,12 @@ function handleRegister(name, email, password) {
                     // console.log('new', newCart);
                     localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                 }
-                var price = parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
-                var totalPrice = document.getElementById(`product-details-id-${id}-total-price`).textContent;
-                var totalCart = document.getElementById(`total-cart-price`).textContent;
-                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (+totalPrice - +price);
-                document.getElementById(`total-cart-price`).innerHTML = (+totalCart - +price);
-                updateHeaderCart(+totalCart - +price);
+                var price = +parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
+                var totalPrice = +parseFloat(document.getElementById(`product-details-id-${id}-total-price`).textContent).toFixed(1);
+                var totalCart = +parseFloat(document.getElementById(`total-cart-price`).textContent).toFixed(1);
+                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (totalPrice - price).toFixed(1);
+                document.getElementById(`total-cart-price`).innerHTML = (totalCart - price).toFixed(1);
+                updateHeaderCartTotal((totalCart - price).toFixed(1));
             },
             error: function (err) {
                 console.log(err)
@@ -1087,12 +1377,13 @@ function handleRegister(name, email, password) {
                     // console.log('new', newCart);
                     localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                 }
-                var price = parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
-                var totalPrice = document.getElementById(`product-details-id-${id}-total-price`).textContent;
-                var totalCart = document.getElementById(`total-cart-price`).textContent;
-                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (+totalPrice + +price);
-                document.getElementById(`total-cart-price`).innerHTML = (+totalCart + +price);
-                updateHeaderCart(+totalCart + +price);
+                var price = +parseFloat(document.getElementById(`product-details-id-${id}-price`).textContent).toFixed(1);
+                var totalPrice = +parseFloat(document.getElementById(`product-details-id-${id}-total-price`).textContent).toFixed(1);
+                var totalCart = +parseFloat(document.getElementById(`total-cart-price`).textContent).toFixed(1);
+                // console.log(typeof price, typeof totalPrice, typeof totalCart);
+                document.getElementById(`product-details-id-${id}-total-price`).innerHTML = (totalPrice + price).toFixed(1);
+                document.getElementById(`total-cart-price`).innerHTML = (totalCart + price).toFixed(1);
+                updateHeaderCartTotal((totalCart + price).toFixed(1));
             },
             error: function (err) {
                 console.log(err)

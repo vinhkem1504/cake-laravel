@@ -47,7 +47,7 @@
                             <div class="header__top__right__cart">
                                 @auth
                                 <a href="{{route('cart.show')}}"><img src="{{asset('template/img/icon/cart.png')}}" alt=""> <span id="quantityOfProduct">{{ session('cartLength') }}</span></a>
-                                <div class="cart__price">Cart: <span id="totalCartPrice">{{ session('total') }}</span></div>
+                                <div class="cart__price">Cart: <span id="totalCartPrice">$ {{ session('total') }}</span></div>
                                 @endauth
 
                                 @guest
@@ -75,20 +75,20 @@
                 <nav class="header__menu mobile-menu">
                     <ul>
                         <li class="active"><a href="{{route('client-views.home')}}">Home</a></li>
-                        <li><a href="./about.html">About</a></li>
-                        <li><a href="./shop.html">Shop</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="./shop-details.html">Shop Details</a></li>
-                                <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                <li><a href="./register.html">Register</a></li>
-                                <li><a href="./wisslist.html">Wisslist</a></li>
-                                <li><a href="./Class.html">Class</a></li>
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                            </ul>
+                        <li><a href="">About</a></li>
+                        <li><a href="http://127.0.0.1:8000/shop">Shop</a></li>
+                        <li><a href="">Pages</a>
+                            {{-- <ul class="dropdown">
+                                <li><a href="">Shop Details</a></li>
+                                <li><a hre="">Shoping Cart</a></li>
+                                <li><a href="">Register</a></li>
+                                <li><a href="">Wisslist</a></li>
+                                <li><a href="">Class</a></li>
+                                <li><a href="">Blog Details</a></li>
+                            </ul> --}}
                         </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
+                        <li><a href="">Blog</a></li>
+                        <li><a href="">Contact</a></li>
                     </ul>
                 </nav>
             </div>

@@ -45,8 +45,9 @@ class LoginController extends Controller
             ->where('user_id', '=', $userId)
             ->select('*')
             ->first();
-            
-            if(!$checkCart){
+            // dd($checkCart);
+            if(!$checkCart && $cart){
+                // dd($checkCart);
                 foreach ($cart as $item) {
                     $data = [
                         'user_id' => intval($userId),
@@ -80,24 +81,12 @@ class LoginController extends Controller
                 Session::put('cartLength', $cart->count());
                 Session::put('total', $total);
             }
-            return redirect('/')->with('success', "Account successfully login.");
-        } else {
             return response()->json(['error' => false, 'queries' => $credentials]);
+        } else {
+            return response()->json(['error' => true, 'queries' => $credentials]);
         }
     }
 
-    public function checkLogin(Request $request){
-        $email = $request->input('email');
-        $password = $request->input('password');
-        $check = DB::table('User')
-        ->where('email', $email)
-        ->where('password', $password)
-        ->count();
-
-        if($check != 1){
-            return response()->json(['error' => false]);
-        }
-    }
 
     /**
      * Handle response after user authenticated
