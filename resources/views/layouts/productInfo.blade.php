@@ -28,9 +28,6 @@
     <link rel="stylesheet" href="{{ asset('template/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('template/css/style.css') }}" type="text/css">
 </head>
-<script>
-    var isRegister;
-</script>
 
 <body>
     <!-- Page Preloder -->
@@ -86,5 +83,7 @@
     <script src="{{ asset('template/js/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('template/js/main.js') }}"></script>
 </body>
-
+<script>
+    var isRegister;
+</script>
 </html>

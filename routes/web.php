@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminControllers\CategoryController;
 use App\Http\Controllers\AdminControllers\FlavourController;
 use App\Http\Controllers\AdminControllers\SizeController;
@@ -16,6 +19,7 @@ use App\Http\Controllers\AdminControllers\BillController;
 use App\Http\Controllers\AdminControllers\ProductController;
 use App\Http\Controllers\AdminControllers\ProductDetailsController;
 use App\Http\Controllers\AdminControllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +36,17 @@ use App\Http\Controllers\AdminControllers\UserController;
  * Home Routes
  */
 Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
-Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
 Route::post('/products', [HomeController::class, 'getListProducts'])->name('products.get');
 Route::post('/categories', [HomeController::class, 'filterCategory'])->name('categories.filter');
+Route::get('/product_id={product_id}', [ProductController::class, 'index'])->name('client-views.productDetails');
+Route::get('/getSize_{product_id}', [ProductController::class, 'getSize'])->name('productDetails.getSize');
+Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
+
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::post('/cart/add', [CartController::class, 'addProductToCart']);
+Route::post('/cart/addOneProduct', [CartController::class, 'addOneProductFromCart']);
+Route::delete('/cart/deleteOneProduct', [CartController::class, 'deleteOneProductFromCart']);
+Route::delete('/cart/deleteOneTypeProduct', [CartController::class, 'deleteOneTypeProductFromCart']);
 
 Route::group(['middleware' => ['guest']], function () {
     /**
@@ -48,17 +60,39 @@ Route::group(['middleware' => ['guest']], function () {
      */
     Route::get('/login', [LoginController::class, 'show'])->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    Route::get('/checkLogin', [LoginController::class, 'checkLogin'])->name('login.checkLogin');
+    
 });
 
+
+// user phai login moi truy cap duoc cac link sau
 Route::group(['middleware' => ['auth']], function () {
     /**
      * Logout Routes
      */
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout.perform');
+
+    Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+
+    Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
+    Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
+
+    Route::get('/user', [HomeController::class, 'showUserInfo'])->name('client-views.user');
+
+    Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
+    Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
+
+    Route::get('/user/bills', [UserController::class, 'getUserBill'])->name('client-views.bills');
+    Route::get('/user/bills/{billId}', [UserController::class, 'getDetailsBill'])->name('user.bill-details');
+    Route::put('/user/bills/cancel', [UserController::class, 'cancelBill'])->name('user.cancel-bill');
+    Route::get('/bill/all', [UserController::class, 'getUserBill'])->name('get-all-userBill');
+    // Route::post('')
+    Route::get('/cart/get-products', [UserController::class, 'getProductsFromCart'])->name('user.get-cart');
+    Route::get('/checkout', [UserController::class, 'showCheckoutCart'])->name('show.checkoutCart');
+    Route::post('/checkout', [UserController::class, 'createUserBill'])->name('create.bill');
 });
 
-
-
+Route::post('/pusher/auth', [UserController::class, 'pusherAuth']);
 
 Route::get('/admin/dashboard', function () {
     return view('admin-views.dashboard');
