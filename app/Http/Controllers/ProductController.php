@@ -126,9 +126,9 @@ class ProductController extends Controller
             ->select('*')
             ->paginate(16);
         $count = DB::table('Products')
-        ->join('Category', 'Products.category_id', '=', 'Category.category_id')
-        ->select('*')->get()->count();
-        
+            ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+            ->select('*')->get()->count();
+
         return response()->json(['products' => $products, 'count' => $count]);
     }
 
@@ -141,5 +141,40 @@ class ProductController extends Controller
 
         $category = Category::all();
         return view('client-views.shopProduct', compact('products', 'category'));
+    }
+
+    public function filterCategoryShop(Request $request)
+    {
+        $category_name = $request->input('category_name');
+        $product_name = $request->input('product_name');
+        
+        if ($category_name != null && $product_name == null) {
+            $products = DB::table('Products')
+                ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+                ->where('Category.category_name', '=', $category_name)
+                ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+                ->paginate(16);
+
+            return response()->json($products);
+
+        } else if ($product_name != null && ($category_name == null || $category_name == 'Categories')) {
+            $products = DB::table('Products')
+                ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+                ->where('Products.productname', 'LIKE',  '%'.$product_name.'%')
+                ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+                ->paginate(16);
+
+            return response()->json($products);
+
+        } else if ($category_name != null && $category_name !== 'Categories' && $product_name != null) {
+            $products = DB::table('Products')
+                ->join('Category', 'Products.category_id', '=', 'Category.category_id')
+                ->where('Products.productname', 'LIKE',  '%'.$product_name.'%')
+                ->where('Category.category_name', '=', $category_name)
+                ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+                ->paginate(16);
+
+            return response()->json($products);
+        }
     }
 }

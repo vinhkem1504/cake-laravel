@@ -31,14 +31,14 @@
                     <div class="col-lg-7 col-md-7">
                         <div class="shop__option__search">
                             <form action="#">
-                                <select>
-                                    <option value="">Categories</option>
+                                <select id="title_select">
+                                    <option>Categories</option>
                                     @foreach ($category as $item)
-                                        <option value="">{{ $item->category_name }}</option>
+                                        <option value="{{ $item->category_name }}">{{ $item->category_name }}</option>
                                     @endforeach
                                 </select>
-                                <input type="text" placeholder="Search">
-                                <button type="submit"><i class="fa fa-search"></i></button>
+                                <input type="text" placeholder="Search" id="search_shop">
+                                <button type="button"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
                     </div>

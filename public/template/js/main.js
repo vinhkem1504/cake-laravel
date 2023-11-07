@@ -10,6 +10,7 @@
 'use strict';
 
 
+
 /*Handle addcart */
 
 var port = 'http://127.0.0.1';
@@ -47,7 +48,7 @@ function validatePhone(isRegister) {
         isRegister = true;
     }
     return isRegister;
-    
+
 }
 function validateFirstName() {
     var nameRGEX = /^[a-zA-Z]+$/;
@@ -156,46 +157,7 @@ function checkEmptyInput(isRegister) {
 
     }
 }
-function checkLogin(isLogIn) {
-    isLogIn = true;
-    var password = document.getElementById('password').value;
-    var valPassword = validatePassword(isLogIn);
 
-    var email = document.getElementById('email').value;
-    var valEmail = validateEmail(isLogIn);
-    if (password == '' || email == '') {
-        isLogIn = false;
-    } else if(password != '' || email != ''){
-        document.getElementById('check_login').style.display = 'none';
-    }
-    if ((isLogIn && valEmail && valPassword)) {
-        document.getElementById('btn_register').classList.remove('btn_register');
-        document.getElementById('btn_register').disabled = false;
-    }
-    else {
-        document.getElementById('btn_register').classList.add('btn_register');
-        document.getElementById('btn_register').disabled = true;
-
-    }
-    $.ajax({
-        url: `${port}:8000/checkLogin`,
-        type: 'GET',
-        data: {
-            email: email,
-            password: password
-        },
-        success: function (response) {
-            if (email !== '' && password !== '') {
-                document.getElementById('btn_register').classList.add('btn_register');
-                document.getElementById('btn_register').disabled = true;
-                document.getElementById('check_login').style.display = 'block';
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log(xhr.responseText);
-        }
-    })
-}
 function checkBill(isEmpty) {
     isEmpty = true;
     var firstName = document.getElementById('name').value;
@@ -425,7 +387,7 @@ function handleImageChange(input) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             previewImage.src = e.target.result;
         };
 
@@ -527,8 +489,8 @@ function handleAddToCart() {
                             }
                             total += +item.price * +item.quanlity;
                             return item;
-                          });
-                        
+                        });
+
                         //   console.log('new', newCart);
                         localStorage.setItem('guestCart', JSON.stringify({ listProducts: newCart }));
                         var quantity = newCart.length;
@@ -550,10 +512,10 @@ function handleAddToCart() {
                     updateHeaderCart(1, +product.price * +product.quanlity);
                 }
             }
-            else{
+            else {
                 var total = 0;
                 var quantity = response.length;
-                response.forEach(function(item){
+                response.forEach(function (item) {
                     total += item.quanlity * item.price;
                 })
                 updateHeaderCart(quantity, total);
@@ -564,7 +526,7 @@ function handleAddToCart() {
         }
     })
     //update header
-    
+
 
     //show modal
     $('#openAlertNotication').click();
@@ -687,15 +649,15 @@ function checkExistProduct(productId) {
 }
 
 //update number and total cart in header
-function updateHeaderCart(quantity, total){
-    console.log('*******************',quantity, total);
+function updateHeaderCart(quantity, total) {
+    console.log('*******************', quantity, total);
     document.getElementById('quantityOfProduct').innerHTML = quantity;
-    document.getElementById('totalCartPrice').innerHTML = '$ '+total;
+    document.getElementById('totalCartPrice').innerHTML = '$ ' + total;
     localStorage.setItem('total', total);
 }
 
 function updateHeaderCartTotal(total) {
-    document.getElementById('totalCartPrice').innerHTML = '$ '+total;
+    document.getElementById('totalCartPrice').innerHTML = '$ ' + total;
     localStorage.setItem('total', total);
 }
 
@@ -721,50 +683,50 @@ function handleRegister(name, email, password) {
 }
 
 //hanld show Bill details
-function showBillDetails(billId){
+function showBillDetails(billId) {
     console.log(billId);
-    
+
     $.ajax({
         type: 'GET',
         dataType: 'json',
         url: `${port}:8000/user/bills/${billId}`,
-        success: function(response){
-            console.log('res', response) 
+        success: function (response) {
+            console.log('res', response)
             var str = '';
             var total = 0;
-            response.forEach((product)=>{
-                str += 
-                `
+            response.forEach((product) => {
+                str +=
+                    `
                     <li><samp>${product.quanlity}</samp> ${product.productname + ' - ' + product.flavourValue + ' - ' + product.sizeValue} <span>$ ${+product.price * +product.quanlity}</span></li>
                 `
                 total += +product.price * +product.quanlity;
             })
 
-            document.getElementById('current-bill-id').innerHTML = 'ID '+billId;
+            document.getElementById('current-bill-id').innerHTML = 'ID ' + billId;
             document.getElementById('bill-details-products').innerHTML = str;
-            document.getElementById('bill-total').innerHTML = '$'+total;
+            document.getElementById('bill-total').innerHTML = '$' + total;
         },
         error: function (err) {
             console.log(err)
         }
     })
 }
-function handleCancel(billId){
+function handleCancel(billId) {
     $(`#alertDialog-${billId}`).modal("show");
-    
+
     $(`#confirmDialogButton-${billId}`).off("click");
 
-    $(`#confirmDialogButton-${billId}`).click(function(){
+    $(`#confirmDialogButton-${billId}`).click(function () {
         cancelBill(billId);
         $(`#alertDialog-${billId}`).modal("hide");
     })
-    $("#closeDialogButton").click(function(){
+    $("#closeDialogButton").click(function () {
         $(`#alertDialog-${billId}`).modal("hide");
     })
 }
 
 //handle cancel pending bill
-function cancelBill(billId){
+function cancelBill(billId) {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         type: 'PUT',
@@ -774,12 +736,12 @@ function cancelBill(billId){
             billId: billId,
             _token: csrfToken
         },
-        success: function(response){
-            if(response == 1){
+        success: function (response) {
+            if (response == 1) {
                 document.getElementById(`status-bill-${billId}`).innerHTML = 'Cancel';
                 document.getElementById(`status-bill-${billId}`).classList.remove('alert-warning');
                 document.getElementById(`status-bill-${billId}`).classList.add('alert-danger');
-            } 
+            }
         },
         error: function (err) {
             console.log(err)
@@ -787,14 +749,14 @@ function cancelBill(billId){
     })
 }
 
-function handleRating(content, star){
+function handleRating(content, star) {
     var product_id = $('.product__details__text').find('.product__label').attr('id');
     $.post(`${port}:8000/createRate`, { description: content, value: star, product_id: product_id }, function (response) {
-        if(response.success == true) {
+        if (response.success == true) {
             $('textarea').val("");
             $('input[name="rating"][type="radio"]').prop('checked', false);
             var count = $('#count_cmt').text();
-            var number = parseInt(count)+1;
+            var number = parseInt(count) + 1;
             $('#count_cmt').text(number);
             showComment(product_id);
         } else {
@@ -804,7 +766,7 @@ function handleRating(content, star){
     }, 'json');
 }
 
-function showComment(product_id){
+function showComment(product_id) {
     $.ajax({
         url: `${port}:8000/ratingOf_${product_id}`,
         type: 'GET',
@@ -813,7 +775,7 @@ function showComment(product_id){
             var dataContainer = $('.comment-list');
             var cmt = '';
             var sum = 0;
-            if(response.data.length > 0){
+            if (response.data.length > 0) {
                 $.each(response.data, function (i, item) {
                     sum += parseFloat(item.value);
                     console.log(sum);
@@ -827,9 +789,9 @@ function showComment(product_id){
                 </li>`
                 })
                 dataContainer.html(cmt);
-                $('#sum_star').text(`${(1.0*sum)/response.data.length}`);
+                $('#sum_star').text(`${(1.0 * sum) / response.data.length}`);
             }
-            else{
+            else {
                 cmt = `<li style="background-color: #c6c3c363; margin-top: 15px; padding-top: 10px; padding-bottom: 10px;">
                     <div class="col-lg-12">
                     No comments yet
@@ -853,8 +815,8 @@ function handlePaginateShop(url) {
         dataType: 'json',
         success: function (response) {
             var dataContainer = $('.page_shop_pagination');
-                let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
-                dataContainer.html(a);
+            let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
+            dataContainer.html(a);
 
             var products = $('.shop.spad').find('.container').find('.products_list');
             var item = '';
@@ -1049,17 +1011,86 @@ function handlePaginateShop(url) {
 
     //btn send comment
     $(document).ready(function () {
-        $('#send_cmt').on('click', function(){
+        $('#send_cmt').on('click', function () {
             var content = $('textarea').val();
             var star = $('input[name="rating"][type="radio"]:checked').val();
-            if(content == "" || star == null){
-                    $('textarea').val(`Please fill your comment or rating. Thank you!`);
-                    $('input[name="rating"][type="radio"]').prop('checked', false);
+            if (content == "" || star == null) {
+                $('textarea').val(`Please fill your comment or rating. Thank you!`);
+                $('input[name="rating"][type="radio"]').prop('checked', false);
             } else {
                 handleRating(content, star);
             }
-            
+
         })
+    })
+
+
+    // search - Shop Page
+    $(document).ready(function () {
+        $('.shop__option__search').find('button').click(function () {
+            var category_name = $('#title_select').val();
+            var product_name = $('#search_shop').val();
+
+            $.post(`${port}:8000/search_filter_shop`, { category_name: category_name, product_name: product_name }, function (response) {
+                var dataContainer = $('.page_shop_pagination');
+                // let a = `<span href="#">Showing ${response.products.from}-${response.products.to} of ${response.count} results</span>`;
+                dataContainer.html("");
+                var products = $('.shop.spad').find('.container').find('.products_list');
+                if (response.data.length == 0) {
+                    products.html('No products!')
+                } else {
+                    var item = '';
+                    $.each(response.data, function (i, product) {
+                        item += `<div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="${product.product_avt_iamge}"
+                        style="background-image: url(&quot;${product.product_avt_iamge}&quot;);">
+                            <div class="product__label">
+                                <span>${product.category_name}</span>
+                            </div>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="#">${product.productname}</a></h6>
+                            <div class="product__item__price">$${product.price_default}</div>
+                            <div class="cart_add">
+                                <a href="#">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+                    })
+                    products.html(item);
+                }
+            }, 'json');
+        });
+    })
+
+    //active header
+    $(document).ready(function () {
+        var menuLinks = $('.header__menu.mobile-menu').find('li');
+
+        menuLinks.each(function (event) {
+            var hrefValue = $(this).find('a').attr('href');
+            if (window.location.href === hrefValue) {
+                menuLinks.removeClass('active');
+                $(this).addClass('active');
+            }
+        });
+    })
+
+
+    $('#btn_login').click(function () {
+        var email = $('#email').val();
+        var password = $('#password').val();
+        $.post(`${port}:8000/login`, { email: email, password: password }, function (response) {
+            if (response.error == true) {
+                console.log('failed to login');
+                $('#check_login').css('display', 'block');
+            } else {
+                console.log('success to login');
+                window.location.href = `${port}:8000/`
+            }
+        }, 'json');
     })
 
     /*------------------

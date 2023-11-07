@@ -40,6 +40,7 @@ Route::delete('/cart/deleteOneTypeProduct', [CartController::class, 'deleteOneTy
 
 Route::get('/shop', [ProductController::class, 'showAllProduct'])->name('shop.show');
 Route::post('/paginationShop', [ProductController::class, 'getAllProduct'])->name('shop.getAll');
+Route::post('/search_filter_shop', [ProductController::class, 'filterCategoryShop'])->name('shop.search');
 
 Route::group(['middleware' => ['guest']], function () {
     /**
@@ -53,7 +54,6 @@ Route::group(['middleware' => ['guest']], function () {
      */
     Route::get('/login', [LoginController::class, 'show'])->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
-    Route::get('/checkLogin', [LoginController::class, 'checkLogin'])->name('login.checkLogin');
     
 });
 
