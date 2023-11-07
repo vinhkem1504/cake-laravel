@@ -16,7 +16,7 @@ use App\Http\Controllers\AdminControllers\SupplierController;
 use App\Http\Controllers\AdminControllers\ImportBillController;
 use App\Http\Controllers\AdminControllers\DetailsImportBillController;
 use App\Http\Controllers\AdminControllers\BillController;
-
+use App\Http\Controllers\AdminControllers\HomeAdminController;
 
 
 
@@ -175,4 +175,6 @@ Route::get('/admin/bill/index', [BillController::class, 'index']);
 Route::get('/admin/bill/', [BillController::class, 'index']);
 Route::get('/admin/bill/{id}', [BillController::class, 'detail']);
 Route::post('/admin/bill/{bill_id}', [BillController::class, 'update_status']);
+
+
 
