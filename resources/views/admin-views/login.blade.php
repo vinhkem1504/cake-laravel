@@ -26,11 +26,11 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="{{ route('admin-views.authenticate') }}" method="post">
+      <form action="{{ route('admin.authenticate') }}" method="post">
         @csrf 
         <div class="input-group mb-3">
           <input type="username" name="username" id="username" value="{{ old('username') }}"
-          class="form-control @error('username') is-invalid @enderror" placeholder="username">
+              class="form-control @error('username') is-invalid @enderror" placeholder="username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -43,13 +43,14 @@
 
         </div>
         <div class="input-group mb-3">
-          <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password">
+          <input type="password" name="password" id="password" 
+              class="form-control @error('password') is-invalid @enderror" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
-          @error('username')
+          @error('password')
             <p class="invalid-feedback">{{ $message }} </p>
           @enderror
         </div>
@@ -84,9 +85,9 @@
       <p class="mb-1">
         <a href="forgot-password.html">I forgot my password</a>
       </p>
-      <p class="mb-0">
+      <!-- <p class="mb-0">
         <a href="register.html" class="text-center">Register a new membership</a>
-      </p>
+      </p> -->
     </div>
     <!-- /.login-card-body -->
   </div>

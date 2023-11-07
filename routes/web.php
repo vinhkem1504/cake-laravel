@@ -17,6 +17,7 @@ use App\Http\Controllers\AdminControllers\SupplierController;
 use App\Http\Controllers\AdminControllers\ImportBillController;
 use App\Http\Controllers\AdminControllers\DetailsImportBillController;
 use App\Http\Controllers\AdminControllers\BillController;
+use App\Http\Controllers\AdminControllers\HomeAdminController;
 
 
 
@@ -35,7 +36,7 @@ use App\Http\Controllers\AdminControllers\BillController;
 /**
  * Home Routes
  */
-Route::get('/', [HomeController::class, 'index'])->name('client-views.home');
+Route::get('/', [HomeAdminController::class, 'index'])->name('client-views.home');
 Route::post('/products', [HomeController::class, 'getListProducts'])->name('products.get');
 Route::post('/categories', [HomeController::class, 'filterCategory'])->name('categories.filter');
 Route::get('/product_id={product_id}', [ProductController::class, 'index'])->name('client-views.productDetails');
@@ -172,17 +173,26 @@ Route::get('/admin/bill/{id}', [BillController::class, 'detail']);
 Route::post('/admin/bill/{bill_id}', [BillController::class, 'update_status']);
 
 
+// Route::get('/', function(){
+//     return view('admin-views.dashboard');
+// });
+
 Route::group(['prefix'=> 'admin'], function () {
     Route::group(['middleware' => 'admin.guest'], function () {
         Route::get('/login', [AdminLoginController::class,'index'])->name('admin-views.login');
-        Route::post('/authenticate', [AdminLoginController::class,'authenticate'])->name('admin-views.authenticate');
+        Route::post('/authenticate', [AdminLoginController::class,'authenticate'])->name('admin.authenticate');
 
     });
 
     Route::group(['middleware'=> 'admin.auth'], function () {
 
-        Route::get('/dashboard', [HomeController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/dashboard', [HomeAdminController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/logout', [HomeAdminController::class,'logout'])->name('admin-views.logout');
 
     });
+
+    
+    
 });
+
 
