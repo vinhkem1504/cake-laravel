@@ -47,7 +47,7 @@
                             <div class="header__top__right__cart">
                                 @auth
                                 <a href="{{route('cart.show')}}"><img src="{{asset('template/img/icon/cart.png')}}" alt=""> <span id="quantityOfProduct">{{ session('cartLength') }}</span></a>
-                                <div class="cart__price">Cart: <span id="totalCartPrice">{{ session('total') }}</span></div>
+                                <div class="cart__price">Cart: <span id="totalCartPrice">$ {{ session('total') }}</span></div>
                                 @endauth
 
                                 @guest

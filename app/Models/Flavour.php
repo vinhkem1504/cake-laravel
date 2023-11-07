@@ -9,4 +9,5 @@ class Flavour extends Model
 {
     use HasFactory;
     protected $table = "Flavour";
+    protected $primaryKey = "flavour_id";
 }

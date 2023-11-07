@@ -7,6 +7,7 @@ use App\Models\Cart;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -27,6 +28,8 @@ class CartController extends Controller
             foreach ($cart as $product) {
                 $total += $product->price * $product->quanlity;
             }
+            Session::put('cartLength', $cart->count());
+            Session::put('total', $total);
             return view('client-views.cart', compact('cart', 'total'));
         }
         else{
@@ -56,7 +59,6 @@ class CartController extends Controller
             return $product;
         }
 
-
         return 'error';
     }
 
@@ -70,6 +72,12 @@ class CartController extends Controller
         if($check){
             $userId = Auth::user()->user_id;
             $cart = $this->cart->addOneProductFromCartUser($userId, $detailsId);
+            $total = 0;
+            foreach ($cart as $product) {   
+                $total += $product->price * $product->quanlity;
+            }
+            Session::put('cartLength', $cart->count());
+            Session::put('total', $total);
             return $cart;
         }
         return json_encode('guest');
@@ -85,6 +93,12 @@ class CartController extends Controller
         if($check){
             $userId = Auth::user()->user_id;
             $cart = $this->cart->deleteOneProductFromCartUser($userId, $detailsId);
+            $total = 0;
+            foreach ($cart as $product) {   
+                $total += $product->price * $product->quanlity;
+            }
+            Session::put('cartLength', $cart->count());
+            Session::put('total', $total);
             return $cart;
         }
         return json_encode('guest');
@@ -100,6 +114,12 @@ class CartController extends Controller
         if($check){
             $userId = Auth::user()->user_id;
             $cart = $this->cart->deleteOneTypeProductFromCartUser($userId, $detailsId);
+            $total = 0;
+            foreach ($cart as $product) {   
+                $total += $product->price * $product->quanlity;
+            }
+            Session::put('cartLength', $cart->count());
+            Session::put('total', $total);
             return $cart;
         }
         return json_encode('guest');

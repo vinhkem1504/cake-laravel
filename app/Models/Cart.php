@@ -6,12 +6,40 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class Cart extends Model
 {
     use HasFactory;
     protected $table = "Cart";
     
+    //Checkout cart
+    //Get products from cart
+    public function getProductsFromCart(){
+        $userId = Auth::user()->user_id;
+        $products = DB::table('Cart')
+        ->join('Products_details', 'Products_details.product_details_id', '=', 'Cart.product_details_id')
+        ->join('Products', 'Products.product_id', '=', 'Products_details.product_id')
+        ->join('Size', 'Size.size_id', '=', 'Products_details.size_id')
+        ->join('Flavour', 'Flavour.flavour_id', '=', 'Products_details.flavour_id')
+        ->where('user_id', '=', $userId)
+        ->select(['Products_details.product_details_id', 'Cart.quanlity', 'Products_details.price', 'Size.value AS sizeValue', 'Flavour.value AS flavourValue', 'Products.productname'])
+        ->groupBy(['Products_details.product_details_id', 'Cart.quanlity', 'Products_details.price', 'Size.value', 'Flavour.value', 'Products.productname'])
+        ->get();
+
+        return $products;
+    }
+
+    //Clear cart
+    public function clearUserCart(){
+        $userId = Auth::user()->user_id;
+        $clear = DB::table('Cart')
+        ->where('user_id', '=', $userId)
+        ->delete();
+
+        return $clear;
+    }
+
     //Login case
     public function getCartUser($userId){
         $cart = DB::table('Cart')
@@ -56,7 +84,11 @@ class Cart extends Model
             ->where('user_id', '=', $userId)
             ->where('product_details_id', '=', $detailsId->product_details_id)
             ->update($data);
-            $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+            $cart = DB::table('Cart')
+            ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+            ->where('user_id', '=', $userId)
+            ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+            ->get();
             return $cart;
         }
         else{
@@ -66,7 +98,11 @@ class Cart extends Model
                 'quanlity' => intval($quantity)
             ];
             DB::table('Cart')->insert($data);
-            $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+            $cart = DB::table('Cart')
+            ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+            ->where('user_id', '=', $userId)
+            ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+            ->get();
             return $cart;
         }
     }
@@ -86,7 +122,11 @@ class Cart extends Model
         ->where('product_details_id', '=', $detailsId)
         ->update($data);
 
-        $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+        $cart = DB::table('Cart')
+        ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+        ->where('user_id', '=', $userId)
+        ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+        ->get();
         return $cart;
     }
 
@@ -105,7 +145,11 @@ class Cart extends Model
         ->where('product_details_id', '=', $detailsId)
         ->update($data);
 
-        $cart = DB::table('Cart')->where('user_id', '=', $userId)->get();
+        $cart = DB::table('Cart')
+        ->join('Products_details', 'Products_details.product_details_id', '=','Cart.product_details_id')
+        ->where('user_id', '=', $userId)
+        ->select(['Cart.product_details_id', 'Cart.quanlity', 'Products_details.price'])
+        ->get();
         return $cart;
     }
 
@@ -162,20 +206,5 @@ class Cart extends Model
 
         return $product;
         
-    }
-
-    //Data: quantity, price, detailsId, imageDetails, name
-    public function addOneProductFromCartGuest($userId, $detailsId){
-        //TODO
-    }
-
-    //Data: quantity, price, detailsId, imageDetails, name
-    public function deleteOneProductFromCartGuest($userId, $detailsId){
-        //TODO
-    }
-
-    //Data: quantity, price, detailsId, imageDetails, name
-    public function deleteOneTypeProductFromCartGuest($userId, $detailsId){
-       //TODO
     }
 }

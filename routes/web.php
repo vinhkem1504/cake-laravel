@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminControllers\AdminLoginController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -8,6 +9,18 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminControllers\CategoryController;
+use App\Http\Controllers\AdminControllers\FlavourController;
+use App\Http\Controllers\AdminControllers\SizeController;
+use App\Http\Controllers\AdminControllers\MaterialController;
+use App\Http\Controllers\AdminControllers\SupplierController;
+use App\Http\Controllers\AdminControllers\ImportBillController;
+use App\Http\Controllers\AdminControllers\DetailsImportBillController;
+use App\Http\Controllers\AdminControllers\BillController;
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,14 +42,12 @@ Route::get('/product_id={product_id}', [ProductController::class, 'index'])->nam
 Route::get('/getSize_{product_id}', [ProductController::class, 'getSize'])->name('productDetails.getSize');
 Route::post('/productDetails', [ProductController::class, 'getProductDetails'])->name('productDetails.option');
 
-Route::get('/user/bills', [HomeController::class, 'showUserBills'])->name('client-views.bills');
-
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/add', [CartController::class, 'addProductToCart']);
 Route::post('/cart/addOneProduct', [CartController::class, 'addOneProductFromCart']);
 Route::delete('/cart/deleteOneProduct', [CartController::class, 'deleteOneProductFromCart']);
 Route::delete('/cart/deleteOneTypeProduct', [CartController::class, 'deleteOneTypeProductFromCart']);
 
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::group(['middleware' => ['guest']], function () {
     /**
      * Register Routes
@@ -70,4 +81,108 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/info', [UserController::class, 'getUser'])->name('get-user');
     Route::post('/info', [UserController::class, 'updateUser'])->name('update-user');
+
+    Route::get('/user/bills', [UserController::class, 'getUserBill'])->name('client-views.bills');
+    Route::get('/user/bills/{billId}', [UserController::class, 'getDetailsBill'])->name('user.bill-details');
+    Route::put('/user/bills/cancel', [UserController::class, 'cancelBill'])->name('user.cancel-bill');
+    Route::get('/bill/all', [UserController::class, 'getUserBill'])->name('get-all-userBill');
+    // Route::post('')
+    Route::get('/cart/get-products', [UserController::class, 'getProductsFromCart'])->name('user.get-cart');
+    Route::get('/checkout', [UserController::class, 'showCheckoutCart'])->name('show.checkoutCart');
+    Route::post('/checkout', [UserController::class, 'createUserBill'])->name('create.bill');
 });
+
+
+
+Route::get('/admin/dashboard', function () {
+    return view('admin-views.dashboard');
+});
+
+# Admin Category 
+Route::get('/admin/category/index', [CategoryController::class, 'index']);
+Route::get('/admin/category/', [CategoryController::class, 'index']);
+Route::get('/admin/category/add', [CategoryController::class, 'add']);
+Route::post('/admin/category/add', [CategoryController::class, 'insert']);
+Route::get('/admin/category/edit/{id}', [CategoryController::class, 'edit']);
+Route::post('/admin/category/edit/{id}', [CategoryController::class, 'update']);
+Route::get('/admin/category/delete/{id}', [CategoryController::class, 'delete']);
+
+
+# Admin Flavour 
+Route::get('/admin/flavour/index', [FlavourController::class, 'index']);
+Route::get('/admin/flavour/', [FlavourController::class, 'index']);
+Route::get('/admin/flavour/add', [FlavourController::class, 'add']);
+Route::post('/admin/flavour/add', [FlavourController::class, 'insert']);
+Route::get('/admin/flavour/edit/{id}', [FlavourController::class, 'edit']);
+Route::post('/admin/flavour/edit/{id}', [FlavourController::class, 'update']);
+Route::get('/admin/flavour/delete/{id}', [FlavourController::class, 'delete']);
+
+
+# Admin Size 
+Route::get('/admin/size/index', [SizeController::class, 'index']);
+Route::get('/admin/size/', [SizeController::class, 'index']);
+Route::get('/admin/size/add', [SizeController::class, 'add']);
+Route::post('/admin/size/add', [SizeController::class, 'insert']);
+Route::get('/admin/size/edit/{id}', [SizeController::class, 'edit']);
+Route::post('/admin/size/edit/{id}', [SizeController::class, 'update']);
+Route::get('/admin/size/delete/{id}', [SizeController::class, 'delete']);
+
+
+# Admin Material
+Route::get('/admin/material/index', [MaterialController::class, 'index']);
+Route::get('/admin/material/', [MaterialController::class, 'index']);
+Route::get('/admin/material/add', [MaterialController::class, 'add']);
+Route::post('/admin/material/add', [MaterialController::class, 'insert']);
+Route::get('/admin/material/edit/{id}', [MaterialController::class, 'edit']);
+Route::post('/admin/material/edit/{id}', [MaterialController::class, 'update']);
+Route::get('/admin/material/delete/{id}', [MaterialController::class, 'delete']);
+
+
+# Admin Supplier
+Route::get('/admin/supplier/index', [SupplierController::class, 'index']);
+Route::get('/admin/supplier/', [SupplierController::class, 'index']);
+Route::get('/admin/supplier/add', [SupplierController::class, 'add']);
+Route::post('/admin/supplier/add', [SupplierController::class, 'insert']);
+Route::get('/admin/supplier/edit/{id}', [SupplierController::class, 'edit']);
+Route::post('/admin/supplier/edit/{id}', [SupplierController::class, 'update']);
+Route::get('/admin/supplier/delete/{id}', [SupplierController::class, 'delete']);
+
+
+# Admin Import Bill
+Route::get('/admin/import_bill/index', [ImportBillController::class, 'index']);
+Route::get('/admin/import_bill/', [ImportBillController::class, 'index']);
+Route::get('/admin/import_bill/add', [ImportBillController::class, 'add']);
+Route::post('/admin/import_bill/add', [ImportBillController::class, 'insert']);
+Route::get('/admin/import_bill/edit/{id}', [ImportBillController::class, 'edit']);
+Route::post('/admin/import_bill/edit/{id}', [ImportBillController::class, 'update']);
+Route::get('/admin/import_bill/delete/{id}', [ImportBillController::class, 'delete']);
+
+
+# Admin Import Bill Details
+Route::get('/admin/details_import_bill/add/{import_bill_id}', [DetailsImportBillController::class, 'add']);
+Route::post('/admin/details_import_bill/add/{import_bill_id}', [DetailsImportBillController::class, 'insert']);
+Route::get('/admin/details_import_bill/edit/{id}', [DetailsImportBillController::class, 'edit']);
+Route::post('/admin/details_import_bill/edit/{id}', [DetailsImportBillController::class, 'update']);
+Route::get('/admin/details_import_bill/delete/{id}', [DetailsImportBillController::class, 'delete']);
+
+# Admin Bill
+Route::get('/admin/bill/index', [BillController::class, 'index']);
+Route::get('/admin/bill/', [BillController::class, 'index']);
+Route::get('/admin/bill/{id}', [BillController::class, 'detail']);
+Route::post('/admin/bill/{bill_id}', [BillController::class, 'update_status']);
+
+
+Route::group(['prefix'=> 'admin'], function () {
+    Route::group(['middleware' => 'admin.guest'], function () {
+        Route::get('/login', [AdminLoginController::class,'index'])->name('admin-views.login');
+        Route::post('/authenticate', [AdminLoginController::class,'authenticate'])->name('admin-views.authenticate');
+
+    });
+
+    Route::group(['middleware'=> 'admin.auth'], function () {
+
+        Route::get('/dashboard', [HomeController::class,'index'])->name('admin-views.dashboard');
+
+    });
+});
+

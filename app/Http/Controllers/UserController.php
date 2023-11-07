@@ -2,13 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
+use App\Models\Bill_details;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    private $bill;
+    private $billDetails;
+    private $cart;
+
+    function __construct()
+    {
+        $this->bill = new Bill();
+        $this->billDetails = new Bill_details();
+        $this->cart = new Cart();
+    }
+
     function getUser(){
         $user = Auth::user();
         return $user;
@@ -45,7 +60,5 @@ class UserController extends Controller
         }
         
         return redirect('/user');
-    }    
-
-
+    }
 }
