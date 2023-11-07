@@ -187,6 +187,14 @@ Route::group(['prefix'=> 'admin'], function () {
     Route::group(['middleware'=> 'admin.auth'], function () {
 
         Route::get('/dashboard', [HomeAdminController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/category', [CategoryController::class,'index'])->name('admin.category.index');
+        Route::get('/flavour', [FlavourController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/size', [SizeController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/material', [MaterialController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/supplier', [SupplierController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/import_bill', [ImportBillController::class,'index'])->name('admin-views.dashboard');
+        //Route::get('/details_import_bill', [DetailsImportBillController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/bill', [BillController::class,'index'])->name('admin-views.dashboard');
         Route::get('/logout', [HomeAdminController::class,'logout'])->name('admin-views.logout');
 
     });
