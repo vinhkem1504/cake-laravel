@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminControllers\AdminLoginController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\AdminControllers\SupplierController;
 use App\Http\Controllers\AdminControllers\ImportBillController;
 use App\Http\Controllers\AdminControllers\DetailsImportBillController;
 use App\Http\Controllers\AdminControllers\BillController;
+use App\Http\Controllers\AdminControllers\HomeAdminController;
 
 
 
@@ -170,4 +172,36 @@ Route::get('/admin/bill/index', [BillController::class, 'index']);
 Route::get('/admin/bill/', [BillController::class, 'index']);
 Route::get('/admin/bill/{id}', [BillController::class, 'detail']);
 Route::post('/admin/bill/{bill_id}', [BillController::class, 'update_status']);
+
+
+// Route::get('/', function(){
+//     return view('admin-views.dashboard');
+// });
+
+Route::group(['prefix'=> 'admin'], function () {
+    Route::group(['middleware' => 'admin.guest'], function () {
+        Route::get('/login', [AdminLoginController::class,'index'])->name('admin-views.login');
+        Route::post('/authenticate', [AdminLoginController::class,'authenticate'])->name('admin.authenticate');
+
+    });
+
+    Route::group(['middleware'=> 'admin.auth'], function () {
+
+        Route::get('/dashboard', [HomeAdminController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/category', [CategoryController::class,'index'])->name('admin.category.index');
+        Route::get('/flavour', [FlavourController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/size', [SizeController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/material', [MaterialController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/supplier', [SupplierController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/import_bill', [ImportBillController::class,'index'])->name('admin-views.dashboard');
+        //Route::get('/details_import_bill', [DetailsImportBillController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/bill', [BillController::class,'index'])->name('admin-views.dashboard');
+        Route::get('/logout', [HomeAdminController::class,'logout'])->name('admin-views.logout');
+
+    });
+
+    
+    
+});
+
 
