@@ -29,9 +29,25 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="checkout__title">Information Details</h6>
-                        {{-- @if ($message)
-                            <h6 class="checkout__title success">{{$message}}</h6>
-                        @endif --}}
+                        @if (!empty(session('success')))
+                        <div class="col-md-12">
+                            <div class="alert alert-success" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        </div>
+                        @elseif (!empty(session('error')))
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                {{ session('error') }}
+                            </div>
+                        </div>
+                        @endif
+                        {{-- @isset(!empty(session('success')))
+                        
+                        @endisset
+                        @isset(session('error'))
+                        
+                        @endisset --}}
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="">
@@ -44,7 +60,7 @@
                                                 <img id="preview-image" class="user-image" src="{{ auth()->user()->avatar_image }}" />
                                             @endif
                                         </label>
-                                        <input id="file-input" name="userImage" type="file" onchange="handleImageChange(this)" accept="image/*"/>
+                                        <input id="file-input" name="userImage" type="file" onchange="handleImageChange(this, isUser)" accept="image/*"/>
                                     </div>
                                 </div>
                             </div>
