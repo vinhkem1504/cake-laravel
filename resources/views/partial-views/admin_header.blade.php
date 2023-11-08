@@ -270,6 +270,14 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="/admin/statistic/index" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Statistic
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

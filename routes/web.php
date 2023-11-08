@@ -16,6 +16,8 @@ use App\Http\Controllers\AdminControllers\BillController;
 use App\Http\Controllers\AdminControllers\ProductController;
 use App\Http\Controllers\AdminControllers\ProductDetailsController;
 use App\Http\Controllers\AdminControllers\UserController;
+use App\Http\Controllers\AdminControllers\StatisticController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -157,5 +159,8 @@ Route::get('/admin/product_details/delete/{id}', [ProductDetailsController::clas
 # Admin user list
 Route::get('/admin/user/index/', [UserController::class, 'index']);
 Route::get('/admin/user/', [UserController::class, 'index']);
+
+Route::get('/admin/statistic/index/', [StatisticController::class, 'index']);
+Route::get('/admin/statistic/', [StatisticController::class, 'index']);
 
 

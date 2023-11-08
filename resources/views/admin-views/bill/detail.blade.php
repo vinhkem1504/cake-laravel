@@ -9,6 +9,8 @@
                         <h1>Bill: #{{ $bill_id }}</h1>
                     </div>
                     <div class="col-sm-6 text-right">
+                         <button id="printButton" class="btn btn-primary">Print Invoice</button>
+
                         <a href="/admin/bill" class="btn btn-primary">Back To List</a>
                     </div>
                 </div>
@@ -23,7 +25,7 @@
                     <div class="col-md-9">
                         @include('_message')
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9" id="invoice-content">
                         <div class="card">
                             <div class="card-header pt-3">
                                 <div class="row invoice-info">
@@ -54,11 +56,11 @@
                             <div class="card-body table-responsive p-3">
                                 <table class="table table-striped">
                                     <thead>
-                                        <tr>
+                                        <tr style="text-align:left"> 
                                             <th>Product</th>
-                                            <th width="100">Price</th>
-                                            <th width="100">Qty</th>
-                                            <th width="100">Total</th>
+                                            <th>Price</th>
+                                            <th>Qty</th>
+                                            <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -121,4 +123,21 @@
         </section>
         <!-- /.content -->
     </div>
+@endsection
+
+
+@section('script')
+    <script>
+        document.getElementById('printButton').addEventListener('click', function() {
+            var col9Content = document.getElementById('invoice-content').innerHTML;
+
+            var printWindow = window.open('', '', 'width=1000,height=1000');
+            printWindow.document.open();
+            printWindow.document.write('<html><head><title>Print Bill</title><style type="text/css" media="print">body{font-family:Arial,sans-serif;}table{width:100%;border-collapse:collapse;}table,th,td{border:1px solid black;}</style></head><body>' + col9Content + '</body></html>');
+            printWindow.document.close();
+
+            printWindow.print();
+            printWindow.close();
+        });
+    </script>
 @endsection
