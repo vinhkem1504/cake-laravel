@@ -5,7 +5,7 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
-class UserController extends Controller
+class UserAdminController extends Controller
 {
     public function index() 
     {

@@ -26,9 +26,14 @@ class AdminLoginController extends Controller
                 //$admin = Auth::guard('admin')->admin();
 
                 return redirect()->route('admin-views.dashboard');
+
+                // return response()->json(['username'=> $request->username, 'password'=> 
+                // $request->password, 'error' => 'Login Admin Successfully']);
             }
             else{
-                return redirect()->route('admin-views.login')->with('error', 'Either username/password is incorrect');
+                // return redirect()->route('admin-views.login')->with('error', 'Either username/password is incorrect');
+                return response()->json(['username'=> $request->username, 'password'=> 
+                $request->password, 'error' => 'Login Admin Failed']);
             }
             // if (auth('admin')->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember'))) {
             //     // Authentication successful
@@ -43,6 +48,8 @@ class AdminLoginController extends Controller
             return redirect()->route('admin-views.login')
             ->withErrors($validator)
             ->withInput($request->only('username'));
+            // return response()->json(['username'=> $request->username, 'password'=> 
+            //     $request->password, 'error' => 'Login Admin Validated']);
         }
     }
 

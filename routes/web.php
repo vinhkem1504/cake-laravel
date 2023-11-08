@@ -19,6 +19,8 @@ use App\Http\Controllers\AdminControllers\DetailsImportBillController;
 use App\Http\Controllers\AdminControllers\BillController;
 use App\Http\Controllers\AdminControllers\HomeAdminController;
 use App\Http\Controllers\AdminControllers\ProductDetailsController;
+use App\Http\Controllers\AdminControllers\UserAdminController;
+use App\Http\Controllers\AdminControllers\ProductAdminController;
 
 
 /*
@@ -178,15 +180,15 @@ Route::group(['middleware' => ['auth']], function () {
 //     return view('admin-views.dashboard');
 // });
 
-Route::group(['prefix' => 'admin'], function () {
+// Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'admin.guest'], function () {
-        Route::get('/login', [AdminLoginController::class, 'index'])->name('admin-views.login');
-        Route::post('/authenticate', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');
+        Route::get('/admin/login', [AdminLoginController::class, 'index'])->name('admin-views.login');
+        Route::post('/admin/authenticate', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');
     });
 
     Route::group(['middleware' => 'admin.auth'], function () {
 
-        // Route::get('/dashboard', [HomeAdminController::class, 'index'])->name('admin-views.dashboard');
+        Route::get('/admin/dashboard', [HomeAdminController::class, 'index'])->name('admin-views.dashboard');
         // Route::get('/category', [CategoryController::class, 'index'])->name('admin.category.index');
         // Route::get('/flavour', [FlavourController::class, 'index'])->name('admin-views.dashboard');
         // Route::get('/size', [SizeController::class, 'index'])->name('admin-views.dashboard');
@@ -195,7 +197,7 @@ Route::group(['prefix' => 'admin'], function () {
         // Route::get('/import_bill', [ImportBillController::class, 'index'])->name('admin-views.dashboard');
         // //Route::get('/details_import_bill', [DetailsImportBillController::class,'index'])->name('admin-views.dashboard');
         // Route::get('/bill', [BillController::class, 'index'])->name('admin-views.dashboard');
-        Route::get('/logout', [HomeAdminController::class, 'logout'])->name('admin-views.logout');
+        Route::get('/admin/logout', [HomeAdminController::class, 'logout'])->name('admin-views.logout');
 
 
 
@@ -275,13 +277,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/admin/bill/{bill_id}', [BillController::class, 'update_status']);
 
         # Admin Product
-        Route::get('/admin/product/index', [ProductController::class, 'index']);
-        Route::get('/admin/product/', [ProductController::class, 'index']);
-        Route::get('/admin/product/add', [ProductController::class, 'add']);
-        Route::post('/admin/product/add', [ProductController::class, 'insert']);
-        Route::get('/admin/product/edit/{id}', [ProductController::class, 'edit']);
-        Route::post('/admin/product/edit/{id}', [ProductController::class, 'update']);
-        Route::get('/admin/product/delete/{id}', [ProductController::class, 'delete']);
+        Route::get('/admin/product/index', [ProductAdminController::class, 'index']);
+        Route::get('/admin/product/', [ProductAdminController::class, 'index']);
+        Route::get('/admin/product/add', [ProductAdminController::class, 'add']);
+        Route::post('/admin/product/add', [ProductAdminController::class, 'insert']);
+        Route::get('/admin/product/edit/{id}', [ProductAdminController::class, 'edit']);
+        Route::post('/admin/product/edit/{id}', [ProductAdminController::class, 'update']);
+        Route::get('/admin/product/delete/{id}', [ProductAdminController::class, 'delete']);
 
         # Admin Product Detail
         Route::get('/admin/product_details/index/{product_id}', [ProductDetailsController::class, 'index']);
@@ -292,10 +294,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/admin/product_details/delete/{id}', [ProductDetailsController::class, 'delete']);
 
         # Admin user list
-        Route::get('/admin/user/index/', [UserController::class, 'index']);
-        Route::get('/admin/user/', [UserController::class, 'index']);
+        Route::get('/admin/user/index/', [UserAdminController::class, 'index']);
+        Route::get('/admin/user/', [UserAdminController::class, 'index']);
     });
-});
+// });
 
 
 // # Admin Product
