@@ -19,7 +19,7 @@ class VerifyCsrfToken extends Middleware
         '/createRate',
         '/paginationShop',
         '/search_filter_shop',
-        '/login'
+        '/login',
         '/pusher/auth',
         '/admin/authenticate'
     ];

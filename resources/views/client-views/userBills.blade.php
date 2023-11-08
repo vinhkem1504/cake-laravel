@@ -91,7 +91,7 @@
                                 @endif
                             </ul>
                             <ul class="checkout__total__all" >
-                                <li>Total <span id="bill-total">${{ $total }}</span></li>
+                                <li>Total <span id="bill-total">$ {{ $total }}</span></li>
                             </ul>
                         </div>
                     </div>

@@ -79,7 +79,7 @@
                                     @endforeach
                                 </ul>
                                 <ul class="checkout__total__all">
-                                    <li>Total <span>{{ $total }}</span></li>
+                                    <li>Total <span>$ {{ $total }}</span></li>
                                 </ul>
                                 <button type="submit" class="site-btn btn_register" id="btn_register" disabled="true">PLACE ORDER</button>
                             </div>

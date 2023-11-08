@@ -152,7 +152,7 @@ class ProductController extends Controller
             $products = DB::table('Products')
                 ->join('Category', 'Products.category_id', '=', 'Category.category_id')
                 ->where('Category.category_name', '=', $category_name)
-                ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+                ->select('Products.product_id','Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
                 ->paginate(16);
 
             return response()->json($products);
@@ -161,7 +161,7 @@ class ProductController extends Controller
             $products = DB::table('Products')
                 ->join('Category', 'Products.category_id', '=', 'Category.category_id')
                 ->where('Products.productname', 'LIKE',  '%'.$product_name.'%')
-                ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+                ->select('Products.product_id','Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
                 ->paginate(16);
 
             return response()->json($products);
@@ -171,7 +171,7 @@ class ProductController extends Controller
                 ->join('Category', 'Products.category_id', '=', 'Category.category_id')
                 ->where('Products.productname', 'LIKE',  '%'.$product_name.'%')
                 ->where('Category.category_name', '=', $category_name)
-                ->select('Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
+                ->select('Products.product_id','Products.productname', 'Products.product_avt_iamge', 'Products.price_default', 'Category.category_name')
                 ->paginate(16);
 
             return response()->json($products);

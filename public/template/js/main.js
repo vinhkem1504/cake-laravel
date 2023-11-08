@@ -273,6 +273,8 @@ function showInputChangePassword() {
 
 function checkUpdateUser(isUser) {
     isUser = true;
+    var checkbox = document.getElementById("diff-acc");
+
     var firstName = document.getElementById('name').value;
     var valFirstName = validateFirstName(isUser);
 
@@ -288,14 +290,13 @@ function checkUpdateUser(isUser) {
     if (firstName == '' || password == '' || new_password == '' || confirm_password == '') {
         isUser = false;
     }
-    if ((isUser && valFirstName && valnew_password && valPassword && valconfirm_password)) {
+    if ((checkbox.checked && isUser && valFirstName && valnew_password && valPassword && valconfirm_password)) {
         document.getElementById('btn_update').classList.remove('btn_register');
         document.getElementById('btn_update').disabled = false;
     }
     else {
         document.getElementById('btn_update').classList.add('btn_register');
         document.getElementById('btn_update').disabled = true;
-
     }
 
 }
@@ -331,10 +332,10 @@ function handlePaginate(url) {
                         </div>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="#">${product.productname}</a></h6>
+                        <h6><a href="/product_id=${product.product_id}">${product.productname}</a></h6>
                         <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
-                            <a href="#">Add to cart</a>
+                            <a href="/product_id=${product.product_id}">Add to cart</a>
                         </div>
                     </div>
                 </div>
@@ -376,10 +377,10 @@ function handlePaginateFilter(url, name) {
                         </div>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="#">${product.productname}</a></h6>
+                        <h6><a href="/product_id=${product.product_id}">${product.productname}</a></h6>
                         <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
-                            <a href="#">Add to cart</a>
+                            <a href="/product_id=${product.product_id}">Add to cart</a>
                         </div>
                     </div>
                 </div>
@@ -419,10 +420,10 @@ function handleFilter(name) {
                         </div>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="#">${product.productname}</a></h6>
+                        <h6><a href="/product_id=${product.product_id}">${product.productname}</a></h6>
                         <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
-                            <a href="#">Add to cart</a>
+                            <a href="//product_id=${product.product_id}">Add to cart</a>
                         </div>
                     </div>
                 </div>
@@ -495,6 +496,7 @@ function handleImageChange(input) {
         };
 
         reader.readAsDataURL(input.files[0]);
+        console.log(input.files[0])
     }
 }
 
@@ -807,7 +809,7 @@ function showBillDetails(billId) {
 
             document.getElementById('current-bill-id').innerHTML = 'ID ' + billId;
             document.getElementById('bill-details-products').innerHTML = str;
-            document.getElementById('bill-total').innerHTML = total;
+            document.getElementById('bill-total').innerHTML = '$ '+total;
         },
         error: function (err) {
             console.log(err)
@@ -938,10 +940,10 @@ function handlePaginateShop(url) {
                         </div>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="#">${product.productname}</a></h6>
+                        <h6><a href="/product_id=${product.product_id}">${product.productname}</a></h6>
                         <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
-                            <a href="#">Add to cart</a>
+                            <a href="/product_id=${product.product_id}">Add to cart</a>
                         </div>
                     </div>
                 </div>
@@ -1055,10 +1057,10 @@ function handlePaginateShop(url) {
                         </div>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="#">${product.productname}</a></h6>
+                        <h6><a href="/product_id=${product.product_id}">${product.productname}</a></h6>
                         <div class="product__item__price">$${product.price_default}</div>
                         <div class="cart_add">
-                            <a href="#">Add to cart</a>
+                            <a href="/product_id=${product.product_id}">Add to cart</a>
                         </div>
                     </div>
                 </div>
@@ -1158,10 +1160,10 @@ function handlePaginateShop(url) {
                             </div>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="#">${product.productname}</a></h6>
+                            <h6><a href="/product_id=${product.product_id}">${product.productname}</a></h6>
                             <div class="product__item__price">$${product.price_default}</div>
                             <div class="cart_add">
-                                <a href="#">Add to cart</a>
+                                <a href="/product_id=${product.product_id}">Add to cart</a>
                             </div>
                         </div>
                     </div>
@@ -1190,13 +1192,16 @@ function handlePaginateShop(url) {
     $('#btn_login').click(function () {
         var email = $('#email').val();
         var password = $('#account_password').val();
+        console.log(`${port}:8000/`);
         $.post(`${port}:8000/login`, { email: email, password: password }, function (response) {
             if (response.error == true) {
                 console.log('failed to login');
                 $('#check_login').css('display', 'block');
             } else {
                 console.log('success to login');
-                window.location.href = `${port}:8000/`
+                console.log(`${port}:8000/`);
+                window.location.href = `${port}:8000`
+                
             }
         }, 'json');
     })

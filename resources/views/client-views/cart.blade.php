@@ -57,7 +57,7 @@
                                                 </div>
                                             </td>
                                             <td class="cart__price" id="product-details-id-{{ $product->product_details_id }}-total-price">
-                                                {{ $product->price * $product->quanlity }}
+                                               $ {{ $product->price * $product->quanlity }}
                                             </td>
                                             <td class="cart__close"><span class="icon_close" onclick="handleDeleteOneTypeProduct({{ $product->product_details_id }})"></span></td>
                                         </tr>
@@ -118,32 +118,20 @@
                                 <a href="{{ route('client-views.home') }}">Continue Shopping</a>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="continue__btn update__btn">
-                                <a href="{{ route('client-views.home') }}"><i class="fa fa-spinner"></i> Checkout</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    {{-- <div class="cart__discount">
-                        <h6>Discount codes</h6>
-                        <form action="#">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit">Apply</button>
-                        </form>
-                    </div> --}}
                     <div class="cart__total">
                         <h6>Cart total</h6>
                         <ul>
                             {{-- <li>Subtotal <span id="total-cart-price" class="total-cart-price">{{ $total }}</span></li> --}}
                             <li>Total <span id="total-cart-price">
                                 @if ($total)
-                                    {{ $total }}
+                                    $ {{ $total }}
                                 @else
                                     <script>
                                         var total = JSON.parse(localStorage.getItem('total'));
-                                        document.getElementById('total-cart-price').innerHTML = + total;;
+                                        document.getElementById('total-cart-price').innerHTML = + total;
                                     </script>
                                 @endif
                                 

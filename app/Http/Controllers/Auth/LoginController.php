@@ -90,8 +90,7 @@ class LoginController extends Controller
 
             $request->session()->put('notifications', $notifications);
 
-            return redirect('/')->with('success', "Account successfully login.");
-        } else {
+            // return redirect('/')->with('success', "Account successfully login.");
             return response()->json(['error' => false, 'queries' => $credentials]);
         } else {
             return response()->json(['error' => true, 'queries' => $credentials]);
