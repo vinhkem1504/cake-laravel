@@ -56,7 +56,9 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Your Name<span>*</span></p>
-                                    <input type="text" value="{{auth()->user()->name}}" name="userName">
+                                    <input type="text" value="{{auth()->user()->name}}" id="name" name="userName" onkeyup="processChangeFirstName(isUser)" oninput="checkUser(isUser)">
+                                    <p id="result_firstName" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
+
                                 </div>
                             </div>
                         </div>
@@ -81,15 +83,19 @@
                         </div>
                         <div class="checkout__input hidden-input" id="new_password">
                             <p>New Password<span>*</span></p>
-                            <input type="password" name="newPassword" onkeyup="">
+                            <input type="password" name="newPassword" id="password" value="{{ old('password') }}" onkeyup="processConfirmPassword()" oninput="checkUser(isUser)">
+                            <p id="result_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
+ 
                         </div>
                         <div class="checkout__input hidden-input" id="confirm_password">
                             <p>Confirm Password<span>*</span></p>
-                            <input type="password" name="confirmPassword" onkeyup="handleOnChangeForgetPassword(isChange)">
+                            <input type="password" name="confirmPassword" id="confirm_password" value="{{ old('confirm_password') }}"onkeyup="handleOnChangeForgetPassword(isChange)" oninput="checkUser(isUser)">
+                            <p id="result_confirm_password" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
+
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="site-btn" id="btn_update">UPDATE</button>
+                <button type="submit" class="site-btn" id="btn_update" disabled="true">UPDATE</button>
             </form>
         </div>
     </div>

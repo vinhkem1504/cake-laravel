@@ -75,7 +75,7 @@
                                     </div>
                                     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
                                     <script>
-                                        Pusher.logToConsole = true
+                                        // Pusher.logToConsole = true
                                         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                                         var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
                                             cluster: 'ap1',
