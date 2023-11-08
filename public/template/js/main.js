@@ -10,21 +10,6 @@
 'use strict';
 
 var port = 'http://127.0.0.1';
-/*Handle changeimage */
-function handleImageChange(input) {
-    const previewImage = document.getElementById('preview-image');
-
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            previewImage.src = e.target.result;
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
 
 function debounce(func, timeout = 300) {
     let timer;
@@ -260,10 +245,12 @@ function checkBill(isEmpty) {
 
 function showInputChangePassword() {
     var checkbox = document.getElementById("diff-acc");
+
     if (checkbox.checked) {
         document.getElementById('accountPassword').classList.remove('hidden-input');
         document.getElementById('newPassword').classList.remove('hidden-input');
         document.getElementById('confirmPassword').classList.remove('hidden-input');
+        
     } else {
         document.getElementById('accountPassword').classList.add('hidden-input');
         document.getElementById('newPassword').classList.add('hidden-input');
@@ -287,10 +274,15 @@ function checkUpdateUser(isUser) {
     var new_password = document.getElementById('new_password').value;
     var valnew_password = checkPassword(isUser);
 
-    if (firstName == '' || password == '' || new_password == '' || confirm_password == '') {
+    if (firstName == '') {
         isUser = false;
     }
-    if ((checkbox.checked && isUser && valFirstName && valnew_password && valPassword && valconfirm_password)) {
+
+    if(checkbox.checked == true && (password == '' || new_password == '' || confirm_password == '')){
+        isUser = false;
+    }
+
+    if (isUser) {
         document.getElementById('btn_update').classList.remove('btn_register');
         document.getElementById('btn_update').disabled = false;
     }
@@ -485,10 +477,11 @@ function handleRegister(name, email, password) {
 }
 
 /*Handle changeimage */
-function handleImageChange(input) {
+function handleImageChange(input, isUser) {
     const previewImage = document.getElementById('preview-image');
-
+    
     if (input.files && input.files[0]) {
+
         const reader = new FileReader();
 
         reader.onload = function (e) {
@@ -496,7 +489,8 @@ function handleImageChange(input) {
         };
 
         reader.readAsDataURL(input.files[0]);
-        console.log(input.files[0])
+        checkUpdateUser(isUser);
+        // console.log(input.files[0])
     }
 }
 
