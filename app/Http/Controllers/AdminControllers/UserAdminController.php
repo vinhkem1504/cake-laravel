@@ -22,7 +22,7 @@ class UserAdminController extends Controller
         if (!empty(request()->input('email'))) {
             $users = $users->where('email', 'LIKE', '%'.request()->input('email').'%');
         }
-        $users = $users->paginate(5);
+        $users = $users->paginate(5);   
         return view('admin-views.user.index', compact('users'));
     }
 }

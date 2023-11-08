@@ -271,6 +271,14 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="/admin/statistic/index" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Statistic
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin-views.logout') }}" class="nav-link">
                         <i class="nav-icon fas fa-sign-out"></i>
                         <p>

@@ -22,6 +22,8 @@ use App\Http\Controllers\AdminControllers\ProductDetailsController;
 use App\Http\Controllers\AdminControllers\UserAdminController;
 use App\Http\Controllers\AdminControllers\ProductAdminController;
 
+use App\Http\Controllers\AdminControllers\StatisticController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +71,6 @@ Route::group(['middleware' => ['guest']], function () {
      */
     Route::get('/login', [LoginController::class, 'show'])->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
-    
 });
 
 
@@ -209,13 +210,14 @@ Route::group(['middleware' => 'admin.auth'], function () {
     Route::get('/admin/product_details/delete/{id}', [ProductDetailsController::class, 'delete']);
 
     # Admin user list
-    Route::get('/admin/user/index/', [UserAdminController::class, 'index']);
-    Route::get('/admin/user/', [UserAdminController::class, 'index']);
+    Route::get('/admin/user/index/', [UserController::class, 'index']);
+    Route::get('/admin/user/', [UserController::class, 'index']);
+
+    Route::get('/admin/statistic/index/', [StatisticController::class, 'index']);
+    Route::get('/admin/statistic/', [StatisticController::class, 'index']);
 
 
 
     // thong ke
-    
-
+    Route::get('/admin/getBillCountByDateAndStatus/', [BillController::class, 'getBillCountByDateAndStatus']);
 });
-Route::get('/admin/getBillCountByDateAndStatus/', [BillController::class, 'getBillCountByDateAndStatus']);
