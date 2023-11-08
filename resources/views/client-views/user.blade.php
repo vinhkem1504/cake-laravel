@@ -63,7 +63,7 @@
                             <div class="col-lg-12">
                                 <div class="checkout__input">
                                     <p>Email<span>*</span></p>
-                                    <input type="text" value="{{auth()->user()->email}}" disabled="true" id="email" name="email" oninput="checkUser(isUser)">
+                                    <input type="text" value="{{auth()->user()->email}}" disabled="true" id="email" name="email">
                                     <p id="result_email" style="display: none; color: red; font-size: small; font-style: italic; margin-top: -20px;"></p>
 
                                 </div>
