@@ -9,11 +9,22 @@
 
 'use strict';
 
-
-
-/*Handle addcart */
-
 var port = 'http://127.0.0.1';
+/*Handle changeimage */
+function handleImageChange(input) {
+    const previewImage = document.getElementById('preview-image');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 
 function debounce(func, timeout = 300) {
     let timer;
@@ -744,12 +755,12 @@ function checkExistProduct(productId) {
 function updateHeaderCart(quantity, total) {
     console.log('*******************', quantity, total);
     document.getElementById('quantityOfProduct').innerHTML = quantity;
-    document.getElementById('totalCartPrice').innerHTML = '$ ' + total;
+    document.getElementById('totalCartPrice').innerHTML = total;
     localStorage.setItem('total', total);
 }
 
 function updateHeaderCartTotal(total) {
-    document.getElementById('totalCartPrice').innerHTML = '$ ' + total;
+    document.getElementById('totalCartPrice').innerHTML = total;
     localStorage.setItem('total', total);
 }
 
@@ -796,25 +807,30 @@ function showBillDetails(billId) {
 
             document.getElementById('current-bill-id').innerHTML = 'ID ' + billId;
             document.getElementById('bill-details-products').innerHTML = str;
-            document.getElementById('bill-total').innerHTML = '$' + total;
+            document.getElementById('bill-total').innerHTML = total;
         },
         error: function (err) {
             console.log(err)
         }
     })
 }
-function handleCancel(billId) {
-    $(`#alertDialog-${billId}`).modal("show");
+function handleCancel(billId){
+    const element = document.getElementById("status-bill-" + billId);
+    if(!element.classList.contains('clicked')){
+        $(`#alertDialog-${billId}`).modal("show");
+    
+        $(`#confirmDialogButton-${billId}`).off("click");
 
-    $(`#confirmDialogButton-${billId}`).off("click");
-
-    $(`#confirmDialogButton-${billId}`).click(function () {
-        cancelBill(billId);
-        $(`#alertDialog-${billId}`).modal("hide");
-    })
-    $("#closeDialogButton").click(function () {
-        $(`#alertDialog-${billId}`).modal("hide");
-    })
+        $(`#confirmDialogButton-${billId}`).click(function(){
+            cancelBill(billId)
+            element.classList.add("clicked");
+            $(`#alertDialog-${billId}`).modal("hide");
+        })
+        $("#closeDialogButton").click(function(){
+            $(`#alertDialog-${billId}`).modal("hide");
+        })
+    }
+    
 }
 
 //handle cancel pending bill
@@ -1491,3 +1507,11 @@ function handlePaginateShop(url) {
     });
 
 })(jQuery);
+document.getElementById("notification-button").addEventListener("click", function() {
+    var menu = document.getElementById("notification-menu");
+    if (menu.style.display === "none" || menu.style.display === "") {
+      menu.style.display = "block";
+    } else {
+      menu.style.display = "none";
+    }
+  });

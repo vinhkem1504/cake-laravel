@@ -12,6 +12,7 @@ class Bill extends Model
 {
     use HasFactory;
     protected $table = "Bill";
+    protected $primaryKey = "bill_id";
 
     public function getAllUserBill(){
         $userId = Auth::user()->user_id;

@@ -20,5 +20,7 @@ class VerifyCsrfToken extends Middleware
         '/paginationShop',
         '/search_filter_shop',
         '/login'
+        '/pusher/auth',
+        '/admin/authenticate'
     ];
 }

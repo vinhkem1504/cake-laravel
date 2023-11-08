@@ -10,6 +10,7 @@ class Bill_details extends Model
 {
     use HasFactory;
     protected $table = "Bill_details";
+    protected $primaryKey = "bill_product_id";
 
     public function getDetailsBillById($billId){
         $products = DB::table('Bill_details')

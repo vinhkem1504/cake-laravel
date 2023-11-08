@@ -190,7 +190,7 @@
                                     <h6><a href="#">{{ $item->productname }}</a></h6>
                                     <div class="product__item__price">${{ $item->price_default }}</div>
                                     <div class="cart_add">
-                                        <a onclick="handleAddToCart()">Add to cart</a>
+                                        <a >Add to cart</a>
                                     </div>
                                 </div>
                             </div>
