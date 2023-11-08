@@ -211,4 +211,11 @@ Route::group(['middleware' => 'admin.auth'], function () {
     # Admin user list
     Route::get('/admin/user/index/', [UserAdminController::class, 'index']);
     Route::get('/admin/user/', [UserAdminController::class, 'index']);
+
+
+
+    // thong ke
+    
+
 });
+Route::get('/admin/getBillCountByDateAndStatus/', [BillController::class, 'getBillCountByDateAndStatus']);
