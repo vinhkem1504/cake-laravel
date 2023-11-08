@@ -26,7 +26,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="value">Value <span class="text-danger">*</span></label>
-                                        <input type="text" value="{{ isset($flavour) ? $flavour->value : '' }}" required class="form-control" name="value" id="value" placeholder="Enter name">
+                                        <input type="text" value="{{ old('value', isset($flavour) ? $flavour->value : '') }}" required class="form-control" name="value" id="value" placeholder="Enter name">
                                         <div style="color:red">{{ $errors->first('value') }}</div>
                                     </div>
                                 </div>
