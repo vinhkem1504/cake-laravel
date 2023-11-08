@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Validation\Rule;
 
-class ProductController extends Controller
+class ProductAdminController extends Controller
 {
     public function index() 
     {

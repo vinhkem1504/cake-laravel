@@ -17,5 +17,6 @@ class VerifyCsrfToken extends Middleware
         '/productDetails',
         '/register',
         '/pusher/auth',
+        '/admin/authenticate'
     ];
 }

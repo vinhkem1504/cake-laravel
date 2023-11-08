@@ -11,21 +11,26 @@
     <title>Cake | Template</title>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="{{asset('template/css/bootstrap.min.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/flaticon.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/barfiller.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/magnific-popup.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/font-awesome.min.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/elegant-icons.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/nice-select.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/owl.carousel.min.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/slicknav.min.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{asset('template/css/style.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/flaticon.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/barfiller.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/magnific-popup.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/elegant-icons.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/nice-select.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/owl.carousel.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/slicknav.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('template/css/style.css') }}" type="text/css">
 </head>
+<script>
+    var isUser;
+</script>
 
 <body>
     <!-- Page Preloder -->
@@ -71,14 +76,15 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
-    <script src="{{asset('template/js/jquery-3.3.1.min.js')}}"></script>
-    <script src="{{asset('template/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('template/js/jquery.nice-select.min.js')}}"></script>
-    <script src="{{asset('template/js/jquery.barfiller.js')}}"></script>
-    <script src="{{asset('template/js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('template/js/jquery.slicknav.js')}}"></script>
-    <script src="{{asset('template/js/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('template/js/jquery.nicescroll.min.js')}}"></script>
-    <script src="{{asset('template/js/main.js')}}"></script>
+    <script src="{{ asset('template/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('template/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('template/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('template/js/jquery.barfiller.js') }}"></script>
+    <script src="{{ asset('template/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('template/js/jquery.slicknav.js') }}"></script>
+    <script src="{{ asset('template/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('template/js/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('template/js/main.js') }}"></script>
 </body>
+
 </html>
