@@ -31,6 +31,89 @@
     @yield('style')
 </head>
 
+<script>
+    var port = 'http://127.0.0.1';
+    window.onload = function() {
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: `${port}:8000/admin/getBillCountByDateAndStatus`,
+            success: function(response) {
+                let delivery = response.data1.map((item) => ({
+                    x: new Date(item.dateOrder),
+                    y: item.countBill
+                }));
+                let cancel = response.data2.map((item) => ({
+                    x: new Date(item.dateOrder),
+                    y: item.countBill
+                }));
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title: {
+                        text: "Statistics on the number of sales orders"
+                    },
+                    axisX: {
+                        valueFormatString: "DD MMM",
+                        crosshair: {
+                            enabled: true,
+                            snapToDataPoint: true
+                        }
+                    },
+                    axisY: {
+                        title: "Number of orders",
+                        includeZero: true,
+                        crosshair: {
+                            enabled: true
+                        }
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    legend: {
+                        cursor: "pointer",
+                        verticalAlign: "bottom",
+                        horizontalAlign: "left",
+                        dockInsidePlotArea: true,
+                        itemclick: toogleDataSeries
+                    },
+                    data: [{
+                            type: "line",
+                            showInLegend: true,
+                            name: "Cancelled",
+                            markerType: "square",
+                            xValueFormatString: "DD MMM, YYYY",
+                            color: "#F08080",
+                            dataPoints: cancel
+                        },
+                        {
+                            type: "line",
+                            showInLegend: true,
+                            name: "Delivered",
+                            lineDashType: "dash",
+                            dataPoints: delivery
+                        }
+                    ]
+                });
+                chart.render();
+
+                function toogleDataSeries(e) {
+                    if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                        e.dataSeries.visible = false;
+                    } else {
+                        e.dataSeries.visible = true;
+                    }
+                    chart.render();
+                }
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
+    }
+</script>
+
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
@@ -64,6 +147,7 @@
     <script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- ChartJS -->
     <script src="/admin/plugins/chart.js/Chart.min.js"></script>
+
     <!-- Sparkline -->
     <script src="/admin/plugins/sparklines/sparkline.js"></script>
     <!-- JQVMap -->
@@ -84,6 +168,8 @@
     <script src="/admin/dist/js/adminlte.js"></script>
     <!-- bs-custom-file-input -->
     <script src="/admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 
     @yield('script')
 </body>
