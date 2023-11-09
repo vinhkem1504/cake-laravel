@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Events\ConfirmBill;
+use Illuminate\Contracts\Session\Session;
 use Pusher\Pusher;
 
 class BillController extends Controller
@@ -93,6 +94,13 @@ class BillController extends Controller
             'user_id'=>$userId,
             'content'=>$content
         ]);
+
+        $notifications = DB::table('Notifications')
+        ->where('user_id', '=', $userId)
+        ->orderByDesc('created_at')
+        ->get();
+
+        $request->session()->put('notifications', $notifications);
 
         if($noti){
             $options = array(
